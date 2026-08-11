@@ -1,0 +1,56 @@
+name: Add Supabase client
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  connect:
+    if: "!contains(github.event.head_commit.message, 'Add Supabase client')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add Supabase client configuration
+        env:
+          SUPABASE_URL: https://gakkgsbjtmjhebdayvtl.supabase.co
+          SUPABASE_KEY: sb_publishable_fEe0HFjLyGuNu0vqodHpeg_QntdbKKF
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          marker = '<script>\n(function(){'
+          if 'cdn.jsdelivr.net/npm/@supabase/supabase-js@2' in text:
+              print('Supabase client already present; nothing to do.')
+              raise SystemExit(0)
+
+          block = '''<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+          <script>
+          window.ASCENT_SUPABASE_URL = %r;
+          window.ASCENT_SUPABASE_PUBLISHABLE_KEY = %r;
+          </script>
+          ''' % (os.environ['SUPABASE_URL'], os.environ['SUPABASE_KEY'])
+
+          if marker not in text:
+              raise SystemExit('Could not find the application script marker in index.html')
+
+          path.write_text(text.replace(marker, block + marker, 1), encoding='utf-8')
+          PY
+
+      - name: Commit Supabase configuration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Add Supabase client"
+          git push
