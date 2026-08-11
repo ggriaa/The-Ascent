@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE ASCENT — Reset Access</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{--void:#0A151B;--panel:#0F1E26;--line:#21414D;--accent:#7FD8EA;--text:#DCF1F5;--muted:#6E93A0;--rust:#E0876B}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--void);color:var(--text);font-family:monospace;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{width:100%;max-width:460px;background:linear-gradient(180deg,#142832,var(--panel));border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 8px 30px #0008}
+    .eyebrow{color:var(--accent);font-size:12px;letter-spacing:.2em;margin-bottom:10px}.title{font-size:30px;margin:0 0 8px}.sub{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:24px}
+    label{display:block;color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin:14px 0 6px}input{width:100%;padding:13px 14px;background:var(--void);border:1px solid var(--line);border-radius:10px;color:var(--text);font:15px monospace}input:focus{outline:2px solid var(--accent)}button{width:100%;margin-top:20px;padding:14px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#06181D;font-weight:700;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.msg{margin-top:14px;font-size:13px;line-height:1.5}.error{color:var(--rust)}.ok{color:#5FE0A0}.hidden{display:none}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="eyebrow">THE ASCENT // SECURE ACCESS</div>
+    <h1 class="title">Reset Access</h1>
+    <div class="sub" id="status">Establishing secure recovery session...</div>
+    <form id="form" class="hidden">
+      <label for="password">New Password</label>
+      <input id="password" type="password" minlength="6" autocomplete="new-password" required>
+      <label for="confirm">Confirm Password</label>
+      <input id="confirm" type="password" minlength="6" autocomplete="new-password" required>
+      <button id="submit" type="submit">UPDATE PASSWORD</button>
+    </form>
+    <div id="message" class="msg"></div>
+  </main>
+  <script>
+    const SUPABASE_URL = 'https://gakkgsbjtmjhebdayvtl.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_fEe0HFjLyGuNu0vqodHpeg_QntdbKKF';
+    const { createClient } = supabase;
+    const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { detectSessionInUrl: true, persistSession: true, autoRefreshToken: true } });
+    const statusEl = document.getElementById('status');
+    const form = document.getElementById('form');
+    const message = document.getElementById('message');
+    const submit = document.getElementById('submit');
+
+    async function init() {
+      const { data: { session } } = await client.auth.getSession();
+      if (!session) {
+        statusEl.textContent = 'This recovery link is missing, expired, or invalid. Request a new password recovery email.';
+        message.className = 'msg error';
+        return;
+      }
+      statusEl.textContent = 'Recovery session verified. Enter a new password.';
+      form.classList.remove('hidden');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+      message.textContent = '';
+      if (password !== confirm) { message.className='msg error'; message.textContent='Passwords do not match.'; return; }
+      submit.disabled = true;
+      const { error } = await client.auth.updateUser({ password });
+      submit.disabled = false;
+      if (error) { message.className='msg error'; message.textContent=error.message; return; }
+      form.classList.add('hidden');
+      statusEl.textContent = 'Password updated successfully.';
+      message.className='msg ok';
+      message.textContent = 'You can now return to THE ASCENT and sign in with your Access ID.';
+    });
+
+    init();
+  </script>
+</body>
+</html>
