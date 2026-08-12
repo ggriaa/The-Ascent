@@ -1,0 +1,135 @@
+name: Apply Nomai stone theme
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  theme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply stone theme
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '/* NOMAI_STONE_THEME_V2 */'
+          if marker in s:
+              print('Theme already applied')
+              raise SystemExit(0)
+          css = r'''
+          /* NOMAI_STONE_THEME_V2 */
+          #ascent-root {
+            --void:#5f4e3c;
+            --panel:#76634d;
+            --panel2:#8b7458;
+            --panel-line:#aa9471;
+            --accent:#78b8ff;
+            --accent-bright:#b9d8ff;
+            --accent-dim:#4f82b8;
+            --gold:#d5a24f;
+            --gold-bright:#f0c873;
+            --gold-dim:#8f6a32;
+            --green:#8fa86a;
+            --green-dim:#53633b;
+            --rust:#b96f56;
+            --rust-dim:#6f4033;
+            --text:#eee2c7;
+            --muted:#c0ad8b;
+            background:#5f4e3c;
+          }
+
+          #ascent-root .bg-field {
+            background-color:#74604a;
+            background-image:
+              radial-gradient(circle at 18% 12%,rgba(255,231,186,.22) 0 1px,transparent 2px),
+              radial-gradient(circle at 73% 27%,rgba(47,35,25,.18) 0 1px,transparent 2px),
+              radial-gradient(circle at 42% 71%,rgba(255,231,186,.14) 0 1px,transparent 2px),
+              radial-gradient(circle at 88% 84%,rgba(47,35,25,.16) 0 1px,transparent 2px),
+              repeating-radial-gradient(ellipse at 45% 45%,transparent 0,transparent 73px,rgba(53,39,27,.14) 74px,rgba(210,181,135,.08) 76px,transparent 78px),
+              repeating-linear-gradient(12deg,transparent 0,transparent 87px,rgba(48,35,25,.09) 88px,transparent 91px),
+              repeating-linear-gradient(102deg,transparent 0,transparent 123px,rgba(245,222,178,.08) 124px,transparent 127px),
+              linear-gradient(145deg,#8d765a 0%,#6f5a45 45%,#80694f 100%);
+            box-shadow:inset 0 0 140px rgba(35,25,18,.28);
+          }
+
+          #ascent-root .bg-field::before {
+            opacity:.9;
+            inset:-8%;
+            background:
+              linear-gradient(58deg,transparent 0 16%,rgba(48,34,24,.12) 16.2%,transparent 16.5% 39%,rgba(245,220,171,.08) 39.2%,transparent 39.5% 100%),
+              linear-gradient(122deg,transparent 0 28%,rgba(48,34,24,.10) 28.2%,transparent 28.6% 67%,rgba(245,220,171,.07) 67.2%,transparent 67.5%),
+              repeating-linear-gradient(168deg,transparent 0,transparent 145px,rgba(49,35,24,.07) 146px,transparent 149px);
+            transform:none;
+          }
+
+          #ascent-root .bg-field::after {
+            width:680px;
+            height:680px;
+            top:2%;
+            border:2px solid rgba(43,32,23,.18);
+            border-radius:0;
+            clip-path:polygon(50% 0,62% 9%,78% 8%,91% 25%,100% 50%,91% 67%,94% 82%,76% 94%,50% 100%,30% 93%,10% 94%,7% 76%,0 50%,8% 31%,6% 16%,25% 8%,38% 10%);
+            box-shadow:0 0 0 22px rgba(226,201,157,.07),0 0 0 46px rgba(48,34,24,.08),inset 0 0 0 12px rgba(43,32,23,.07);
+            transform:translateX(-50%) rotate(2deg);
+          }
+
+          #ascent-root .shell{max-width:560px;}
+          #ascent-root .eyebrow{color:var(--accent);text-shadow:0 0 10px rgba(120,184,255,.25)}
+          #ascent-root .eyebrow::before{background:var(--accent);box-shadow:0 0 10px rgba(120,184,255,.7)}
+          #ascent-root h1.title{background:linear-gradient(120deg,var(--accent-bright),var(--accent) 70%,var(--gold-bright));-webkit-background-clip:text;background-clip:text;text-shadow:0 0 22px rgba(120,184,255,.18)}
+          #ascent-root .subtitle{color:#c9b99b}
+          #ascent-root .panel{background:linear-gradient(145deg,rgba(133,109,81,.96),rgba(91,73,55,.97));border:1px solid #b09a76;border-radius:5px;box-shadow:0 10px 28px rgba(38,27,19,.34),inset 0 1px 0 rgba(255,231,186,.12),inset 0 0 0 4px rgba(48,35,25,.07)}
+          #ascent-root .panel::before{inset:7px;border:1px solid rgba(45,33,23,.18);border-radius:2px}
+          #ascent-root .panel-label{color:var(--accent);text-shadow:0 0 8px rgba(120,184,255,.18)}
+          #ascent-root .btn{background:rgba(63,48,35,.42);border:1px solid #709bc9;color:var(--accent);border-radius:3px;box-shadow:inset 0 0 0 1px rgba(255,231,186,.04)}
+          #ascent-root .btn:hover,#ascent-root .btn:active{border-color:var(--gold);color:var(--gold-bright);background:rgba(126,91,42,.24);box-shadow:0 0 18px rgba(213,162,79,.16),inset 0 0 12px rgba(213,162,79,.05)}
+          #ascent-root .btn-solid{background:linear-gradient(135deg,#4e83b7,#6ea9df);border-color:#a9d2ff;color:#f3e8cd;box-shadow:0 5px 18px rgba(46,77,108,.24)}
+          #ascent-root .btn-solid:hover,#ascent-root .btn-solid:active{background:linear-gradient(135deg,#a97832,#d5a24f);border-color:#f0c873;color:#21170d;box-shadow:0 6px 22px rgba(213,162,79,.3)}
+          #ascent-root .btn-tab.active{border-color:var(--gold);color:var(--gold-bright);background:rgba(213,162,79,.14);box-shadow:inset 0 0 16px rgba(213,162,79,.08)}
+          #ascent-root .btn-ghost{color:#75a8d5}
+          #ascent-root .btn-ghost:hover{color:var(--gold-bright)}
+          #ascent-root label{color:#79a9d4}
+          #ascent-root input[type=text],#ascent-root input[type=password],#ascent-root input[type=tel],#ascent-root input[type=date],#ascent-root input[type=time]{background:#4b3c2d;border:1px solid #907a5c;color:#f0e5ce;border-radius:3px;box-shadow:inset 0 2px 8px rgba(35,25,18,.25)}
+          #ascent-root input:focus{outline:2px solid var(--accent);border-color:var(--accent);box-shadow:0 0 16px rgba(120,184,255,.16),inset 0 2px 8px rgba(35,25,18,.25)}
+          #ascent-root .home-mark{color:var(--accent);text-shadow:0 0 12px rgba(120,184,255,.22)}
+          #ascent-root .clock-value{color:var(--accent-bright)}
+          #ascent-root .trail-node::before{background:linear-gradient(180deg,#648fba,#806b51)}
+          #ascent-root .trail-node.done::before{background:linear-gradient(180deg,var(--gold),var(--gold-dim))}
+          #ascent-root .node-dot{border-color:#739ac0;background:#66533f;color:var(--accent);border-radius:2px;transform:rotate(45deg)}
+          #ascent-root .node-dot.special,#ascent-root .node-dot.pending{border-color:var(--gold);color:var(--gold-bright)}
+          #ascent-root .node-dot.filled{border-color:var(--gold);background:linear-gradient(135deg,#a97832,#e0b55f);color:#21170d;box-shadow:0 0 14px rgba(213,162,79,.3)}
+          #ascent-root .node-label b{color:#d9e8f3}
+          #ascent-root .node-tag{color:var(--gold-bright)}
+          #ascent-root .cipher-panel{border-color:var(--accent);background:linear-gradient(145deg,rgba(73,116,157,.18),rgba(213,162,79,.08))}
+          #ascent-root .cipher-digit{background:#4b3c2d;border-color:var(--accent);color:var(--gold-bright);border-radius:2px}
+          #ascent-root .log-entry,#ascent-root .queue-item{border-bottom-color:rgba(49,36,25,.32)}
+          #ascent-root .log-thumb,#ascent-root .log-thumb-text,#ascent-root .queue-img,#ascent-root .queue-text-card,#ascent-root .stat-box{background:#4b3c2d;border-color:#8f795c;border-radius:3px}
+          #ascent-root .log-thumb-badge{background:var(--gold);}
+          #ascent-root .log-thumb-text{color:var(--accent)}
+          #ascent-root .log-date{color:#eee2ce}
+          #ascent-root .stamp.pending{color:var(--gold-bright)}
+          #ascent-root .modal-overlay{background:rgba(54,40,28,.94)}
+          #ascent-root .modal-overlay img{border-color:var(--gold-dim)}
+          '''
+          css = '\n'.join(line.strip() for line in css.splitlines())
+          s = s.replace('</style>', css + '\n</style>', 1)
+          p.write_text(s, encoding='utf-8')
+          print('Theme appended')
+
+      - name: Commit theme
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Apply Nomai stone theme [skip ci]"
+          git push
