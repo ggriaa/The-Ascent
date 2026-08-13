@@ -517,9 +517,8 @@ const Ascent={
  async login(){view.authError='';const raw=(document.getElementById('f-email')?.value||'').trim(),pass=document.getElementById('f-login-pass')?.value||'',email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email||!pass){view.authError='Enter your access ID and password.';render();return}view.busy=true;render();const{data,error}=await sb.auth.signInWithPassword({email,password:pass});view.busy=false;if(error){view.authError=error.message;render();return}state.user=data.user;await loadProfile();view.screen='home';render()},
  async logout(){await sb.auth.signOut();state.user=null;state.profile=null;view.screen='home';render()},async resetPassword(){const raw=(document.getElementById('f-email')?.value||'').trim(),email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email){view.authError='Enter your access ID first.';render();return}const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});view.authError=error?error.message:'Password recovery email sent.';render()},goHome(){view.screen='home';render()},goCadet(){view.screen='cadet';render()},goCommanderGate(){if(state.profile?.role==='admin'){view.screen='commander';render()}else{view.screen='home';render()}},toggleHistory(){view.showAllHistory=!view.showAllHistory;render()},setUploadMode(m){view.uploadMode=m;view.authError='';view.actionStatus={text:'',type:'info'};render()},
  async load(){const{data}=await sb.auth.getSession();if(data.session){state.user=data.session.user;await loadProfile()}view.screen='home';render()},
-async locationCheckIn(){view.actionStatus={text:'Requesting location…',type:'info'};view.authError='';view.busy=true;render();try{
-   if(!state.user)throw Error('Please sign in before checking in.');
-   
+\
+async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
   const{latitude,longitude,accuracy}=pos.coords;
@@ -527,56 +526,11 @@ async locationCheckIn(){view.actionStatus={text:'Requesting location…',type:'i
   let warning='';
   if(nearest){ warning=nearest.distance>1000?`Location is approximately ${nearest.distance} meters from the nearest mapped Crunch Fitness location.`:''; }
   else warning='Nearest Crunch Fitness location could not be automatically verified. Manual review required.';
-  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
+  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,submission_type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
   if(error)throw error;
-  if(!state.mission.start_date){
-     await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
-   }
-   view.actionStatus={text:'Location submitted for review.',type:'success'};
-    Ascent.showCheckinSuccess();
+  view.locationStatus=warning?'Location submitted for manual review.':'Location submitted for approval.';
   await loadData();
-}catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.actionStatus={text:'',type:'info'}}view.busy=false;render()},
-showSubmissionSuccess(label){
-  const old=document.getElementById('submission-success-modal');
-  if(old)old.remove();
-  const modal=document.createElement('div');
-  modal.id='submission-success-modal';
-  modal.className='checkin-success-modal';
-  modal.innerHTML='<div class="checkin-success-card"><div class="checkin-success-symbol">▲</div><div class="checkin-success-title">'+label+'</div><div class="checkin-success-text">Submission successfully submitted!</div></div>';
-  document.body.appendChild(modal);
-  requestAnimationFrame(()=>modal.classList.add('visible'));
-  setTimeout(()=>{const current=document.getElementById('submission-success-modal');if(current){current.classList.remove('visible');setTimeout(()=>current.remove(),180)}},1800);
-},
-showCheckinSuccess(){
-  const old=document.getElementById('checkin-success-modal');
-  if(old)old.remove();
-  const modal=document.createElement('div');
-  modal.id='checkin-success-modal';
-  modal.className='checkin-success-modal';
-  modal.innerHTML='<div class="checkin-success-card"><div class="checkin-success-symbol">▲</div><div class="checkin-success-title">LOCATION CHECK-IN</div><div class="checkin-success-text">Location check-in successfully submitted!</div></div>';
-  document.body.appendChild(modal);
-  requestAnimationFrame(()=>modal.classList.add('visible'));
-  setTimeout(()=>{const current=document.getElementById('checkin-success-modal');if(current){current.classList.remove('visible');setTimeout(()=>current.remove(),180)}},1800);
-},
-openProofModal(type){
-  const old=document.getElementById('proof-modal');
-  if(old) old.remove();
-
-  const modal=document.createElement('div');
-  modal.id='proof-modal';
-  modal.className='proof-modal';
-
-  if(type==='photo'){
-    modal.innerHTML='<div class="proof-modal-card"><button class="proof-modal-close" onclick="Ascent.closeProofModal()">×</button><p class="panel-label">PHOTO PROOF</p><p class="proof-modal-sub">Select a workout photo from your phone or take a new one.</p><label class="btn btn-solid modal-submit-btn" for="f-photo-modal">CHOOSE PHOTO</label><input type="file" accept="image/*" id="f-photo-modal" class="modal-file-input" onchange="Ascent.handleUpload(event)"></div>';
-  }else{
-    modal.innerHTML='<div class="proof-modal-card"><button class="proof-modal-close" onclick="Ascent.closeProofModal()">×</button><p class="panel-label">LOG TIME</p><p class="proof-modal-sub">Enter the day and the time you started and finished your workout.</p><div class="modal-field"><label for="f-day">DAY</label><input type="date" id="f-day"></div><div class="modal-field"><label for="f-start">START TIME</label><input type="time" id="f-start"></div><div class="modal-field"><label for="f-end">END TIME</label><input type="time" id="f-end"></div><button class="btn btn-solid modal-submit-btn" onclick="Ascent.submitTextLog()">SUBMIT LOG ENTRY</button></div>';
-  }
-
-  document.body.appendChild(modal);
-  requestAnimationFrame(()=>modal.classList.add('visible'));
-  modal.addEventListener('click',e=>{if(e.target===modal)Ascent.closeProofModal()});
-},
-closeProofModal(){const m=document.getElementById('proof-modal');if(m)m.remove()},
+}catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.locationStatus=''}view.busy=false;render()},
 async handleUpload(e){
   const files = Array.from((e.target && e.target.files) || []);
   if (!files.length) return;
