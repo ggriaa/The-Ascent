@@ -36,11 +36,6 @@
 #ascent-root .modal-overlay{position:fixed;inset:0;background:rgba(5,14,18,.95);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}.modal-overlay img{max-width:100%;max-height:90vh;border-radius:5px;border:1px solid var(--gold)}.file-input-wrap{position:relative}.file-input-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}.history-actions{text-align:center;margin-top:12px}
 @media(max-width:760px){.progress-stats{grid-template-columns:repeat(2,1fr)!important}.secondary-options{flex-direction:column}}
 @media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}}
-\
-\
-\
-\
-\
 /* NOMAI_STONE_THEME_V4 */
 #ascent-root{--void:#211811;--stone:#403126;--stone-dark:#2b2119;--stone-mid:#564333;--stone-edge:#8b7050;--blue:#8b8cff;--blue-bright:#c9c7ff;--blue-dim:#5d5da4;--gold:#c98a38;--gold-bright:#e8b45c;--text:#eadcc3;--muted:#aa9274;background:#211811;color:var(--text)}
 #ascent-root .bg-field{background-color:#30231a;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .48 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(135deg,rgba(255,227,177,.055),transparent 24%,rgba(0,0,0,.28) 72%),radial-gradient(ellipse at 50% 20%,rgba(126,92,57,.22),transparent 55%),linear-gradient(160deg,#5a4432 0%,#30231a 38%,#4b3829 70%,#261c15 100%);background-blend-mode:multiply,normal,normal,normal;box-shadow:inset 0 0 220px rgba(8,5,3,.78)}
@@ -96,7 +91,6 @@ function renderCadet(a){
  if(view.uploadMode==='text'){document.getElementById('f-day')?.setAttribute('value',view.draftDay);document.getElementById('f-start')?.setAttribute('value',view.draftStart);document.getElementById('f-end')?.setAttribute('value',view.draftEnd)}
 }
 function renderCommander(a){if(state.profile?.role!=='admin'){view.screen='home';render();return}const pending=state.submissions.filter(s=>s.status==='pending');const q=pending.length?pending.slice().reverse().map(s=>`<div class="queue-item"><div class="queue-text-card"><div class="queue-text-day">${s.type==='location'?'Location Check-In':s.type==='text'?'Time Log':'Photo Proof'}</div><div class="queue-text-time">Submitted ${fmtDate(s.ts)}</div></div><div class="row"><button class="btn btn-signal" onclick="Ascent.decide('${s.id}','approved')">Approve</button><button class="btn btn-rust" onclick="Ascent.decide('${s.id}','rejected')">Reject</button></div></div>`).join(''):'<p class="empty-state">Nothing to review right now.</p>';a.innerHTML=`<p class="eyebrow">Admin Panel</p><h1 class="title">${esc(missionName())}</h1><div class="panel"><p class="panel-label">Submissions To Review</p>${q}</div><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back</button>`}
-\
 async function findNearestCrunch(lat, lng) {
   try {
     const query = `[out:json][timeout:8];nwr["name"~"Crunch Fitness",i](around:50000,${lat},${lng});out center tags;`;
@@ -122,9 +116,9 @@ const Ascent={
  async login(){view.authError='';const raw=(document.getElementById('f-email')?.value||'').trim(),pass=document.getElementById('f-login-pass')?.value||'',email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email||!pass){view.authError='Enter your access ID and password.';render();return}view.busy=true;render();const{data,error}=await sb.auth.signInWithPassword({email,password:pass});view.busy=false;if(error){view.authError=error.message;render();return}state.user=data.user;await loadProfile();view.screen='home';render()},
  async logout(){await sb.auth.signOut();state.user=null;state.profile=null;view.screen='home';render()},async resetPassword(){const raw=(document.getElementById('f-email')?.value||'').trim(),email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email){view.authError='Enter your access ID first.';render();return}const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});view.authError=error?error.message:'Password recovery email sent.';render()},goHome(){view.screen='home';render()},goCadet(){view.screen='cadet';render()},goCommanderGate(){if(state.profile?.role==='admin'){view.screen='commander';render()}else{view.screen='home';render()}},toggleHistory(){view.showAllHistory=!view.showAllHistory;render()},setUploadMode(m){view.uploadMode=m;view.authError='';render()},
  async load(){const{data}=await sb.auth.getSession();if(data.session){state.user=data.session.user;await loadProfile()}view.screen='home';render()},
- \
-\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
+   if(!state.user)throw Error('Please sign in before checking in.');
+   
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
   const{latitude,longitude,accuracy}=pos.coords;
