@@ -63,7 +63,6 @@
 #ascent-root .modal-overlay{position:fixed;inset:0;background:rgba(5,14,18,.95);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}.modal-overlay img{max-width:100%;max-height:90vh;border-radius:5px;border:1px solid var(--gold)}.file-input-wrap{position:relative}.file-input-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}.history-actions{text-align:center;margin-top:12px}
 @media(max-width:760px){.progress-stats{grid-template-columns:repeat(2,1fr)!important}.secondary-options{flex-direction:row;gap:7px}.secondary-options .btn{font-size:9px;padding:7px 6px}}
 @media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}}
-\
 /* NOMAI_STONE_THEME_V4 */
 #ascent-root{--void:#211811;--stone:#403126;--stone-dark:#2b2119;--stone-mid:#564333;--stone-edge:#8b7050;--blue:#8b8cff;--blue-bright:#c9c7ff;--blue-dim:#5d5da4;--gold:#c98a38;--gold-bright:#e8b45c;--text:#eadcc3;--muted:#aa9274;background:#211811;color:var(--text)}
 #ascent-root .bg-field{background-color:#30231a;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .48 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(135deg,rgba(255,227,177,.055),transparent 24%,rgba(0,0,0,.28) 72%),radial-gradient(ellipse at 50% 20%,rgba(126,92,57,.22),transparent 55%),linear-gradient(160deg,#5a4432 0%,#30231a 38%,#4b3829 70%,#261c15 100%);background-blend-mode:multiply,normal,normal,normal;box-shadow:inset 0 0 220px rgba(8,5,3,.78)}
@@ -80,6 +79,62 @@
 #ascent-root .progress-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}#ascent-root .progress-stat{min-height:120px;padding:15px 12px;text-align:center;background:linear-gradient(145deg,#4c3928,#2d2117);border:1px solid #765b3f;box-shadow:inset 2px 2px 0 rgba(239,211,168,.05),inset -2px -2px 0 rgba(9,6,3,.3);display:flex;flex-direction:column;align-items:center;justify-content:center}#ascent-root .progress-stat-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.12em;color:#d4b78b;line-height:1.2}#ascent-root .progress-stat-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:28px;color:#9898ff;margin:7px 0 2px;text-shadow:0 0 12px rgba(139,140,255,.22)}#ascent-root .progress-stat-mark{font-size:18px;color:#8d7ee0}
 #ascent-root .completion-wrap{padding:15px 16px 11px;border:1px solid #72583d;background:#241a12;box-shadow:inset 0 3px 8px rgba(0,0,0,.35)}#ascent-root .completion-meta{display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;letter-spacing:.14em;color:#d6bc92;font-size:12px;margin-bottom:9px}#ascent-root .completion-meta strong{font-size:28px;color:#a4a4ff;letter-spacing:.03em}#ascent-root .completion-track{height:20px;border:2px solid #74583a;background:#160f0a;position:relative;overflow:hidden;box-shadow:inset 0 4px 8px rgba(0,0,0,.65),0 1px 0 rgba(234,200,149,.08)}#ascent-root .completion-fill{height:100%;background:linear-gradient(90deg,#575ca9,#7774c9,#aaa0ff);box-shadow:0 0 17px rgba(139,140,255,.42);transition:width .45s ease}#ascent-root .completion-glow{position:absolute;top:3px;width:5px;height:12px;background:#e1dcff;box-shadow:0 0 10px #aaa2ff;transform:translateX(-50%)}#ascent-root .completion-caption{font-size:10.5px;color:#9e825e;margin-top:6px;text-align:right}
 @media(max-width:760px){#ascent-root .progress-stats{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}.progress-head{flex-direction:column}.progress-cycle{text-align:left}.progress-stats{grid-template-columns:repeat(2,1fr)!important}}
+
+#ascent-root .mission-instructions {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(234,200,149,.28);
+  border-radius: 12px;
+  background: rgba(20,14,10,.72);
+  box-shadow: inset 0 0 18px rgba(0,0,0,.22), 0 0 12px rgba(234,200,149,.05);
+}
+#ascent-root .mission-instructions h3 {
+  margin: 0 0 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  letter-spacing: .12em;
+  color: var(--accent-bright);
+  text-transform: uppercase;
+}
+#ascent-root .mission-instructions .instruction-block { margin-top: 12px; }
+#ascent-root .mission-instructions .instruction-title {
+  margin: 0 0 5px;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 13px;
+}
+#ascent-root .mission-instructions p, #ascent-root .mission-instructions li {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+#ascent-root .mission-instructions ul { margin: 5px 0 0 18px; padding: 0; }
+#ascent-root .mission-instructions li { margin: 3px 0; }
+#ascent-root .mission-instructions .unlock-list { list-style: none; margin-left: 0; }
+#ascent-root .mission-instructions .unlock-list strong { color: var(--accent-bright); }
+#ascent-root .mission-instructions .remember {
+  margin-top: 14px; padding: 12px;
+  border: 1px solid rgba(114,88,61,.8);
+  border-radius: 8px;
+  background: rgba(30,28,75,.16);
+  box-shadow: none;
+}
+#ascent-root .mission-instructions .remember .instruction-title,
+#ascent-root .mission-instructions .remember .instruction-title strong {
+  color: #ff5b5b;
+  text-shadow: 0 0 7px rgba(255,55,55,.45);
+}
+#ascent-root .mission-instructions .remember p:last-child {
+  color: #9898ff;
+  text-shadow: 0 0 5px rgba(139,140,255,.22);
+}
+#ascent-root .mission-instructions .remember p:last-child strong {
+  color: var(--blue-bright);
+}
+@media (max-width: 520px) {
+  #ascent-root .mission-instructions { padding: 15px; }
+  #ascent-root .mission-instructions p, #ascent-root .mission-instructions li { font-size: 11.5px; }
+}
 </style>
 <style id="kaizen-iphone-css">
 html, body { margin: 0; min-height: 100%; background: #211811; }
@@ -285,13 +340,13 @@ html, body {
 }
 </style>
 
+
+
 <style id="kaizen-photo-picker-fix">
 #ascent-root .file-input-wrap{position:relative;display:block}
 #ascent-root .photo-picker{display:block;text-align:center;cursor:pointer}
 #ascent-root .file-input-wrap input[type=file]{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-</style>
-
-</head>
+</style></head>
 <body>
 <div id="ascent-root"><div class="bg-field"></div><div class="shell" id="app"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -326,7 +381,7 @@ function renderCadet(a){
       ?'<div class="clock-value">Journey period complete.</div><div class="clock-sub">The 30-day window has closed. Progress is ready for its next journey.</div>'
       :`<div class="kaizen-countdown" data-start="${journeyStart||''}"><div class="countdown-days"><span class="countdown-number">${rem.days}</span><span class="countdown-label">DAYS</span></div><div class="countdown-time"><span><b>${String(rem.hours).padStart(2,'0')}</b><small>HOURS</small></span><i>:</i><span><b>${String(rem.minutes).padStart(2,'0')}</b><small>MINUTES</small></span><i>:</i><span><b>${String(rem.seconds).padStart(2,'0')}</b><small>SECONDS</small></span></div></div><div class="clock-sub">Started ${fmtDate(journeyStart)}. The journey resets when the 30-day window ends.</div>`;
   let upload=`<div class="location-card"><div class="location-title">LOCATION CHECK-IN</div><div class="location-sub">Verify your location to log today's mission. This is the primary check-in method.</div><button class="btn btn-solid location-checkin-btn" onclick="Ascent.locationCheckIn()">CHECK IN</button></div><div class="secondary-options"><button class="btn btn-tab" onclick="Ascent.setUploadMode('photo')">Photo Proof</button><button class="btn btn-tab" onclick="Ascent.setUploadMode('text')">Log Time</button></div>`;
- if(view.uploadMode==='photo')upload+=`<div class="panel optional-panel"><p class="panel-label">Photo Proof — Optional</p><div class="file-input-wrap"><label class="btn btn-solid photo-picker" for="f-photo">Choose Photo(s)</label><input type="file" accept="image/*,.heic,.heif,.jpg,.jpeg,.png,.webp" multiple id="f-photo" onchange="Ascent.handleUpload(event)"></div><div class="hint">Optional alternative check-in. On iPhone, choose from Photos or take a new picture.</div></div>`;
+ if(view.uploadMode==='photo')upload+=`<div class="panel optional-panel"><p class="panel-label">Photo Proof — Optional</p><div class="file-input-wrap"><label class="btn btn-solid photo-picker" for="f-photo">Choose Photo(s)</label><input type="file" accept="image/*" multiple id="f-photo" onchange="Ascent.handleUpload(event)"></div><div class="hint">Optional alternative check-in. On iPhone, choose from Photos or take a new picture.</div></div>`;
  if(view.uploadMode==='text')upload+=`<div class="panel optional-panel"><p class="panel-label">Log Time — Optional</p><label>Day</label><input type="date" id="f-day"><div class="row"><div><label>Start Time</label><input type="time" id="f-start"></div><div><label>End Time</label><input type="time" id="f-end"></div></div><div style="margin-top:14px"><button class="btn btn-solid" onclick="Ascent.submitTextLog()">Submit Log Entry</button></div><div class="hint">Optional alternative check-in.</div></div>`;
  const completionNotice=journeyComplete?`<div class="journey-complete-message"><div class="journey-complete-title">JOURNEY COMPLETE</div><p>You have successfully completed your journey. Carry on, and continue farther if you choose to be an over-achiever. You may submit even more missions before the 30-day journey resets.</p><p class="journey-complete-flavor">The trail does not end where the map says it does. There is still time left to see how far you can go. <strong>限界突破 — GENKAI TOPPA!</strong></p></div>`:'';
  const uploadPanel=`<div class="panel"><p class="panel-label">Submit Evidence</p>${journeyExpired?'<div class="clock-value">30-day journey complete</div><div class="clock-sub">Submissions are closed until the next journey begins.</div>':completionNotice+upload}${view.actionStatus?.text?`<div class="action-status ${view.actionStatus.type}">${esc(view.actionStatus.text)}</div>`:''}${view.busy?'<div class="hint">Syncing…</div>':''}${view.authError?`<div class="error-text">${esc(view.authError)}</div>`:''}</div>`;
@@ -360,8 +415,9 @@ const Ascent={
  async login(){view.authError='';const raw=(document.getElementById('f-email')?.value||'').trim(),pass=document.getElementById('f-login-pass')?.value||'',email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email||!pass){view.authError='Enter your access ID and password.';render();return}view.busy=true;render();const{data,error}=await sb.auth.signInWithPassword({email,password:pass});view.busy=false;if(error){view.authError=error.message;render();return}state.user=data.user;await loadProfile();view.screen='home';render()},
  async logout(){await sb.auth.signOut();state.user=null;state.profile=null;view.screen='home';render()},async resetPassword(){const raw=(document.getElementById('f-email')?.value||'').trim(),email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email){view.authError='Enter your access ID first.';render();return}const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});view.authError=error?error.message:'Password recovery email sent.';render()},goHome(){view.screen='home';render()},goCadet(){view.screen='cadet';render()},goCommanderGate(){if(state.profile?.role==='admin'){view.screen='commander';render()}else{view.screen='home';render()}},toggleHistory(){view.showAllHistory=!view.showAllHistory;render()},setUploadMode(m){view.uploadMode=m;view.authError='';view.actionStatus={text:'',type:'info'};render()},
  async load(){const{data}=await sb.auth.getSession();if(data.session){state.user=data.session.user;await loadProfile()}view.screen='home';render()},
-\
-async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
+async locationCheckIn(){view.actionStatus={text:'Requesting location…',type:'info'};view.authError='';view.busy=true;render();try{
+   if(!state.user)throw Error('Please sign in before checking in.');
+   
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
   const{latitude,longitude,accuracy}=pos.coords;
@@ -369,52 +425,66 @@ async locationCheckIn(){view.locationStatus='Requesting location…';view.authEr
   let warning='';
   if(nearest){ warning=nearest.distance>1000?`Location is approximately ${nearest.distance} meters from the nearest mapped Crunch Fitness location.`:''; }
   else warning='Nearest Crunch Fitness location could not be automatically verified. Manual review required.';
-  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,submission_type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
+  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
   if(error)throw error;
-  view.locationStatus=warning?'Location submitted for manual review.':'Location submitted for approval.';
+  if(!state.mission.start_date){
+     await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
+   }
+   view.actionStatus={text:'Location submitted for review.',type:'success'};
   await loadData();
-}catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.locationStatus=''}view.busy=false;render()},
+}catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.actionStatus={text:'',type:'info'}}view.busy=false;render()},
 async handleUpload(e){
-  const files=[...(e.target?.files||[])];
-  if(!files.length)return;
-  view.actionStatus={text:'Preparing photo submission…',type:'info'};
-  view.authError='';
-  view.busy=true;
+  const files = Array.from((e.target && e.target.files) || []);
+  if (!files.length) return;
+  view.actionStatus = {text:'Preparing photo submission…',type:'info'};
+  view.authError = '';
+  view.busy = true;
   render();
-  try{
-    if(!state?.user?.id)throw Error('Please sign in again before submitting a photo.');
-    if(!state?.mission?.id)throw Error('The mission is not available. Please reload the page.');
-    const{data:sub,error:se}=await sb.from('submissions').insert({
+  try {
+    if (!state || !state.user || !state.user.id) throw new Error('Please sign in again before submitting a photo.');
+    if (!state.mission || !state.mission.id) throw new Error('The mission is not available. Please reload the page.');
+
+    const result = await sb.from('submissions').insert({
       mission_id:state.mission.id,user_id:state.user.id,type:'photo',status:'pending'
     }).select().single();
-    if(se)throw Error('Could not create the submission: '+se.message);
-    try{
-      for(const f of files){
-        const b=await compressImageBlob(f);
-        const isOriginal=b===f;
-        const ext=isOriginal?((f.name||'photo').split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg':'jpg';
-        const contentType=b.type||f.type||'image/jpeg';
-        const path=`${state.user.id}/${sub.id}/${crypto.randomUUID()}.${ext}`;
-        const{error:ue}=await sb.storage.from('ascent-photos').upload(path,b,{contentType,upsert:false});
-        if(ue)throw Error('Photo upload failed: '+ue.message);
-        const{error:pe}=await sb.from('submission_photos').insert({submission_id:sub.id,storage_path:path});
-        if(pe)throw Error('Could not save the photo record: '+pe.message);
+    if (result.error) throw new Error('Could not create the submission: ' + result.error.message);
+
+    const sub = result.data;
+    try {
+      for (const file of files) {
+        const blob = await compressImageBlob(file);
+        const original = blob === file;
+        const ext = original
+          ? (((file.name || 'photo').split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g,'') || 'jpg')
+          : 'jpg';
+        const contentType = blob.type || file.type || 'image/jpeg';
+        const path = state.user.id + '/' + sub.id + '/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+
+        const upload = await sb.storage.from('ascent-photos').upload(path,blob,{contentType:contentType,upsert:false});
+        if (upload.error) throw new Error('Photo upload failed: ' + upload.error.message);
+
+        const photoRow = await sb.from('submission_photos').insert({submission_id:sub.id,storage_path:path});
+        if (photoRow.error) throw new Error('Could not save the photo record: ' + photoRow.error.message);
       }
-    }catch(uploadError){
+    } catch (uploadError) {
       await sb.from('submission_photos').delete().eq('submission_id',sub.id);
       await sb.from('submissions').delete().eq('id',sub.id);
       throw uploadError;
     }
-    if(!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
-    view.actionStatus={text:'Photo submitted!',type:'success'};
+
+    if (!state.mission.start_date) {
+      await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
+    }
+    view.actionStatus = {text:'Photo submitted!',type:'success'};
     await loadData();
-  }catch(e){
-    view.authError=e?.message||'Photo submission failed.';
-    view.actionStatus={text:'',type:'info'};
+  } catch (err) {
+    view.authError = err && err.message ? err.message : 'Photo submission failed.';
+    view.actionStatus = {text:'',type:'info'};
   }
-  view.busy=false;
+  view.busy = false;
   render();
-}, async submitTextLog(){const day=document.getElementById('f-day')?.value||'',start=document.getElementById('f-start')?.value||'',end=document.getElementById('f-end')?.value||'';if(!day||!start||!end){view.authError='Enter the day, start time, and end time.';render();return}view.actionStatus={text:'',type:'info'};view.busy=true;render();const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'text',day,start_time:start,end_time:end,status:'pending'});if(!error&&!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);view.busy=false;if(error)view.authError=error.message;else{view.authError='';view.actionStatus={text:'Log submitted!',type:'success'};await loadData()}render()},async decide(id,status){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({status,admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},async saveNote(id){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},openModal(id,idx){const s=state.submissions.find(x=>x.id===id);if(!s||!s.images?.[idx])return;const o=document.createElement('div');o.className='modal-overlay';o.onclick=()=>o.remove();o.innerHTML=`<img src="${s.images[idx]}" alt="Proof photo">`;document.body.appendChild(o)},async resetMission(){if(!confirm('Reset all progress and submissions?'))return;view.busy=true;render();const{error}=await sb.from('submissions').delete().eq('mission_id',state.mission.id);if(!error){await sb.from('missions').update({start_date:null}).eq('id',state.mission.id);await loadData()}else view.authError=error.message;view.busy=false;render()}}
+},
+async submitTextLog(){const day=document.getElementById('f-day')?.value||'',start=document.getElementById('f-start')?.value||'',end=document.getElementById('f-end')?.value||'';if(!day||!start||!end){view.authError='Enter the day, start time, and end time.';render();return}view.actionStatus={text:'',type:'info'};view.busy=true;render();const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'text',day,start_time:start,end_time:end,status:'pending'});if(!error&&!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);view.busy=false;if(error)view.authError=error.message;else{view.authError='';view.actionStatus={text:'Log submitted!',type:'success'};await loadData()}render()},async decide(id,status){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({status,admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},async saveNote(id){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},openModal(id,idx){const s=state.submissions.find(x=>x.id===id);if(!s||!s.images?.[idx])return;const o=document.createElement('div');o.className='modal-overlay';o.onclick=()=>o.remove();o.innerHTML=`<img src="${s.images[idx]}" alt="Proof photo">`;document.body.appendChild(o)},async resetMission(){if(!confirm('Reset all progress and submissions?'))return;view.busy=true;render();const{error}=await sb.from('submissions').delete().eq('mission_id',state.mission.id);if(!error){await sb.from('missions').update({start_date:null}).eq('id',state.mission.id);await loadData()}else view.authError=error.message;view.busy=false;render()}}
 async function loadProfile(){const{data,error}=await sb.from('profiles').select('*').eq('id',state.user.id).maybeSingle();if(error){view.authError=error.message;return}state.profile=data;await loadData()}
 async function loadData(){const{data:m}=await sb.from('missions').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();state.mission=m;state.missionName=m?.mission_name||DEFAULT_NAME;state.startDate=m?.start_date||null;state.setupComplete=!!m?.setup_complete;const{data:s,error}=await sb.from('submissions').select('*').order('created_at',{ascending:true});if(error){state.submissions=[];return}const subs=s||[],ids=subs.map(x=>x.id);let map={};if(ids.length){const{data:ph}=await sb.from('submission_photos').select('*').in('submission_id',ids),paths=(ph||[]).map(p=>p.storage_path);let signed={};if(paths.length){const{data:u}=await sb.storage.from('ascent-photos').createSignedUrls(paths,3600);(u||[]).forEach(r=>{if(r.signedUrl)signed[r.path]=r.signedUrl})}(ph||[]).forEach(p=>{if(!map[p.submission_id])map[p.submission_id]=[];if(signed[p.storage_path])map[p.submission_id].push(signed[p.storage_path])})}state.submissions=subs.map(x=>({id:x.id,userId:x.user_id,status:x.status,type:x.type,images:map[x.id]||[],day:x.day,startTime:x.start_time,endTime:x.end_time,ts:x.created_at,checkinLatitude:x.checkin_latitude,checkinLongitude:x.checkin_longitude,checkinAccuracyMeters:x.checkin_accuracy_meters,locationName:x.checkin_location_name,checkinDistanceMeters:x.checkin_distance_meters,checkinWarning:x.checkin_warning,adminNotes:x.admin_notes}))}
 sb.auth.onAuthStateChange((_e,s)=>{if(s&&!state.user){state.user=s.user;loadProfile().then(()=>{view.screen='home';render()})}});window.Ascent=Ascent;Ascent.load();
