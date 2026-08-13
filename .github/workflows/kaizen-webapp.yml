@@ -1,0 +1,141 @@
+name: Update KAIZEN web app
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-webapp:
+    if: "!contains(github.event.head_commit.message, '[skip kaizen patch]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Patch KAIZEN for iPhone and location check-ins
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          text = text.replace("const DEFAULT_NAME='THE ASCENT'", "const DEFAULT_NAME='KAIZEN'")
+          text = text.replace('THE ASCENT', 'KAIZEN')
+          text = text.replace('CONTINUING THE ASCENT', 'CONTINUING KAIZEN')
+
+          if 'rel="manifest"' not in text:
+              mobile = '''<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+          <meta name="theme-color" content="#c98a38">
+          <meta name="apple-mobile-web-app-capable" content="yes">
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+          <meta name="apple-mobile-web-app-title" content="KAIZEN">
+          <link rel="manifest" href="./manifest.json">
+          '''
+              text = text.replace('<style>', mobile + '<style>', 1)
+
+          if 'env(safe-area-inset-bottom)' not in text:
+              mobile_css = '''
+          <style id="kaizen-iphone-css">
+          html, body { margin: 0; min-height: 100%; background: #211811; }
+          body { -webkit-text-size-adjust: 100%; }
+          #ascent-root { min-height: 100dvh; padding-bottom: env(safe-area-inset-bottom); }
+          @media (max-width: 520px) {
+            #ascent-root .shell { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); padding-bottom: max(50px, env(safe-area-inset-bottom)); }
+            #ascent-root .location-card { padding: 18px 14px; }
+            #ascent-root .location-title { font-size: 20px; }
+            #ascent-root .btn { min-height: 48px; }
+            #ascent-root input[type=text], #ascent-root input[type=password], #ascent-root input[type=tel], #ascent-root input[type=date], #ascent-root input[type=time] { min-height: 48px; font-size: 16px; }
+          }
+          </style>
+          '''
+              text = text.replace('</style>', '</style>' + mobile_css, 1)
+
+          helper = r'''\
+          async function findNearestCrunch(lat, lng) {
+            try {
+              const query = `[out:json][timeout:8];nwr["name"~"Crunch Fitness",i](around:50000,${lat},${lng});out center tags;`;
+              const url = 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
+              const response = await fetch(url, { headers: { Accept: 'application/json' } });
+              if (!response.ok) throw Error('Crunch lookup unavailable');
+              const data = await response.json();
+              const items = (data.elements || []).map(el => {
+                const clat = el.lat ?? el.center?.lat;
+                const clng = el.lon ?? el.center?.lon;
+                if (clat == null || clng == null) return null;
+                const rad = x => x * Math.PI / 180, R = 6371000;
+                const dLat = rad(clat - lat), dLon = rad(clng - lng);
+                const a = Math.sin(dLat/2)**2 + Math.cos(rad(lat))*Math.cos(rad(clat))*Math.sin(dLon/2)**2;
+                const distance = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+                return { name: el.tags?.name || 'Crunch Fitness', distance };
+              }).filter(Boolean).sort((a,b) => a.distance - b.distance);
+              return items[0] || null;
+            } catch (_) {
+              return null;
+            }
+          }
+          '''
+          if 'async function findNearestCrunch' not in text:
+              text = text.replace('const Ascent={', helper + '\nconst Ascent={', 1)
+
+          location_method = r'''\
+          async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
+            if(!navigator.geolocation)throw Error('Location is not available on this device.');
+            const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
+            const{latitude,longitude,accuracy}=pos.coords;
+            const nearest=await findNearestCrunch(latitude,longitude);
+            let warning='';
+            if(nearest){
+              warning=nearest.distance>1000?`Location is approximately ${nearest.distance} meters from the nearest mapped Crunch Fitness location.`:'';
+            }else{
+              warning='Nearest Crunch Fitness location could not be automatically verified. Manual review required.';
+            }
+            const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,submission_type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
+            if(error)throw error;
+            if(!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
+            view.locationStatus=warning?'Location submitted for manual review.':'Location submitted for approval.';
+            await loadData();
+          }catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.locationStatus=''}view.busy=false;render()},
+          '''
+          text, count = re.subn(r'async locationCheckIn\(\)\{.*?\n?\s*async handleUpload', location_method + 'async handleUpload', text, count=1, flags=re.S)
+          if count != 1:
+              raise SystemExit('Could not patch locationCheckIn')
+
+          commander = r'''\
+          function renderCommander(a){if(state.profile?.role!=='admin'){view.screen='home';render();return}const pending=state.submissions.filter(s=>s.status==='pending');const q=pending.length?pending.slice().reverse().map(s=>{const location=s.type==='location'?`<div class="queue-date"><b>${esc(s.locationName||'Crunch Fitness — manual verification')}</b>${s.checkinDistanceMeters!=null?`<br>Distance to nearest mapped Crunch: ${Math.round(s.checkinDistanceMeters)} m`:''}${s.checkinWarning?`<div class="error-text">⚠ ${esc(s.checkinWarning)}</div>`:'<div class="hint">Location appears within the expected area.</div>'}${s.checkinLatitude!=null?`<br>GPS: ${Number(s.checkinLatitude).toFixed(5)}, ${Number(s.checkinLongitude).toFixed(5)} · accuracy ${Math.round(s.checkinAccuracyMeters||0)} m`:''}</div>`:'';return`<div class="queue-item"><div class="queue-text-card"><div class="queue-text-day">${s.type==='location'?'Location Check-In':s.type==='text'?'Time Log':'Photo Proof'}</div><div class="queue-text-time">Submitted ${fmtDate(s.ts)}</div></div>${location}<div class="row"><button class="btn btn-signal" onclick="Ascent.decide('${s.id}','approved')">Approve</button><button class="btn btn-rust" onclick="Ascent.decide('${s.id}','rejected')">Reject</button></div></div>`}).join(''):'<p class="empty-state">Nothing to review right now.</p>';a.innerHTML=`<p class="eyebrow">Admin Panel</p><h1 class="title">${esc(missionName())}</h1><div class="panel"><p class="panel-label">Submissions To Review</p>${q}</div><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back</button>`}
+          '''
+          text, count = re.subn(r'function renderCommander\(a\)\{.*?\nconst Ascent=\{', commander + '\nconst Ascent={', text, count=1, flags=re.S)
+          if count != 1:
+              raise SystemExit('Could not patch renderCommander')
+
+          old_map = "latitude:x.latitude,longitude:x.longitude,locationAccuracy:x.location_accuracy"
+          new_map = "checkinLatitude:x.checkin_latitude,checkinLongitude:x.checkin_longitude,checkinAccuracyMeters:x.checkin_accuracy_meters,locationName:x.checkin_location_name,checkinDistanceMeters:x.checkin_distance_meters,checkinWarning:x.checkin_warning"
+          if old_map in text:
+              text = text.replace(old_map, new_map, 1)
+          elif 'checkinDistanceMeters:x.checkin_distance_meters' not in text:
+              raise SystemExit('Could not patch submission location fields')
+
+          if "navigator.serviceWorker.register('./service-worker.js')" not in text:
+              registration = "\nif('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}\n"
+              pos = text.rfind('</script>')
+              if pos < 0: raise SystemExit('No closing script tag found')
+              text = text[:pos] + registration + text[pos:]
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit patched index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Patch KAIZEN iPhone and location check-in [skip kaizen patch]"
+            git push
+          fi
