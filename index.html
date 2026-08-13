@@ -63,7 +63,6 @@
 #ascent-root .modal-overlay{position:fixed;inset:0;background:rgba(5,14,18,.95);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}.modal-overlay img{max-width:100%;max-height:90vh;border-radius:5px;border:1px solid var(--gold)}.file-input-wrap{position:relative}.file-input-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}.history-actions{text-align:center;margin-top:12px}
 @media(max-width:760px){.progress-stats{grid-template-columns:repeat(2,1fr)!important}.secondary-options{flex-direction:row;gap:7px}.secondary-options .btn{font-size:9px;padding:7px 6px}}
 @media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}}
-\
 /* NOMAI_STONE_THEME_V4 */
 #ascent-root{--void:#211811;--stone:#403126;--stone-dark:#2b2119;--stone-mid:#564333;--stone-edge:#8b7050;--blue:#8b8cff;--blue-bright:#c9c7ff;--blue-dim:#5d5da4;--gold:#c98a38;--gold-bright:#e8b45c;--text:#eadcc3;--muted:#aa9274;background:#211811;color:var(--text)}
 #ascent-root .bg-field{background-color:#30231a;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .48 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(135deg,rgba(255,227,177,.055),transparent 24%,rgba(0,0,0,.28) 72%),radial-gradient(ellipse at 50% 20%,rgba(126,92,57,.22),transparent 55%),linear-gradient(160deg,#5a4432 0%,#30231a 38%,#4b3829 70%,#261c15 100%);background-blend-mode:multiply,normal,normal,normal;box-shadow:inset 0 0 220px rgba(8,5,3,.78)}
@@ -80,6 +79,62 @@
 #ascent-root .progress-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}#ascent-root .progress-stat{min-height:120px;padding:15px 12px;text-align:center;background:linear-gradient(145deg,#4c3928,#2d2117);border:1px solid #765b3f;box-shadow:inset 2px 2px 0 rgba(239,211,168,.05),inset -2px -2px 0 rgba(9,6,3,.3);display:flex;flex-direction:column;align-items:center;justify-content:center}#ascent-root .progress-stat-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.12em;color:#d4b78b;line-height:1.2}#ascent-root .progress-stat-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:28px;color:#9898ff;margin:7px 0 2px;text-shadow:0 0 12px rgba(139,140,255,.22)}#ascent-root .progress-stat-mark{font-size:18px;color:#8d7ee0}
 #ascent-root .completion-wrap{padding:15px 16px 11px;border:1px solid #72583d;background:#241a12;box-shadow:inset 0 3px 8px rgba(0,0,0,.35)}#ascent-root .completion-meta{display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;letter-spacing:.14em;color:#d6bc92;font-size:12px;margin-bottom:9px}#ascent-root .completion-meta strong{font-size:28px;color:#a4a4ff;letter-spacing:.03em}#ascent-root .completion-track{height:20px;border:2px solid #74583a;background:#160f0a;position:relative;overflow:hidden;box-shadow:inset 0 4px 8px rgba(0,0,0,.65),0 1px 0 rgba(234,200,149,.08)}#ascent-root .completion-fill{height:100%;background:linear-gradient(90deg,#575ca9,#7774c9,#aaa0ff);box-shadow:0 0 17px rgba(139,140,255,.42);transition:width .45s ease}#ascent-root .completion-glow{position:absolute;top:3px;width:5px;height:12px;background:#e1dcff;box-shadow:0 0 10px #aaa2ff;transform:translateX(-50%)}#ascent-root .completion-caption{font-size:10.5px;color:#9e825e;margin-top:6px;text-align:right}
 @media(max-width:760px){#ascent-root .progress-stats{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}.progress-head{flex-direction:column}.progress-cycle{text-align:left}.progress-stats{grid-template-columns:repeat(2,1fr)!important}}
+
+#ascent-root .mission-instructions {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(234,200,149,.28);
+  border-radius: 12px;
+  background: rgba(20,14,10,.72);
+  box-shadow: inset 0 0 18px rgba(0,0,0,.22), 0 0 12px rgba(234,200,149,.05);
+}
+#ascent-root .mission-instructions h3 {
+  margin: 0 0 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  letter-spacing: .12em;
+  color: var(--accent-bright);
+  text-transform: uppercase;
+}
+#ascent-root .mission-instructions .instruction-block { margin-top: 12px; }
+#ascent-root .mission-instructions .instruction-title {
+  margin: 0 0 5px;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 13px;
+}
+#ascent-root .mission-instructions p, #ascent-root .mission-instructions li {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+#ascent-root .mission-instructions ul { margin: 5px 0 0 18px; padding: 0; }
+#ascent-root .mission-instructions li { margin: 3px 0; }
+#ascent-root .mission-instructions .unlock-list { list-style: none; margin-left: 0; }
+#ascent-root .mission-instructions .unlock-list strong { color: var(--accent-bright); }
+#ascent-root .mission-instructions .remember {
+  margin-top: 14px; padding: 12px;
+  border: 1px solid rgba(114,88,61,.8);
+  border-radius: 8px;
+  background: rgba(30,28,75,.16);
+  box-shadow: none;
+}
+#ascent-root .mission-instructions .remember .instruction-title,
+#ascent-root .mission-instructions .remember .instruction-title strong {
+  color: #ff5b5b;
+  text-shadow: 0 0 7px rgba(255,55,55,.45);
+}
+#ascent-root .mission-instructions .remember p:last-child {
+  color: #9898ff;
+  text-shadow: 0 0 5px rgba(139,140,255,.22);
+}
+#ascent-root .mission-instructions .remember p:last-child strong {
+  color: var(--blue-bright);
+}
+@media (max-width: 520px) {
+  #ascent-root .mission-instructions { padding: 15px; }
+  #ascent-root .mission-instructions p, #ascent-root .mission-instructions li { font-size: 11.5px; }
+}
 </style>
 <style id="kaizen-iphone-css">
 html, body { margin: 0; min-height: 100%; background: #211811; }
@@ -291,11 +346,148 @@ html, body {
 #ascent-root .file-input-wrap{position:relative;display:block}
 #ascent-root .photo-picker{display:block;text-align:center;cursor:pointer}
 #ascent-root .file-input-wrap input[type=file]{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-</style></head>
+</style><style id="kaizen-proof-modal">
+#ascent-root .secondary-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#ascent-root .btn-tab{width:100%;min-width:0}
+.proof-modal{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box;background:rgba(3,7,18,.84);opacity:0;transition:opacity .18s ease}
+.proof-modal.visible{opacity:1}
+.proof-modal-card{position:relative;width:min(92vw,420px);max-height:88vh;overflow:auto;box-sizing:border-box;padding:21px 16px;border:1px solid rgba(95,145,255,.45);border-radius:14px;background:#07101f;box-shadow:0 0 35px rgba(40,90,180,.25)}
+.proof-modal-close{position:absolute;top:7px;right:10px;border:0;background:none;color:#8da5c5;font-size:28px;line-height:1;cursor:pointer}
+.proof-modal-sub{margin:0 0 15px;color:#91a5bf;line-height:1.45}
+.modal-submit-btn{width:100%;box-sizing:border-box;margin-top:8px}
+.modal-file-input{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.modal-field{position:relative;margin:10px 0}
+.modal-field input{width:100%;height:48px;box-sizing:border-box;padding:17px 11px 4px;border:1px solid rgba(100,135,180,.45);border-radius:8px;background:#0b1729;color:#e8f0ff;font:inherit}
+.modal-field span{position:absolute;left:11px;top:5px;font-size:9px;letter-spacing:.13em;color:#7188a7;pointer-events:none}
+</style><style id="kaizen-checkin-popup">
+#ascent-root .checkin-main-btn{width:100%;margin:0 0 10px;box-sizing:border-box}
+.checkin-success-modal{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;background:rgba(3,7,18,.78);opacity:0;transition:opacity .18s ease}
+.checkin-success-modal.visible{opacity:1}
+.checkin-success-card{width:min(88vw,360px);box-sizing:border-box;padding:25px 20px;text-align:center;border:1px solid rgba(70,190,120,.5);border-radius:14px;background:#07101f;box-shadow:0 0 35px rgba(50,180,110,.18)}
+.checkin-success-symbol{font-size:30px;color:#5fd28b;line-height:1;margin-bottom:12px}
+.checkin-success-title{font-size:.75rem;letter-spacing:.18em;font-weight:700;color:#6f9fff;margin-bottom:10px}
+.checkin-success-text{color:#62dc91;line-height:1.45;text-shadow:0 0 10px rgba(70,220,140,.35)}
+</style>
+<style id="kaizen-native-time-date">
+#ascent-root .modal-field input[type="date"],
+#ascent-root .modal-field input[type="time"]{
+  -webkit-appearance:auto;
+  appearance:auto;
+  color-scheme:dark;
+  padding:12px;
+  min-width:0;
+}
+</style>
+<style id="kaizen-no-double-evidence">
+#ascent-root .secondary-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+#ascent-root .secondary-options .btn{width:100%;min-width:0;box-sizing:border-box}
+</style>
+
+<style id="kaizen-popup-font-match">
+#proof-modal,
+#proof-modal *,
+#checkin-success-modal,
+#checkin-success-modal *,
+#submission-success-modal,
+#submission-success-modal *{
+  font-family:inherit;
+}
+</style>
+
+<style id="kaizen-final-submission-controls">
+#ascent-root .submission-controls{width:100%;box-sizing:border-box;margin-top:10px}
+#ascent-root .checkin-main-btn{width:100%;box-sizing:border-box;margin:0 0 10px}
+#ascent-root .secondary-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;box-sizing:border-box}
+#ascent-root .secondary-options .btn{width:100%;min-width:0;box-sizing:border-box}
+.proof-modal{font-family:inherit}
+.proof-modal *{font-family:inherit}
+.proof-modal-card{width:min(92vw,420px);max-height:88vh;overflow:auto;box-sizing:border-box}
+.modal-field{position:relative;margin:10px 0}
+.modal-field label{display:block;margin:0 0 5px;font-size:9px;letter-spacing:.13em;color:#7188a7}
+.modal-field input[type="date"],
+.modal-field input[type="time"]{
+  display:block;
+  width:100%;
+  height:48px;
+  box-sizing:border-box;
+  padding:10px 12px;
+  border:1px solid rgba(100,135,180,.45);
+  border-radius:8px;
+  background:#0b1729;
+  color:#e8f0ff;
+  font:inherit;
+  color-scheme:dark;
+  -webkit-appearance:auto;
+  appearance:auto;
+}
+</style>
+<style id="kaizen-popup-font-and-native-picker-fix">
+#proof-modal,#proof-modal *,
+#checkin-success-modal,#checkin-success-modal *,
+#submission-success-modal,#submission-success-modal *{
+  font-family:inherit !important;
+}
+#proof-modal input[type="date"],
+#proof-modal input[type="time"]{
+  -webkit-appearance:auto !important;
+  appearance:auto !important;
+  color-scheme:dark;
+  font-family:inherit !important;
+  font-size:inherit;
+}
+</style>
+<style id="kaizen-native-picker-sizing">
+#proof-modal .modal-field input[type="date"],
+#proof-modal .modal-field input[type="time"]{
+  width:100%;
+  min-width:0;
+  height:48px;
+  box-sizing:border-box;
+  padding:10px 12px;
+  border-radius:8px;
+  background:#0b1729;
+  color:#e8f0ff;
+}
+</style>
+<style id="kaizen-final-font-picker">
+#proof-modal,#proof-modal *,
+#checkin-success-modal,#checkin-success-modal *,
+#submission-success-modal,#submission-success-modal *{
+  font-family:inherit !important;
+}
+#proof-modal input[type="date"],
+#proof-modal input[type="time"]{
+  -webkit-appearance:auto !important;
+  appearance:auto !important;
+  color-scheme:dark;
+  font-family:inherit !important;
+}
+</style><style id="kaizen-location-checkin-restored">
+#ascent-root .location-card{
+  display:block !important;
+  width:100%;
+  box-sizing:border-box;
+}
+#ascent-root .location-checkin-btn{
+  display:block !important;
+  width:100%;
+  box-sizing:border-box;
+  margin-top:10px;
+}
+#ascent-root .location-status{
+  min-height:1.2em;
+}
+</style>
+<style id="kaizen-actual-location-checkin">
+#ascent-root .location-card{display:block !important;width:100%;box-sizing:border-box}
+#ascent-root .location-checkin-btn{display:block !important;width:100%;box-sizing:border-box;margin-top:10px}
+#ascent-root .location-status{min-height:1.2em}
+</style>
+</head>
 <body>
 <div id="ascent-root"><div class="bg-field"></div><div class="shell" id="app"></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+<script>function closeProofModalIfOpen(){const m=document.getElementById('proof-modal');if(m)m.remove()}</script><script>
 const SUPABASE_URL='https://gakkgsbjtmjhebdayvtl.supabase.co';const SUPABASE_KEY='sb_publishable_fEe0HFjLyGuNu0vqodHpeg_QntdbKKF';const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const DEFAULT_NAME='KAIZEN',JORDAN_EMAIL='ggriaa999@gmail.com',CADET_LABEL='Jordan Smith | Log Submissions';
 const view={screen:'loading',authError:'',setupErr:'',busy:false,uploadMode:null,draftDay:'',draftStart:'',draftEnd:'',showAllHistory:false,actionStatus:{text:'',type:'info'}};const state={user:null,profile:null,mission:null,missionName:'',startDate:null,submissions:[],setupComplete:false};
@@ -314,7 +506,19 @@ function renderHome(a){if(!state.user){a.innerHTML=`<div class="home-mark">✦ A
 
 function renderSetup(a){a.innerHTML=`<p class="eyebrow">Setup</p><h1 class="title">Set Up The Journey</h1><div class="panel"><label>Journey Name</label><input type="text" id="f-name" placeholder="${DEFAULT_NAME}" maxlength="40"><label>Starting Container Code</label><input type="tel" id="f-code8" maxlength="6"><label>Small Container Code</label><input type="tel" id="f-code16" maxlength="6"><label>Big Container Code</label><input type="tel" id="f-code20" maxlength="8">${view.setupErr?`<div class="error-text">${esc(view.setupErr)}</div>`:''}<div style="margin-top:18px"><button class="btn btn-solid" onclick="Ascent.submitSetup()">Save &amp; Start</button></div></div><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back</button>`}
 function renderCadet(a){
- if(!state.setupComplete){a.innerHTML=`<p class="eyebrow">Your Progress</p><h1 class="title">${titleHtml()}</h1><div class="panel"><p class="empty-state">This journey hasn't been set up yet.</p></div>`;return}
+ if(!state.setupComplete){a.innerHTML=`<p class="eyebrow">Your Progress</p><h1 class="title">${titleHtml()}</h1><div class="submission-controls">
+  <button class="btn btn-solid checkin-main-btn" onclick="Ascent.locationCheckIn()">CHECK IN AT LOCATION</button>
+  <div class="location-card">
+  <div class="location-title">LOCATION CHECK-IN</div>
+  <div class="location-sub">Verify your location to log today's mission. This is the primary check-in method.</div>
+  <button type="button" class="btn btn-solid location-checkin-btn" onclick="Ascent.locationCheckIn()">CHECK IN AT LOCATION</button>
+  <div class="location-status">${esc(view.locationStatus || '')}</div>
+</div>
+<div class="secondary-options">
+  <button class="btn btn-tab" onclick="Ascent.openProofModal('photo')">Photo Proof</button>
+  <button class="btn btn-tab" onclick="Ascent.openProofModal('text')">Log Time</button>
+</div>
+</div>`;return}
  const ap=approvedCount(),journeyComplete=ap>=20,rem=timeRemaining(),journeyExpired=!!rem?.expired,mine=state.submissions.filter(s=>s.userId===state.user?.id),pct=Math.min(100,Math.round(ap/20*100));const codes=[{mission:8,code:'512',label:'Starting Container Code'},{mission:16,code:'256',label:'Small Container Code'},{mission:20,code:'2681',label:'Big Container Code'}];
  let trail='';for(let i=1;i<=20;i++){const done=i<=ap,pending=!done&&i===ap+1&&state.submissions.some(s=>s.status==='pending'&&s.userId===state.user?.id);const c=codes.find(x=>x.mission===i);const codeHtml=c?(i<=ap?`<div class="mission-code-box unlocked"><div class="mission-code-label">🔓 ${esc(c.label)}</div><div class="mission-code-value">${esc(c.code)}</div></div>`:`<div class="mission-code-box locked"><div class="mission-code-label">🔒 ${esc(c.label)}</div><div class="mission-code-locked">Locked — complete Mission ${c.mission}</div></div>`):'';trail+=`<div class="trail-node ${done?'done':''}"><div class="node-dot ${done?'filled':pending?'pending':''}">${done?'✓':i}</div><div class="node-label"><b>Mission ${i}</b>${done?'<span class="node-tag">Approved</span>':pending?'<span class="node-tag">Pending</span>':''}</div>${codeHtml}</div>`}
  const all=[...mine].reverse(),recent=view.showAllHistory?all:all.slice(0,6);let history=recent.length?recent.map(s=>{const thumb=s.type==='photo'?`<div class="log-thumb-wrap"><img class="log-thumb" src="${s.images[0]||''}" onclick="Ascent.openModal('${s.id}',0)" alt="Proof photo">${s.images.length>1?`<div class="log-thumb-badge">+${s.images.length-1}</div>`:''}</div>`:`<div class="log-thumb-text">${s.type==='location'?'GPS':esc(fmtDay(s.day))}</div>`;const detail=s.type==='location'?'Location Check-In':s.type==='text'?`${fmtTime12(s.startTime)} – ${fmtTime12(s.endTime)}`:fmtDate(s.ts);const note=s.adminNotes?`<div class="cadet-note"><span>ADMIN NOTE</span>${esc(s.adminNotes)}</div>`:'';return`<div class="log-entry">${thumb}<div class="log-meta"><div class="log-date">${detail}</div>${note}</div><div class="stamp ${s.status}">${s.status==='pending'?'Pending':s.status==='approved'?'Approved':'Not approved'}</div></div>`}).join(''):'<p class="empty-state">No submissions yet.</p>';
@@ -325,9 +529,17 @@ function renderCadet(a){
     :journeyExpired
       ?'<div class="clock-value">Journey period complete.</div><div class="clock-sub">The 30-day window has closed. Progress is ready for its next journey.</div>'
       :`<div class="kaizen-countdown" data-start="${journeyStart||''}"><div class="countdown-days"><span class="countdown-number">${rem.days}</span><span class="countdown-label">DAYS</span></div><div class="countdown-time"><span><b>${String(rem.hours).padStart(2,'0')}</b><small>HOURS</small></span><i>:</i><span><b>${String(rem.minutes).padStart(2,'0')}</b><small>MINUTES</small></span><i>:</i><span><b>${String(rem.seconds).padStart(2,'0')}</b><small>SECONDS</small></span></div></div><div class="clock-sub">Started ${fmtDate(journeyStart)}. The journey resets when the 30-day window ends.</div>`;
-  let upload=`<div class="location-card"><div class="location-title">LOCATION CHECK-IN</div><div class="location-sub">Verify your location to log today's mission. This is the primary check-in method.</div><button class="btn btn-solid location-checkin-btn" onclick="Ascent.locationCheckIn()">CHECK IN</button></div><div class="secondary-options"><button class="btn btn-tab" onclick="Ascent.setUploadMode('photo')">Photo Proof</button><button class="btn btn-tab" onclick="Ascent.setUploadMode('text')">Log Time</button></div>`;
- if(view.uploadMode==='photo')upload+=`<div class="panel optional-panel"><p class="panel-label">Photo Proof — Optional</p><div class="file-input-wrap"><label class="btn btn-solid photo-picker" for="f-photo">Choose Photo(s)</label><input type="file" accept="image/*" multiple id="f-photo" onchange="Ascent.handleUpload(event)"></div><div class="hint">Optional alternative check-in. On iPhone, choose from Photos or take a new picture.</div></div>`;
- if(view.uploadMode==='text')upload+=`<div class="panel optional-panel"><p class="panel-label">Log Time — Optional</p><label>Day</label><input type="date" id="f-day"><div class="row"><div><label>Start Time</label><input type="time" id="f-start"></div><div><label>End Time</label><input type="time" id="f-end"></div></div><div style="margin-top:14px"><button class="btn btn-solid" onclick="Ascent.submitTextLog()">Submit Log Entry</button></div><div class="hint">Optional alternative check-in.</div></div>`;
+  let upload=`<div class="location-card">
+  <div class="location-title">LOCATION CHECK-IN</div>
+  <div class="location-sub">Check in at a gym location to complete your mission.</div>
+  <button type="button" class="btn btn-solid location-checkin-btn" onclick="Ascent.locationCheckIn()">CHECK IN AT LOCATION</button>
+  <div class="location-status">${esc(view.locationStatus || '')}</div>
+</div>
+<div class="secondary-options">
+  <button class="btn btn-tab" onclick="Ascent.openProofModal('photo')">Photo Proof</button>
+  <button class="btn btn-tab" onclick="Ascent.openProofModal('text')">Log Time</button>
+</div>
+<div class="hint">Photo proof and time logs are optional alternatives if you forget to check in at a gym location.</div>`;
  const completionNotice=journeyComplete?`<div class="journey-complete-message"><div class="journey-complete-title">JOURNEY COMPLETE</div><p>You have successfully completed your journey. Carry on, and continue farther if you choose to be an over-achiever. You may submit even more missions before the 30-day journey resets.</p><p class="journey-complete-flavor">The trail does not end where the map says it does. There is still time left to see how far you can go. <strong>限界突破 — GENKAI TOPPA!</strong></p></div>`:'';
  const uploadPanel=`<div class="panel"><p class="panel-label">Submit Evidence</p>${journeyExpired?'<div class="clock-value">30-day journey complete</div><div class="clock-sub">Submissions are closed until the next journey begins.</div>':completionNotice+upload}${view.actionStatus?.text?`<div class="action-status ${view.actionStatus.type}">${esc(view.actionStatus.text)}</div>`:''}${view.busy?'<div class="hint">Syncing…</div>':''}${view.authError?`<div class="error-text">${esc(view.authError)}</div>`:''}</div>`;
  a.innerHTML=`<div class="home-mark">✦ A Journey In 20 Missions ✦</div><p class="eyebrow">Authenticated</p><h1 class="title">${titleHtml()}</h1><p class="subtitle">Mission Console</p><p class="subtitle">Signed in as <b>Jordan</b>.</p>${uploadPanel}<div class="panel"><p class="panel-label">Time Left</p>${clock}</div><div class="progress-panel"><div class="progress-head"><div><p class="eyebrow progress-eyebrow">Your Progress</p><h2 class="progress-title">THIS MONTH'S PROGRESS</h2></div></div><div class="progress-stats"><div class="progress-stat"><div class="progress-stat-label">TOTAL SUBMISSIONS</div><div class="progress-stat-value">${mine.length}</div><div class="progress-stat-mark">◈</div></div><div class="progress-stat"><div class="progress-stat-label">MISSIONS COMPLETE</div><div class="progress-stat-value">${ap}</div><div class="progress-stat-mark">◇</div></div><div class="progress-stat"><div class="progress-stat-label">REMAINING</div><div class="progress-stat-value">${20-ap}</div><div class="progress-stat-mark">△</div></div></div><div class="completion-wrap"><div class="completion-meta"><span>COMPLETION</span><strong>${pct}%</strong></div><div class="completion-track"><div class="completion-fill" style="width:${pct}%"></div></div><div class="completion-caption">${ap}/20 missions approved</div></div><div style="margin-top:18px"><p class="panel-label">Your Path</p><div class="trail">${trail}</div></div></div><div class="panel"><p class="panel-label">Submission History</p>${history}${all.length>6?`<div class="history-actions"><button class="btn btn-ghost" onclick="Ascent.toggleHistory()">${view.showAllHistory?'Show less':'View all submissions'}</button></div>`:''}</div><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back</button>`;
@@ -376,8 +588,50 @@ async locationCheckIn(){view.actionStatus={text:'Requesting location…',type:'i
      await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
    }
    view.actionStatus={text:'Location submitted for review.',type:'success'};
+    Ascent.showCheckinSuccess();
   await loadData();
 }catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.actionStatus={text:'',type:'info'}}view.busy=false;render()},
+showSubmissionSuccess(label){
+  const old=document.getElementById('submission-success-modal');
+  if(old)old.remove();
+  const modal=document.createElement('div');
+  modal.id='submission-success-modal';
+  modal.className='checkin-success-modal';
+  modal.innerHTML='<div class="checkin-success-card"><div class="checkin-success-symbol">▲</div><div class="checkin-success-title">'+label+'</div><div class="checkin-success-text">Submission successfully submitted!</div></div>';
+  document.body.appendChild(modal);
+  requestAnimationFrame(()=>modal.classList.add('visible'));
+  setTimeout(()=>{const current=document.getElementById('submission-success-modal');if(current){current.classList.remove('visible');setTimeout(()=>current.remove(),180)}},1800);
+},
+showCheckinSuccess(){
+  const old=document.getElementById('checkin-success-modal');
+  if(old)old.remove();
+  const modal=document.createElement('div');
+  modal.id='checkin-success-modal';
+  modal.className='checkin-success-modal';
+  modal.innerHTML='<div class="checkin-success-card"><div class="checkin-success-symbol">▲</div><div class="checkin-success-title">LOCATION CHECK-IN</div><div class="checkin-success-text">Location check-in successfully submitted!</div></div>';
+  document.body.appendChild(modal);
+  requestAnimationFrame(()=>modal.classList.add('visible'));
+  setTimeout(()=>{const current=document.getElementById('checkin-success-modal');if(current){current.classList.remove('visible');setTimeout(()=>current.remove(),180)}},1800);
+},
+openProofModal(type){
+  const old=document.getElementById('proof-modal');
+  if(old) old.remove();
+
+  const modal=document.createElement('div');
+  modal.id='proof-modal';
+  modal.className='proof-modal';
+
+  if(type==='photo'){
+    modal.innerHTML='<div class="proof-modal-card"><button class="proof-modal-close" onclick="Ascent.closeProofModal()">×</button><p class="panel-label">PHOTO PROOF</p><p class="proof-modal-sub">Select a workout photo from your phone or take a new one.</p><label class="btn btn-solid modal-submit-btn" for="f-photo-modal">CHOOSE PHOTO</label><input type="file" accept="image/*" id="f-photo-modal" class="modal-file-input" onchange="Ascent.handleUpload(event)"></div>';
+  }else{
+    modal.innerHTML='<div class="proof-modal-card"><button class="proof-modal-close" onclick="Ascent.closeProofModal()">×</button><p class="panel-label">LOG TIME</p><p class="proof-modal-sub">Enter the day and the time you started and finished your workout.</p><div class="modal-field"><label for="f-day">DAY</label><input type="date" id="f-day"></div><div class="modal-field"><label for="f-start">START TIME</label><input type="time" id="f-start"></div><div class="modal-field"><label for="f-end">END TIME</label><input type="time" id="f-end"></div><button class="btn btn-solid modal-submit-btn" onclick="Ascent.submitTextLog()">SUBMIT LOG ENTRY</button></div>';
+  }
+
+  document.body.appendChild(modal);
+  requestAnimationFrame(()=>modal.classList.add('visible'));
+  modal.addEventListener('click',e=>{if(e.target===modal)Ascent.closeProofModal()});
+},
+closeProofModal(){const m=document.getElementById('proof-modal');if(m)m.remove()},
 async handleUpload(e){
   const files = Array.from((e.target && e.target.files) || []);
   if (!files.length) return;
@@ -421,6 +675,8 @@ async handleUpload(e){
       await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
     }
     view.actionStatus = {text:'Photo submitted!',type:'success'};
+    closeProofModalIfOpen();
+    Ascent.showSubmissionSuccess('PHOTO PROOF');
     await loadData();
   } catch (err) {
     view.authError = err && err.message ? err.message : 'Photo submission failed.';
@@ -429,7 +685,7 @@ async handleUpload(e){
   view.busy = false;
   render();
 },
-async submitTextLog(){const day=document.getElementById('f-day')?.value||'',start=document.getElementById('f-start')?.value||'',end=document.getElementById('f-end')?.value||'';if(!day||!start||!end){view.authError='Enter the day, start time, and end time.';render();return}view.actionStatus={text:'',type:'info'};view.busy=true;render();const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'text',day,start_time:start,end_time:end,status:'pending'});if(!error&&!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);view.busy=false;if(error)view.authError=error.message;else{view.authError='';view.actionStatus={text:'Log submitted!',type:'success'};await loadData()}render()},async decide(id,status){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({status,admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},async saveNote(id){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},openModal(id,idx){const s=state.submissions.find(x=>x.id===id);if(!s||!s.images?.[idx])return;const o=document.createElement('div');o.className='modal-overlay';o.onclick=()=>o.remove();o.innerHTML=`<img src="${s.images[idx]}" alt="Proof photo">`;document.body.appendChild(o)},async resetMission(){if(!confirm('Reset all progress and submissions?'))return;view.busy=true;render();const{error}=await sb.from('submissions').delete().eq('mission_id',state.mission.id);if(!error){await sb.from('missions').update({start_date:null}).eq('id',state.mission.id);await loadData()}else view.authError=error.message;view.busy=false;render()}}
+async submitTextLog(){const day=document.getElementById('f-day')?.value||'',start=document.getElementById('f-start')?.value||'',end=document.getElementById('f-end')?.value||'';if(!day||!start||!end){view.authError='Enter the day, start time, and end time.';render();return}view.actionStatus={text:'',type:'info'};view.busy=true;render();const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'text',day,start_time:start,end_time:end,status:'pending'});if(!error&&!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);view.busy=false;if(error)view.authError=error.message;else{view.authError='';view.actionStatus={text:'Log submitted!',type:'success'};closeProofModalIfOpen();Ascent.showSubmissionSuccess('TIME LOG');await loadData()}render()},async decide(id,status){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({status,admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},async saveNote(id){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},openModal(id,idx){const s=state.submissions.find(x=>x.id===id);if(!s||!s.images?.[idx])return;const o=document.createElement('div');o.className='modal-overlay';o.onclick=()=>o.remove();o.innerHTML=`<img src="${s.images[idx]}" alt="Proof photo">`;document.body.appendChild(o)},async resetMission(){if(!confirm('Reset all progress and submissions?'))return;view.busy=true;render();const{error}=await sb.from('submissions').delete().eq('mission_id',state.mission.id);if(!error){await sb.from('missions').update({start_date:null}).eq('id',state.mission.id);await loadData()}else view.authError=error.message;view.busy=false;render()}}
 async function loadProfile(){const{data,error}=await sb.from('profiles').select('*').eq('id',state.user.id).maybeSingle();if(error){view.authError=error.message;return}state.profile=data;await loadData()}
 async function loadData(){const{data:m}=await sb.from('missions').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();state.mission=m;state.missionName=m?.mission_name||DEFAULT_NAME;state.startDate=m?.start_date||null;state.setupComplete=!!m?.setup_complete;const{data:s,error}=await sb.from('submissions').select('*').order('created_at',{ascending:true});if(error){state.submissions=[];return}const subs=s||[],ids=subs.map(x=>x.id);let map={};if(ids.length){const{data:ph}=await sb.from('submission_photos').select('*').in('submission_id',ids),paths=(ph||[]).map(p=>p.storage_path);let signed={};if(paths.length){const{data:u}=await sb.storage.from('ascent-photos').createSignedUrls(paths,3600);(u||[]).forEach(r=>{if(r.signedUrl)signed[r.path]=r.signedUrl})}(ph||[]).forEach(p=>{if(!map[p.submission_id])map[p.submission_id]=[];if(signed[p.storage_path])map[p.submission_id].push(signed[p.storage_path])})}state.submissions=subs.map(x=>({id:x.id,userId:x.user_id,status:x.status,type:x.type,images:map[x.id]||[],day:x.day,startTime:x.start_time,endTime:x.end_time,ts:x.created_at,checkinLatitude:x.checkin_latitude,checkinLongitude:x.checkin_longitude,checkinAccuracyMeters:x.checkin_accuracy_meters,locationName:x.checkin_location_name,checkinDistanceMeters:x.checkin_distance_meters,checkinWarning:x.checkin_warning,adminNotes:x.admin_notes}))}
 sb.auth.onAuthStateChange((_e,s)=>{if(s&&!state.user){state.user=s.user;loadProfile().then(()=>{view.screen='home';render()})}});window.Ascent=Ascent;Ascent.load();
