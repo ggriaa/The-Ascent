@@ -117,9 +117,8 @@ const Ascent={
  async login(){view.authError='';const raw=(document.getElementById('f-email')?.value||'').trim(),pass=document.getElementById('f-login-pass')?.value||'',email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email||!pass){view.authError='Enter your access ID and password.';render();return}view.busy=true;render();const{data,error}=await sb.auth.signInWithPassword({email,password:pass});view.busy=false;if(error){view.authError=error.message;render();return}state.user=data.user;await loadProfile();view.screen='home';render()},
  async logout(){await sb.auth.signOut();state.user=null;state.profile=null;view.screen='home';render()},async resetPassword(){const raw=(document.getElementById('f-email')?.value||'').trim(),email=raw.toLowerCase()==='jordan'?JORDAN_EMAIL:raw;if(!email){view.authError='Enter your access ID first.';render();return}const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});view.authError=error?error.message:'Password recovery email sent.';render()},goHome(){view.screen='home';render()},goCadet(){view.screen='cadet';render()},goCommanderGate(){if(state.profile?.role==='admin'){view.screen='commander';render()}else{view.screen='home';render()}},toggleHistory(){view.showAllHistory=!view.showAllHistory;render()},setUploadMode(m){view.uploadMode=m;view.authError='';render()},
  async load(){const{data}=await sb.auth.getSession();if(data.session){state.user=data.session.user;await loadProfile()}view.screen='home';render()},
+\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
-   if(!state.user)throw Error('Please sign in before checking in.');
-   
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
   const{latitude,longitude,accuracy}=pos.coords;
@@ -127,7 +126,7 @@ async locationCheckIn(){view.locationStatus='Requesting location…';view.authEr
   let warning='';
   if(nearest){ warning=nearest.distance>1000?`Location is approximately ${nearest.distance} meters from the nearest mapped Crunch Fitness location.`:''; }
   else warning='Nearest Crunch Fitness location could not be automatically verified. Manual review required.';
-  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
+  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,submission_type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
   if(error)throw error;
   view.locationStatus=warning?'Location submitted for manual review.':'Location submitted for approval.';
   await loadData();
