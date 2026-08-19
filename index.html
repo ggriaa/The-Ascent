@@ -456,56 +456,136 @@ html, body {
 
 
 
-<style id="kaizen-popup-safe-style">
-#proof-modal .proof-modal-card{
-  width:min(88vw,350px);
-  max-width:350px;
-  max-height:84vh;
-  overflow:auto;
-  padding:18px;
+
+
+
+
+<style id="kaizen-popup-mobile-style">
+/* Popup-only styling. Main app is untouched. */
+#proof-modal,
+#proof-modal *,
+#checkin-success-modal,
+#checkin-success-modal *,
+#submission-success-modal,
+#submission-success-modal *{
+  -webkit-font-smoothing:antialiased;
   box-sizing:border-box;
 }
+
+#proof-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+}
+
+#proof-modal .proof-modal-card{
+  width:100% !important;
+  max-width:330px !important;
+  max-height:calc(100dvh - 28px) !important;
+  overflow-y:auto;
+  margin:0 auto !important;
+  padding:20px 16px 16px !important;
+  border-radius:12px !important;
+  box-sizing:border-box !important;
+  font-family:'IBM Plex Mono',monospace !important;
+}
+
+#proof-modal .panel-label{
+  margin:0 0 8px !important;
+  font-family:'Rajdhani',sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  letter-spacing:.16em !important;
+  font-weight:700 !important;
+}
+
+#proof-modal .proof-modal-sub{
+  margin:0 0 15px !important;
+  font-family:'IBM Plex Mono',monospace !important;
+  font-size:9px !important;
+  line-height:1.55 !important;
+}
+
 #proof-modal .modal-field{
-  width:100%;
-  margin:0 0 10px;
+  width:100% !important;
+  margin:0 0 11px !important;
+  padding:0 !important;
 }
+
 #proof-modal .modal-field label{
-  display:block;
-  margin:0 0 5px;
-  font-size:8px;
-  line-height:1.2;
-  letter-spacing:.12em;
+  display:block !important;
+  margin:0 0 5px !important;
+  font-family:'Rajdhani',sans-serif !important;
+  font-size:8px !important;
+  line-height:1.2 !important;
+  letter-spacing:.13em !important;
+  font-weight:700 !important;
 }
+
 #proof-modal .modal-field input[type="date"],
 #proof-modal .modal-field input[type="time"]{
-  display:block;
-  width:100%;
-  height:40px;
-  min-height:40px;
-  padding:0 9px;
-  box-sizing:border-box;
-  font:inherit;
-  font-size:11px;
-  border-radius:7px;
+  display:block !important;
+  width:100% !important;
+  height:40px !important;
+  min-height:40px !important;
+  margin:0 !important;
+  padding:0 9px !important;
+  box-sizing:border-box !important;
+  border-radius:6px !important;
+  font-family:'IBM Plex Mono',monospace !important;
+  font-size:10px !important;
+  line-height:40px !important;
   color-scheme:dark;
+  -webkit-appearance:auto !important;
+  appearance:auto !important;
 }
+
 #proof-modal .modal-submit-btn,
 #proof-modal .photo-picker{
-  width:100%;
-  height:40px;
-  min-height:40px;
-  box-sizing:border-box;
-  font:inherit;
-  font-size:9px;
-  letter-spacing:.1em;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  height:40px !important;
+  min-height:40px !important;
+  margin:4px 0 0 !important;
+  padding:0 10px !important;
+  box-sizing:border-box !important;
+  border-radius:6px !important;
+  font-family:'Rajdhani',sans-serif !important;
+  font-size:10px !important;
+  line-height:1 !important;
+  letter-spacing:.10em !important;
+  font-weight:700 !important;
 }
+
+#proof-modal .modal-file-input{
+  display:none !important;
+}
+
 #proof-modal .proof-modal-close{
-  font:inherit;
+  position:absolute !important;
+  top:8px !important;
+  right:10px !important;
+  width:24px !important;
+  height:24px !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  font-family:'Rajdhani',sans-serif !important;
+  font-size:16px !important;
+  line-height:24px !important;
 }
+
 #ascent-root .location-card,
 #ascent-root .location-card *,
 #ascent-root .secondary-options .btn{
-  font-family:inherit;
+  font-family:'Rajdhani',sans-serif !important;
 }
 </style>
 </head>
@@ -641,7 +721,6 @@ const Ascent={
    setTimeout(()=>modal.remove(),1800);
  },
 
-\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
@@ -650,10 +729,12 @@ async locationCheckIn(){view.locationStatus='Requesting location…';view.authEr
   let warning='';
   if(nearest){ warning=nearest.distance>1000?`Location is approximately ${nearest.distance} meters from the nearest mapped Crunch Fitness location.`:''; }
   else warning='Nearest Crunch Fitness location could not be automatically verified. Manual review required.';
-  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,submission_type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
+  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
   if(error)throw error;
-  view.locationStatus=warning?'Location submitted for manual review.':'Location submitted for approval.';
+  if(!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
+  view.locationStatus='';
   await loadData();
+  this.showSubmissionSuccess('LOCATION CHECK-IN');
 }catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.locationStatus=''}view.busy=false;render()},
 async handleUpload(e){
   const files = Array.from((e.target && e.target.files) || []);
