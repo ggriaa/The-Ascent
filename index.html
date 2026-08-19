@@ -679,6 +679,7 @@ const Ascent={
    setTimeout(()=>modal.remove(),1800);
  },
 
+\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
@@ -687,12 +688,10 @@ async locationCheckIn(){view.locationStatus='Requesting location…';view.authEr
   let warning='';
   if(nearest){ warning=nearest.distance>1000?`Location is approximately ${nearest.distance} meters from the nearest mapped Crunch Fitness location.`:''; }
   else warning='Nearest Crunch Fitness location could not be automatically verified. Manual review required.';
-  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
+  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,submission_type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
   if(error)throw error;
-  if(!state.mission.start_date)await sb.from('missions').update({start_date:new Date().toISOString()}).eq('id',state.mission.id);
-  view.locationStatus='';
+  view.locationStatus=warning?'Location submitted for manual review.':'Location submitted for approval.';
   await loadData();
-  this.showSubmissionSuccess('LOCATION CHECK-IN');
 }catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.locationStatus=''}view.busy=false;render()},
 async handleUpload(e){
   const files = Array.from((e.target && e.target.files) || []);
