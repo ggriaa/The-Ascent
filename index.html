@@ -586,6 +586,7 @@ const Ascent={
  },
 
 \
+\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
