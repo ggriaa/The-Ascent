@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THE ASCENT — Reset Access</title>
+  <title>自律 — Reset Access</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root{--void:#0A151B;--panel:#0F1E26;--line:#21414D;--accent:#7FD8EA;--text:#DCF1F5;--muted:#6E93A0;--rust:#E0876B}
+    :root{--void:#211811;--panel:#403126;--line:#8b7050;--accent:#b99bd3;--text:#eadcc3;--muted:#aa9274;--rust:#d9896b}
     *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--void);color:var(--text);font-family:monospace;display:flex;align-items:center;justify-content:center;padding:20px}
     .card{width:100%;max-width:460px;background:linear-gradient(180deg,#142832,var(--panel));border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 8px 30px #0008}
     .eyebrow{color:var(--accent);font-size:12px;letter-spacing:.2em;margin-bottom:10px}.title{font-size:30px;margin:0 0 8px}.sub{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:24px}
@@ -15,7 +15,7 @@
 </head>
 <body>
   <main class="card">
-    <div class="eyebrow">THE ASCENT // SECURE ACCESS</div>
+    <div class="eyebrow">自律 // SECURE ACCESS</div>
     <h1 class="title">Reset Access</h1>
     <div class="sub" id="status">Establishing secure recovery session...</div>
     <form id="form" class="hidden">
@@ -28,8 +28,8 @@
     <div id="message" class="msg"></div>
   </main>
   <script>
-    const SUPABASE_URL = 'https://gakkgsbjtmjhebdayvtl.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_fEe0HFjLyGuNu0vqodHpeg_QntdbKKF';
+    const SUPABASE_URL = 'https://wgqtwbiopcukqfgztepl.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_M3Bp9mLwK3Zg-cZs3ZCRvg_ufAItLH_';
     const { createClient } = supabase;
     const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { detectSessionInUrl: true, persistSession: true, autoRefreshToken: true } });
     const statusEl = document.getElementById('status');
@@ -61,7 +61,7 @@
       form.classList.add('hidden');
       statusEl.textContent = 'Password updated successfully.';
       message.className='msg ok';
-      message.textContent = 'You can now return to THE ASCENT and sign in with your Access ID.';
+      message.textContent = 'You can now return to 自律 and sign in with your Access ID.';
     });
 
     init();
