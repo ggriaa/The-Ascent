@@ -577,7 +577,7 @@ function renderGymProgress(a){
   const sessions=(p.sessions||[]).slice().sort((x,y)=>String(x.workout_date||x.created_at||'').localeCompare(String(y.workout_date||y.created_at||'')));
   const dateOf=w=>w?.workout_date||w?.created_at?.slice(0,10)||'',dateLabel=w=>dateOf(w)?fmtDay(dateOf(w)):'—';
   const clean=w=>String(w?.comments||'').replace(/\\n/g,'\n').replace(/\r/g,'');
-  const getFeedback=w=>{const c=clean(w),effort=c.match(/Workout felt:\s*([^\n]+)/i)?.[1]?.trim()||'',knee=w?.knee_pain||c.match(/Knee pain:\s*([^\n]+)/i)?.[1]?.trim()||'',tags=c.match(/Comments:\s*([^\n]+)/i)?.[1]?.trim()||'',note=c.match(/Additional comments:\s*([\s\S]*?)(?=\n\n|$)/i)?.[1]?.trim()||'';return{effort,knee,tags:tags.split(',').map(x=>x.trim()).filter(Boolean),note}};
+  const getFeedback=w=>{const c=clean(w),effort=c.match(/Workout felt:\s*([^\n]+)/i)?.[1]?.trim()||'',knee=w?.knee_pain||c.match(/Knee pain:\s*([^\n]+)/i)?.[1]?.trim()||'',tags=c.match(/(?:^|\n)Comments:\s*([^\n]+)/i)?.[1]?.trim()||'',note=c.match(/Additional comments:\s*([\s\S]*?)(?=\n\n|$)/i)?.[1]?.trim()||'';return{effort,knee,tags:tags.split(',').map(x=>x.trim()).filter(Boolean),note}};
   const cardio=[];
   for(const w of sessions){const c=clean(w),m=c.match(/Cardio moves:\s*([\s\S]*?)(?=\n\nWorkout felt:|\n\n|$)/i);if(m){for(const line of m[1].split('\n')){const z=line.trim().match(/^(.+?)\s+—\s+(\d+(?:\.\d+)?)\s*min(?:\s*·\s*speed\s*([^\s·]+))?(?:\s*·\s*level\s*([^\s·]+))?(?:\s*·\s*incline\s*([^\s·%]+)%?)?/i);if(z)cardio.push({name:z[1].trim(),minutes:z[2],speed:z[3]||'',level:z[4]||'',incline:z[5]||'',w})}}else if(w.cardio_duration_seconds||w.cardio_speed!=null||w.cardio_level!=null||w.cardio_incline!=null)cardio.push({name:'Cardio',minutes:w.cardio_duration_seconds?Math.round(Number(w.cardio_duration_seconds)/60):'',speed:w.cardio_speed??'',level:w.cardio_level??'',incline:w.cardio_incline??'',w})}
   const cardioHtml=cardio.length?cardio.map(r=>'<div class="gym-entry"><b>'+esc(r.name)+'</b><div class="gym-muted">'+esc(dateLabel(r.w))+' · '+(r.minutes!==''?esc(r.minutes)+' min':'Time not recorded')+'</div><div>Speed: '+(r.speed!==''?esc(r.speed):'—')+' · Level: '+(r.level!==''?esc(r.level):'—')+' · Incline: '+(r.incline!==''?esc(r.incline)+'%':'—')+'</div></div>').join(''):'<div class="gym-muted">No cardio logs found yet.</div>';
@@ -690,7 +690,6 @@ const Ascent={
    requestAnimationFrame(()=>modal.classList.add('visible'));
    setTimeout(()=>modal.remove(),1800);
  },
-\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
