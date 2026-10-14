@@ -572,8 +572,11 @@ function renderGymProgress(a){
      const threshold=dateMs(latest)-7*86400000;
      const lastWeek=rows.filter(r=>dateMs(r)<=threshold&&loadValue(r)!=null).pop();
      const weekly=lastWeek&&latestLoad!=null?deltaLabel(latestLoad,loadValue(lastWeek)):'No logged weight from 7 or more days earlier to compare yet.';
-     const detail=(label,r)=>'<div class="gym-entry"><b>'+label+'</b><div style="margin-top:7px">'+weightLabel(r)+'</div><div class="gym-muted">'+(r?.reps==null?'reps not recorded':esc(r.reps)+' reps')+' · '+esc(dayLabel(r))+'</div></div>';
-     body='<button type="button" class="btn btn-ghost" data-gp-back-variations>← '+esc(m.name)+' Variations</button><h2 class="progress-title" style="margin:16px 0 6px">'+esc(m.name)+' · '+esc(v.name)+'</h2><div class="gym-muted">'+rows.length+' logged entries</div><p class="panel-label" style="margin-top:20px">Starting Weight</p>'+detail('Starting record',first)+'<p class="panel-label" style="margin-top:20px">Highest Weight</p>'+(highest?detail('Highest recorded load',highest):'<div class="gym-entry">No weight entries recorded yet.</div>')+'<p class="panel-label" style="margin-top:20px">Progress Since Starting Weight</p><div class="gym-entry"><b>'+esc(totalChange)+'</b><div class="gym-muted">'+(firstLoad!=null&&latestLoad!=null?'From '+esc(dayLabel(first))+' to '+esc(dayLabel(latest)):'A weight must be recorded to calculate progress.')+'</div></div><p class="panel-label" style="margin-top:20px">Progress Since Last Week</p><div class="gym-entry"><b>'+esc(weekly)+'</b><div class="gym-muted">'+(lastWeek?'Compared with '+esc(dayLabel(lastWeek))+' ('+weightLabel(lastWeek)+') versus latest ('+weightLabel(latest)+').':'Log this variation over at least a week to calculate a week-over-week change.')+'</div></div>';
+     const shortDate=r=>{const d=r?._session?.workout_date||r?._session?.created_at?.slice(0,10)||'';return d?d.slice(5,7)+'.'+d.slice(8,10)+'.'+d.slice(0,4):'—'};
+     const repsLabel=r=>r?.reps==null?'Reps not recorded':esc(r.reps)+' reps';
+     const equipmentLabel=r=>r?.equipment?' ('+esc(r.equipment)+')':'';
+     const detailLine=r=>weightLabel(r)+equipmentLabel(r)+' | '+repsLabel(r);
+     body='<button type="button" class="btn btn-ghost" data-gp-back-variations>← '+esc(m.name)+' Variations</button><h2 class="progress-title" style="margin:16px 0 6px">'+esc(m.name)+' · '+esc(v.name)+'</h2><div class="gym-muted">'+rows.length+' logged entr'+(rows.length===1?'y':'ies')+'</div><p class="panel-label" style="margin-top:20px">Starting Weight | '+esc(shortDate(first))+'</p><div class="gym-entry">'+detailLine(first)+'</div><p class="panel-label" style="margin-top:20px">Highest Weight</p>'+(highest?'<div class="gym-entry"><b>'+weightLabel(highest)+'</b><div class="gym-muted">'+repsLabel(highest)+' · '+esc(dayLabel(highest))+'</div></div>':'<div class="gym-entry">No weight recorded</div>')+'<p class="panel-label" style="margin-top:20px">Progress Since Starting Weight</p><div class="gym-entry"><b>'+esc(totalChange)+'</b><div class="gym-muted">'+(firstLoad!=null&&latestLoad!=null?'From '+esc(dayLabel(first))+' to '+esc(dayLabel(latest)):'Not enough weight data')+'</div></div><p class="panel-label" style="margin-top:20px">Progress Since Last Week</p><div class="gym-entry"><b>'+esc(weekly)+'</b>'+(lastWeek?'<div class="gym-muted">Since '+esc(dayLabel(lastWeek))+'</div>':'')+'</div>';
    }
  }
 
@@ -695,7 +698,6 @@ const Ascent={
    requestAnimationFrame(()=>modal.classList.add('visible'));
    setTimeout(()=>modal.remove(),1800);
  },
-\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
