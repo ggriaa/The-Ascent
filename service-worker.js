@@ -1,5 +1,5 @@
-const CACHE_NAME = 'kaizen-v1';
-const APP_SHELL = ['./', './index.html', './manifest.json'];
+const CACHE_NAME = 'jiritsu-v1';
+const APP_SHELL = ['./', './index.html', './manifest.json', './jiritsu-icon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
