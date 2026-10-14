@@ -28,10 +28,15 @@ async function addKaizenWorkoutEnhancements(response) {
     headers: response.headers
   });
   const injected = html.replace('</body>', '<script src="./kaizen-workout-enhancements.js?v=2"></script></body>');
+  const headers = new Headers(response.headers);
+  headers.delete('content-length');
+  headers.delete('content-encoding');
+  headers.delete('content-md5');
+  headers.delete('etag');
   return new Response(injected, {
     status: response.status,
     statusText: response.statusText,
-    headers: response.headers
+    headers
   });
 }
 
