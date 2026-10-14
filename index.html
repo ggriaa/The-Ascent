@@ -89,6 +89,19 @@
 #ascent-root .completion-wrap{padding:15px 16px 11px;border:1px solid #72583d;background:#241a12;box-shadow:inset 0 3px 8px rgba(0,0,0,.35)}#ascent-root .completion-meta{display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;letter-spacing:.14em;color:#d6bc92;font-size:12px;margin-bottom:9px}#ascent-root .completion-meta strong{font-size:28px;color:#a4a4ff;letter-spacing:.03em}#ascent-root .completion-track{height:20px;border:2px solid #74583a;background:#160f0a;position:relative;overflow:hidden;box-shadow:inset 0 4px 8px rgba(0,0,0,.65),0 1px 0 rgba(234,200,149,.08)}#ascent-root .completion-fill{height:100%;background:linear-gradient(90deg,#575ca9,#7774c9,#aaa0ff);box-shadow:0 0 17px rgba(139,140,255,.42);transition:width .45s ease}#ascent-root .completion-glow{position:absolute;top:3px;width:5px;height:12px;background:#e1dcff;box-shadow:0 0 10px #aaa2ff;transform:translateX(-50%)}#ascent-root .completion-caption{font-size:10.5px;color:#9e825e;margin-top:6px;text-align:right}
 @media(max-width:760px){#ascent-root .progress-stats{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}.progress-head{flex-direction:column}.progress-cycle{text-align:left}.progress-stats{grid-template-columns:repeat(2,1fr)!important}}
 </style>
+<style id="kaizen-iphone-css">
+html, body { margin: 0; min-height: 100%; background: #211811; }
+body { -webkit-text-size-adjust: 100%; }
+#ascent-root { min-height: 100dvh; padding-bottom: env(safe-area-inset-bottom); }
+@media (max-width: 520px) {
+  #ascent-root .shell { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); padding-bottom: max(50px, env(safe-area-inset-bottom)); }
+  #ascent-root .location-card { padding: 18px 14px; }
+  #ascent-root .location-title { font-size: 20px; }
+  #ascent-root .btn { min-height: 48px; }
+  #ascent-root input[type=text], #ascent-root input[type=password], #ascent-root input[type=tel], #ascent-root input[type=date], #ascent-root input[type=time] { min-height: 48px; font-size: 16px; }
+}
+</style>
+
 
 
 <style id="kaizen-cadet-notes">
@@ -611,6 +624,7 @@ const Ascent={
 
 
 
+\
 async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
   if(!navigator.geolocation)throw Error('Location is not available on this device.');
   const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
