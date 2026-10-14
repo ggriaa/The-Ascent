@@ -8,6 +8,6 @@
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#211811",
-  "theme_color": "#c98a38",
+  "theme_color": "#4b3562",
   "orientation": "portrait"
 }
