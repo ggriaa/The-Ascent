@@ -1,755 +1,82 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#4b3562">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#211811">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="自律">
 <link rel="icon" type="image/svg+xml" href="./jiritsu-icon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="./jiritsu-icon.svg">
-<link rel="manifest" href="./manifest.json">
+<title>自律 — Workout Log</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@600&display=swap');
-
-#ascent-root{--void:#211811;--stone:#403126;--stone-dark:#2b2119;--stone-mid:#564333;--stone-edge:#8b7050;--blue:#8d6bb0;--blue-bright:#cbb3df;--blue-dim:#6a4d85;--gold:#c98a38;--gold-bright:#e8b45c;--text:#eadcc3;--muted:#aa9274;font-family:'IBM Plex Mono',monospace;background:var(--void);color:var(--text);min-height:100vh;position:relative;overflow-x:hidden}
-#ascent-root *{box-sizing:border-box}
-#ascent-root .bg-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background-color:#30231a;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .48 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(135deg,rgba(255,227,177,.055),transparent 24%,rgba(0,0,0,.28) 72%),radial-gradient(ellipse at 50% 20%,rgba(126,92,57,.22),transparent 55%),linear-gradient(160deg,#5a4432 0%,#30231a 38%,#4b3829 70%,#261c15 100%);background-blend-mode:multiply,normal,normal,normal;box-shadow:inset 0 0 220px rgba(8,5,3,.78)}
-#ascent-root .bg-field::before{content:'';position:absolute;inset:-5%;opacity:.9;background:linear-gradient(118deg,transparent 0 18%,rgba(12,8,5,.38) 18.15%,rgba(12,8,5,.16) 18.35%,transparent 18.55% 44%,rgba(10,7,4,.32) 44.15%,transparent 44.45% 69%,rgba(237,204,155,.08) 69.2%,transparent 69.45%),linear-gradient(28deg,transparent 0 27%,rgba(12,8,5,.3) 27.15%,transparent 27.45% 58%,rgba(237,204,155,.07) 58.2%,transparent 58.5%),repeating-linear-gradient(0deg,transparent 0,transparent 174px,rgba(15,10,6,.22) 175px,rgba(213,174,122,.045) 177px,transparent 179px),repeating-linear-gradient(90deg,transparent 0,transparent 235px,rgba(15,10,6,.18) 236px,rgba(213,174,122,.035) 238px,transparent 240px);transform:rotate(-2deg) scale(1.06)}
-#ascent-root .bg-field::after{content:'';position:absolute;width:920px;height:920px;left:50%;top:-110px;transform:translateX(-50%);border:2px solid rgba(15,10,6,.3);clip-path:polygon(50% 0,64% 6%,78% 3%,91% 17%,100% 34%,96% 50%,100% 67%,89% 84%,76% 97%,59% 93%,50% 100%,36% 94%,20% 99%,7% 85%,2% 68%,6% 50%,1% 33%,11% 17%,23% 4%,38% 7%);box-shadow:0 0 0 26px rgba(226,192,139,.055),0 0 0 54px rgba(8,5,3,.2),inset 0 0 0 12px rgba(8,5,3,.12)}
-#ascent-root .shell{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:34px 28px 70px;min-height:100vh}
-#ascent-root .eyebrow{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:12px;letter-spacing:.24em;color:#b99bd3;text-transform:uppercase;margin:0 0 8px;display:flex;align-items:center;gap:8px}.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:#b99bd3;display:inline-block;box-shadow:0 0 11px rgba(139,140,255,.72)}
-#ascent-root h1.title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:36px;letter-spacing:.01em;margin:0 0 6px;line-height:1.05;background:none;color:#e7d2ae;text-shadow:0 2px 0 #211811,0 0 18px rgba(201,138,56,.16);display:flex;align-items:center;gap:10px}
-#ascent-root .title-kanji{font-family:'Noto Sans JP',sans-serif;font-size:.48em;letter-spacing:.04em;color:#cbb3df;filter:drop-shadow(0 0 6px rgba(203,179,223,.5));vertical-align:middle}
-#ascent-root .subtitle{color:#b59c7d;font-size:13.5px;margin:0 0 26px;line-height:1.5}
-
-#ascent-root .code-unlock-panel{margin-top:18px}
-#ascent-root .code-unlock{border:1px solid rgba(201,138,56,.55);background:linear-gradient(145deg,rgba(52,38,25,.98),rgba(31,23,17,.99));padding:14px 16px;margin-top:10px;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(232,180,92,.06)}
-#ascent-root .code-unlock-label{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.13em;color:#aa9274;text-transform:uppercase;margin-bottom:5px}
-#ascent-root .code-unlock-value{font-family:'IBM Plex Mono',monospace;font-size:27px;letter-spacing:.22em;color:#e8b45c;text-shadow:0 0 12px rgba(232,180,92,.55);font-weight:600}
-#ascent-root .code-locked{color:#77705f;font-size:12px;letter-spacing:.04em}
-#ascent-root .panel,#ascent-root .progress-panel{background:linear-gradient(145deg,rgba(94,70,49,.98),rgba(48,36,26,.99));border:2px solid var(--stone-edge);border-radius:4px;padding:20px;margin-bottom:16px;position:relative;box-shadow:0 16px 38px rgba(8,5,3,.62),inset 2px 2px 0 rgba(240,215,177,.09),inset -3px -3px 0 rgba(10,7,4,.34),inset 0 0 0 5px rgba(18,12,8,.12)}
-#ascent-root .panel::before,#ascent-root .progress-panel::before{content:'';position:absolute;inset:7px;border:1px solid rgba(226,192,139,.14);border-radius:1px;pointer-events:none;box-shadow:inset 0 0 0 2px rgba(20,13,8,.13)}
-#ascent-root .panel-label{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.14em;color:#aaa8ff;text-transform:uppercase;margin:0 0 14px;text-shadow:0 0 9px rgba(139,140,255,.22)}
-#ascent-root .btn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;letter-spacing:.06em;background:rgba(8,20,25,.42);border:1px solid #7a5a95;color:#b99bd3;padding:14px 18px;border-radius:7px;cursor:pointer;width:100%;transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease,background .14s ease,color .14s ease;text-align:center}.btn:hover,.btn:focus-visible,.btn:active{color:var(--gold-bright);border-color:var(--gold);background:rgba(151,98,30,.22);box-shadow:0 0 18px rgba(201,138,56,.14)}
-#ascent-root .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}.btn-solid{background:linear-gradient(135deg,#4b3562,#79539a);border-color:#cbb3df;color:#f1e4c8;box-shadow:0 5px 18px rgba(121,205,230,.13)}.btn-solid:hover,.btn-solid:active{background:linear-gradient(135deg,#87571f,#d09a48);border-color:#efbd68;color:#24170b}
-#ascent-root .btn-signal{border-color:var(--green);color:var(--green)}#ascent-root .btn-rust{border-color:var(--rust);color:var(--rust)}#ascent-root .btn-ghost{border:none;text-decoration:underline;text-underline-offset:4px;width:auto;padding:8px 0;font-size:12.5px;border-radius:0;background:transparent;box-shadow:none}.btn-ghost:hover{background:transparent;transform:none;box-shadow:none;color:var(--gold)}
-#ascent-root .btn-tab{background:rgba(8,20,25,.35);border:1px solid #7a5a95;color:#b99bd3}.btn-tab.active{color:var(--gold-bright);border-color:var(--gold);background:rgba(151,98,30,.22)}
-#ascent-root .row{display:flex;gap:10px}.row>*{flex:1}label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b99bd3;margin:14px 0 6px}label:first-child{margin-top:0}
-#ascent-root input[type=text],#ascent-root input[type=password],#ascent-root input[type=tel],#ascent-root input[type=date],#ascent-root input[type=time]{width:100%;background:#241a12;border:1px solid #72583d;border-radius:3px;color:#eadcc4;padding:12px 14px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.03em;color-scheme:dark;box-shadow:inset 0 3px 9px rgba(0,0,0,.42)}#ascent-root input:focus{outline:2px solid #cbb3df;border-color:#cbb3df}
-#ascent-root .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.5}.error-text{color:var(--rust);font-size:12.5px;margin-top:10px}
-#ascent-root .action-status{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:.05em;margin-top:12px;text-align:center}
-#ascent-root .action-status.success{color:#61e68a;text-shadow:0 0 8px rgba(97,230,138,.6),0 0 18px rgba(97,230,138,.3)}
-#ascent-root .action-status.info{color:#b59c7d;font-weight:600;font-size:12.5px}.home-mark{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.3em;color:#cbb3df;text-transform:uppercase;margin-bottom:28px;padding-top:6px}.home-buttons{margin-top:36px;display:flex;flex-direction:column;gap:12px}.clock-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:25px;color:var(--blue-bright)}.clock-sub{color:#b59c7d;font-size:12.5px;margin-top:5px;line-height:1.5}
-#ascent-root .trail{display:flex;flex-direction:column;padding:6px 0 0}.trail-node{display:flex;align-items:center;flex-wrap:wrap;gap:14px;position:relative;padding-bottom:20px}.trail-node:last-child{padding-bottom:0}.trail-node::before{content:'';position:absolute;left:13px;top:28px;bottom:0;width:1px;background:linear-gradient(180deg,#6a4d85,rgba(73,97,106,.35));border-radius:2px}.trail-node:last-child::before{display:none}.trail-node.done::before{background:linear-gradient(180deg,var(--gold),#8f6d3c)}
-#ascent-root .mission-code-box{padding:8px 12px;border:1px solid rgba(201,138,56,.55);background:linear-gradient(145deg,rgba(52,38,25,.98),rgba(31,23,17,.99));border-radius:3px;text-align:left;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(232,180,92,.06)}
-#ascent-root .mission-code-label{font-family:'Rajdhani',sans-serif;font-size:9.5px;letter-spacing:.09em;color:#aa9274;text-transform:uppercase;margin-bottom:3px;white-space:nowrap}
-#ascent-root .mission-code-value{font-family:'IBM Plex Mono',monospace;font-size:24px;letter-spacing:.16em;color:#61e68a;text-shadow:0 0 10px rgba(97,230,138,.9),0 0 22px rgba(97,230,138,.6),0 0 38px rgba(97,230,138,.35);font-weight:700;animation:codeGlowPulse 2.2s ease-in-out infinite}
-@keyframes codeGlowPulse{0%,100%{text-shadow:0 0 10px rgba(97,230,138,.9),0 0 22px rgba(97,230,138,.6),0 0 38px rgba(97,230,138,.35)}50%{text-shadow:0 0 14px rgba(97,230,138,1),0 0 32px rgba(97,230,138,.85),0 0 50px rgba(97,230,138,.5)}}
-#ascent-root .mission-code-box.unlocked{border-color:rgba(97,230,138,.55);box-shadow:inset 0 0 0 1px rgba(97,230,138,.1),0 0 14px rgba(97,230,138,.14)}
-#ascent-root .mission-code-box.locked{opacity:.6}#ascent-root .mission-code-locked{color:#77705f;font-size:10.5px;letter-spacing:.03em;white-space:nowrap}
-@media(max-width:560px){#ascent-root .mission-code-box{margin-left:42px;width:100%}}
-#ascent-root .node-dot{width:28px;height:28px;border-radius:5px;border:1.5px solid #6a4d85;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:#b99bd3;background:#403126;position:relative;z-index:1;transform:rotate(45deg)}.node-dot.special{width:32px;height:32px;border-color:var(--gold);color:var(--gold)}.node-dot.pending{border-color:var(--gold);color:var(--gold);animation:pulseDot 1.6s ease-in-out infinite}.node-dot.filled{border-color:var(--gold);background:linear-gradient(135deg,#b98747,#e1bd76);color:#172016;box-shadow:0 0 14px rgba(217,173,99,.28)}@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.58}}
-.node-label{font-size:12.5px;color:#aa9274}.node-label b{color:#cbb3df;font-weight:600}.node-tag{font-family:'Rajdhani',sans-serif;font-size:10.5px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-left:6px}
-#ascent-root .trail-node.done .node-label b{color:var(--gold-bright);text-decoration:line-through;text-decoration-color:var(--gold-bright);text-decoration-thickness:2px}
-#ascent-root .log-entry{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(15,9,5,.42);align-items:center}.log-entry:last-child{border-bottom:none;padding-bottom:0}.log-thumb-wrap{position:relative;flex-shrink:0}.log-thumb{width:48px;height:48px;object-fit:cover;border:1px solid #72583d;border-radius:2px;cursor:pointer;display:block}.log-thumb-badge{position:absolute;bottom:-4px;right:-4px;background:var(--gold);color:#11100b;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:10px;padding:1px 5px;border-radius:2px}.log-thumb-text{width:48px;height:48px;border:1px solid #72583d;border-radius:2px;display:flex;align-items:center;justify-content:center;background:#2a1e15;color:#b99bd3;font-size:9.5px;font-weight:700;text-align:center}.log-meta{flex:1;min-width:0}.log-date{font-size:12.5px;color:#e7d5b8}.stamp{font-family:'Rajdhani',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:2px;border:1px solid currentColor;flex-shrink:0}.stamp.pending{color:#e0a64f}.stamp.approved{color:var(--green)}.stamp.rejected{color:var(--rust)}
-#ascent-root .empty-state{color:#aa9274;font-size:13px;text-align:center;padding:24px 0}.queue-item{padding:14px 0;border-bottom:1px solid rgba(15,9,5,.42)}.queue-item:last-child{border-bottom:none}.queue-text-card{background:#2a1e15;border:1px solid #72583d;border-radius:2px;padding:14px;margin-bottom:10px}.queue-text-day{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:17px;color:var(--gold-bright)}.queue-text-time{font-size:13px;color:#eadcc4;margin-top:4px}.queue-date{font-size:12.5px;color:#aa9274;margin-bottom:10px}.admin-note{width:100%;min-height:72px;box-sizing:border-box;resize:vertical;margin:10px 0;background:#21170f;border:1px solid #72583d;color:#eadcc4;border-radius:2px;padding:10px;font:13px inherit}.admin-note::placeholder{color:#8f7960}.admin-note:focus{outline:none;border-color:var(--gold);box-shadow:0 0 10px rgba(217,173,99,.14)}.admin-note-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#aa9274;margin-top:10px}.reviewed-item{padding:14px 0;border-bottom:1px solid rgba(15,9,5,.42)}.reviewed-item:last-child{border-bottom:none}
-#ascent-root .progress-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px}.progress-eyebrow{margin:0 0 3px;color:#d09645}.progress-title{font-family:'Rajdhani',sans-serif;font-size:23px;letter-spacing:.14em;color:#d09645;margin:0}.progress-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}.progress-stat{min-height:120px;padding:15px 12px;text-align:center;background:linear-gradient(145deg,#4c3928,#2d2117);border:1px solid #765b3f;display:flex;flex-direction:column;align-items:center;justify-content:center}.progress-stat-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.12em;color:#d4b78b}.progress-stat-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:28px;color:#b99bd3;margin:7px 0 2px}.progress-stat-mark{font-size:18px;color:#8d7ee0}.completion-wrap{padding:15px 16px 11px;border:1px solid #72583d;background:#241a12}.completion-meta{display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;letter-spacing:.14em;color:#d6bc92;font-size:12px;margin-bottom:9px}.completion-meta strong{font-size:28px;color:#a4a4ff}.completion-track{height:20px;border:2px solid #74583a;background:#160f0a;overflow:hidden}.completion-fill{height:100%;background:linear-gradient(90deg,#575ca9,#7774c9,#aaa0ff);box-shadow:0 0 17px rgba(139,140,255,.42);transition:width .45s ease}.completion-caption{font-size:10.5px;color:#9e825e;margin-top:6px;text-align:right}
-.location-card{padding:22px;background:linear-gradient(145deg,#5a4432,#33271d);border:2px solid #c98a38;box-shadow:inset 2px 2px 0 rgba(240,215,177,.08),inset -2px -2px 0 rgba(10,7,4,.28),0 0 18px rgba(201,138,56,.12);text-align:center}.location-title{font-family:'Rajdhani',sans-serif;font-size:22px;letter-spacing:.16em;color:#e2b45f;margin-bottom:6px;text-shadow:0 0 6px rgba(226,180,95,.42),0 0 14px rgba(201,138,56,.24)}.location-sub{font-size:11.5px;color:#cfba95;margin-bottom:14px}.location-card .btn{max-width:520px;margin:0 auto;box-shadow:0 0 12px rgba(201,138,56,.28),0 5px 20px rgba(121,205,230,.16)}.location-card .btn:hover,.location-card .btn:focus-visible,.location-card .btn:active{box-shadow:0 0 18px rgba(239,189,104,.55),0 0 32px rgba(201,138,56,.22)}
-.location-checkin-btn{transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease,color .16s ease}
-.location-checkin-btn:hover,.location-checkin-btn:focus-visible{transform:scale(1.045);border-color:#61e68a;color:#eafff0;background:rgba(41,122,73,.3);box-shadow:0 0 22px rgba(97,230,138,.55),0 0 46px rgba(97,230,138,.3),0 6px 20px rgba(0,0,0,.35)}
-.location-checkin-btn:active{transform:scale(.97);border-color:#61e68a;color:#eafff0;background:rgba(41,122,73,.4);box-shadow:0 0 30px rgba(97,230,138,.8),0 0 62px rgba(97,230,138,.45)}.secondary-options{display:flex;gap:8px;margin-top:10px;opacity:.62}.secondary-options>*{flex:1}.secondary-options .btn{font-size:10px;padding:7px 9px;letter-spacing:.04em;background:rgba(8,20,25,.24);border-color:rgba(105,105,173,.65);color:#79539a;box-shadow:none}.secondary-options .btn:hover,.secondary-options .btn:focus-visible,.secondary-options .btn:active{opacity:1;color:#d8a04a;border-color:#c98a38;box-shadow:0 0 10px rgba(201,138,56,.18)}.queue-location{margin-top:8px;font-size:11px;line-height:1.55;color:#cfba95}.queue-warning{margin-top:5px;color:#e8a56a}.queue-ok{margin-top:5px;color:#61e68a;text-shadow:0 0 5px rgba(97,230,138,.45)}.optional-panel{margin-top:12px}
-#ascent-root .modal-overlay{position:fixed;inset:0;background:rgba(5,14,18,.95);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}.modal-overlay img{max-width:100%;max-height:90vh;border-radius:5px;border:1px solid var(--gold)}.file-input-wrap{position:relative}.file-input-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}.history-actions{text-align:center;margin-top:12px}
-@media(max-width:760px){.progress-stats{grid-template-columns:repeat(2,1fr)!important}.secondary-options{flex-direction:row;gap:7px}.secondary-options .btn{font-size:9px;padding:7px 6px}}
-@media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}}
-\
-\
-\
-\
-/* NOMAI_STONE_THEME_V4 */
-#ascent-root{--void:#211811;--stone:#403126;--stone-dark:#2b2119;--stone-mid:#564333;--stone-edge:#8b7050;--blue:#8d6bb0;--blue-bright:#cbb3df;--blue-dim:#6a4d85;--gold:#c98a38;--gold-bright:#e8b45c;--text:#eadcc3;--muted:#aa9274;background:#211811;color:var(--text)}
-#ascent-root .bg-field{background-color:#30231a;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .48 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(135deg,rgba(255,227,177,.055),transparent 24%,rgba(0,0,0,.28) 72%),radial-gradient(ellipse at 50% 20%,rgba(126,92,57,.22),transparent 55%),linear-gradient(160deg,#5a4432 0%,#30231a 38%,#4b3829 70%,#261c15 100%);background-blend-mode:multiply,normal,normal,normal;box-shadow:inset 0 0 220px rgba(8,5,3,.78)}
-#ascent-root .bg-field::before{content:'';position:absolute;inset:-5%;opacity:.9;background:linear-gradient(118deg,transparent 0 18%,rgba(12,8,5,.38) 18.15%,rgba(12,8,5,.16) 18.35%,transparent 18.55% 44%,rgba(10,7,4,.32) 44.15%,transparent 44.45% 69%,rgba(237,204,155,.08) 69.2%,transparent 69.45%),linear-gradient(28deg,transparent 0 27%,rgba(12,8,5,.3) 27.15%,transparent 27.45% 58%,rgba(237,204,155,.07) 58.2%,transparent 58.5%),repeating-linear-gradient(0deg,transparent 0,transparent 174px,rgba(15,10,6,.22) 175px,rgba(213,174,122,.045) 177px,transparent 179px),repeating-linear-gradient(90deg,transparent 0,transparent 235px,rgba(15,10,6,.18) 236px,rgba(213,174,122,.035) 238px,transparent 240px);transform:rotate(-2deg) scale(1.06)}
-#ascent-root .bg-field::after{content:'';position:absolute;width:920px;height:920px;left:50%;top:-110px;transform:translateX(-50%);border:2px solid rgba(15,10,6,.3);clip-path:polygon(50% 0,64% 6%,78% 3%,91% 17%,100% 34%,96% 50%,100% 67%,89% 84%,76% 97%,59% 93%,50% 100%,36% 94%,20% 99%,7% 85%,2% 68%,6% 50%,1% 33%,11% 17%,23% 4%,38% 7%);box-shadow:0 0 0 26px rgba(226,192,139,.055),0 0 0 54px rgba(8,5,3,.2),inset 0 0 0 12px rgba(8,5,3,.12)}
-#ascent-root .shell{max-width:1120px;padding:34px 28px 70px}
-#ascent-root .panel,#ascent-root .progress-panel{background:linear-gradient(145deg,rgba(94,70,49,.98),rgba(48,36,26,.99));border:2px solid var(--stone-edge);border-radius:4px;box-shadow:0 16px 38px rgba(8,5,3,.62),inset 2px 2px 0 rgba(240,215,177,.09),inset -3px -3px 0 rgba(10,7,4,.34),inset 0 0 0 5px rgba(18,12,8,.12);position:relative}
-#ascent-root .panel::before,#ascent-root .progress-panel::before{content:'';position:absolute;inset:7px;border:1px solid rgba(226,192,139,.14);border-radius:1px;pointer-events:none;box-shadow:inset 0 0 0 2px rgba(20,13,8,.13)}
-#ascent-root .panel-label{color:#aaa8ff;text-shadow:0 0 9px rgba(139,140,255,.22)}#ascent-root .eyebrow{color:#b99bd3}#ascent-root .eyebrow::before{background:#b99bd3;box-shadow:0 0 11px rgba(139,140,255,.72)}#ascent-root h1.title{background:none;color:#e7d2ae;-webkit-text-fill-color:initial;text-shadow:0 2px 0 #211811,0 0 18px rgba(201,138,56,.16)}#ascent-root .subtitle{color:#b59c7d}
-#ascent-root .btn,#ascent-root .btn-tab,#ascent-root .btn-ghost{color:#b99bd3;border-color:#7a5a95}#ascent-root .btn:hover,#ascent-root .btn:focus-visible,#ascent-root .btn:active,#ascent-root .btn-tab:hover,#ascent-root .btn-tab.active{color:var(--gold-bright);border-color:var(--gold);background:rgba(151,98,30,.22);box-shadow:0 0 18px rgba(201,138,56,.14)}#ascent-root .btn-solid{background:linear-gradient(135deg,#4b3562,#79539a);border-color:#cbb3df;color:#f1e4c8}#ascent-root .btn-solid:hover,#ascent-root .btn-solid:active{background:linear-gradient(135deg,#87571f,#d09a48);border-color:#efbd68;color:#24170b}
-#ascent-root label{color:#b99bd3}#ascent-root input[type=text],#ascent-root input[type=password],#ascent-root input[type=tel],#ascent-root input[type=date],#ascent-root input[type=time]{background:#241a12;border-color:#72583d;color:#eadcc4;border-radius:3px;box-shadow:inset 0 3px 9px rgba(0,0,0,.42)}#ascent-root input:focus{outline:2px solid #cbb3df;border-color:#cbb3df}
-#ascent-root .log-entry,#ascent-root .queue-item{border-bottom-color:rgba(15,9,5,.42)}#ascent-root .log-thumb,#ascent-root .log-thumb-text,#ascent-root .queue-img,#ascent-root .queue-text-card,#ascent-root .stat-box{background:#2a1e15;border-color:#72583d;border-radius:2px}#ascent-root .log-date{color:#e7d5b8}#ascent-root .stamp.pending{color:#e0a64f}
-#ascent-root .progress-panel{margin-bottom:16px}#ascent-root .progress-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px}#ascent-root .progress-eyebrow{margin:0 0 3px;color:#d09645}#ascent-root .progress-eyebrow::before{background:#d09645;box-shadow:0 0 8px rgba(208,150,69,.4)}#ascent-root .progress-title{font-family:'Rajdhani',sans-serif;font-size:23px;letter-spacing:.14em;color:#d09645;margin:0;text-shadow:0 1px 0 #1b120b}#ascent-root .progress-cycle{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.13em;text-align:right;color:#d2b98f;line-height:1.5}#ascent-root .progress-cycle span{color:#b99bd3}
-#ascent-root .progress-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}#ascent-root .progress-stat{min-height:120px;padding:15px 12px;text-align:center;background:linear-gradient(145deg,#4c3928,#2d2117);border:1px solid #765b3f;box-shadow:inset 2px 2px 0 rgba(239,211,168,.05),inset -2px -2px 0 rgba(9,6,3,.3);display:flex;flex-direction:column;align-items:center;justify-content:center}#ascent-root .progress-stat-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.12em;color:#d4b78b;line-height:1.2}#ascent-root .progress-stat-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:28px;color:#b99bd3;margin:7px 0 2px;text-shadow:0 0 12px rgba(139,140,255,.22)}#ascent-root .progress-stat-mark{font-size:18px;color:#8d7ee0}
-#ascent-root .completion-wrap{padding:15px 16px 11px;border:1px solid #72583d;background:#241a12;box-shadow:inset 0 3px 8px rgba(0,0,0,.35)}#ascent-root .completion-meta{display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;letter-spacing:.14em;color:#d6bc92;font-size:12px;margin-bottom:9px}#ascent-root .completion-meta strong{font-size:28px;color:#a4a4ff;letter-spacing:.03em}#ascent-root .completion-track{height:20px;border:2px solid #74583a;background:#160f0a;position:relative;overflow:hidden;box-shadow:inset 0 4px 8px rgba(0,0,0,.65),0 1px 0 rgba(234,200,149,.08)}#ascent-root .completion-fill{height:100%;background:linear-gradient(90deg,#575ca9,#7774c9,#aaa0ff);box-shadow:0 0 17px rgba(139,140,255,.42);transition:width .45s ease}#ascent-root .completion-glow{position:absolute;top:3px;width:5px;height:12px;background:#e1dcff;box-shadow:0 0 10px #aaa2ff;transform:translateX(-50%)}#ascent-root .completion-caption{font-size:10.5px;color:#9e825e;margin-top:6px;text-align:right}
-@media(max-width:760px){#ascent-root .progress-stats{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:520px){#ascent-root .shell{padding:24px 14px 50px}.progress-head{flex-direction:column}.progress-cycle{text-align:left}.progress-stats{grid-template-columns:repeat(2,1fr)!important}}
+:root{color-scheme:dark;--bg:#211811;--panel:#302319;--panel2:#3c2c20;--line:#72583d;--purple:#8d6bb0;--purple2:#cbb3df;--gold:#e8b45c;--text:#eadcc3;--muted:#aa9274;--danger:#d98a7c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#38271f 0,#211811 58%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:0 auto;padding:28px 18px 64px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px}.brand{font-size:13px;letter-spacing:.22em;color:var(--purple2);font-weight:800}.brand span{color:var(--gold);margin-left:8px}.tag{font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.hero{margin:18px 0 28px}.eyebrow{color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}.hero h1{font-size:clamp(34px,8vw,52px);line-height:1;margin:10px 0;color:var(--text);letter-spacing:-.04em}.hero p{color:var(--muted);margin:10px 0 0;font-size:14px}.primary{background:var(--purple);color:#fff;border:1px solid #b79bd0;padding:14px 18px;font-weight:800;letter-spacing:.04em;border-radius:3px;width:100%;transition:filter .15s}.primary:hover{filter:brightness(1.12)}.secondary{background:transparent;border:1px solid var(--line);color:var(--text);padding:9px 12px;border-radius:3px;font-size:12px;font-weight:700}.danger{color:var(--danger);border-color:#89574d}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:30px 0 12px}.section-head h2{font-size:15px;letter-spacing:.12em;text-transform:uppercase;margin:0}.count{font-size:11px;color:var(--muted)}.card{background:linear-gradient(145deg,rgba(60,44,32,.94),rgba(43,31,23,.96));border:1px solid var(--line);padding:16px;margin-bottom:12px;border-radius:3px}.session-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.session-title{font-size:16px;font-weight:800}.session-meta{font-size:12px;color:var(--muted);margin-top:5px}.badge{border:1px solid #7a6147;color:var(--gold);font-size:10px;letter-spacing:.1em;padding:5px 7px;text-transform:uppercase;white-space:nowrap}.exercise-row{padding:13px 0;border-top:1px solid rgba(114,88,61,.5);margin-top:12px}.exercise-name{font-weight:750;font-size:14px}.exercise-variation{font-size:12px;color:var(--purple2);margin-top:3px}.exercise-stats{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted);margin-top:7px}.card-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.empty{padding:32px 18px;text-align:center;border:1px dashed var(--line);color:var(--muted);font-size:13px}.overlay{position:fixed;inset:0;background:rgba(12,8,5,.78);display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:20px 12px;z-index:5}.overlay.open{display:flex}.modal{width:min(100%,650px);background:var(--bg);border:1px solid var(--line);padding:20px;margin:auto 0;box-shadow:0 20px 70px #0008}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.modal h2{font-size:20px;margin:0}.x{border:0;background:none;color:var(--muted);font-size:26px;padding:0 4px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}.field label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:750}.field input,.field select,.field textarea{width:100%;min-height:44px;background:#1b130e;color:var(--text);border:1px solid var(--line);border-radius:2px;padding:10px 11px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple2)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.exercise-editor{border:1px solid var(--line);padding:13px;margin:14px 0;background:#2b1e15}.editor-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.editor-top strong{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}.small-link{background:none;border:0;color:var(--purple2);font-size:12px;text-decoration:underline}.form-error{color:var(--danger);font-size:12px;min-height:18px;margin:8px 0}.modal-actions{display:flex;gap:10px;margin-top:14px}.modal-actions>*{flex:1}.footnote{font-size:11px;color:var(--muted);text-align:center;margin-top:28px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#eadcc3;color:#211811;padding:11px 16px;font-size:13px;font-weight:750;z-index:10;display:none;max-width:calc(100vw - 30px)}@media(min-width:560px){.app{padding-top:40px}.primary{width:auto;min-width:230px}.hero-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}.hero{flex:1}.hero-row>.primary{margin-bottom:4px}.grid.three{grid-template-columns:repeat(3,1fr)}}@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.modal{padding:15px}.app{padding-left:13px;padding-right:13px}}
 </style>
-<style id="kaizen-iphone-css">
-html, body { margin: 0; min-height: 100%; background: #211811; }
-body { -webkit-text-size-adjust: 100%; }
-#ascent-root { min-height: 100dvh; padding-bottom: env(safe-area-inset-bottom); }
-@media (max-width: 520px) {
-  /* Keep the entire app below the iPhone status/notification area. */
-  #ascent-root .shell { padding-top: max(56px, calc(env(safe-area-inset-top) + 18px)); padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); padding-bottom: max(50px, env(safe-area-inset-bottom)); }
-  #ascent-root .location-card { padding: 18px 14px; }
-  #ascent-root .location-title { font-size: 20px; }
-  #ascent-root .btn { min-height: 48px; }
-  #ascent-root input[type=text], #ascent-root input[type=password], #ascent-root input[type=tel], #ascent-root input[type=date], #ascent-root input[type=time] { min-height: 48px; font-size: 16px; }
-}
-</style>
-
-<style id="kaizen-no-zoom">
-html, body {
-  touch-action: manipulation;
-  overscroll-behavior-x: none;
-}
-#ascent-root {
-  touch-action: manipulation;
-}
-#ascent-root button {
-  touch-action: manipulation;
-}
-</style>
-
-
-<style id="kaizen-cadet-notes">
-#ascent-root .cadet-note {
-  margin-top: 7px;
-  padding: 7px 9px;
-  border-left: 2px solid #8d6bb0;
-  background: rgba(30,28,75,.18);
-  color: #b9b7ff;
-  font-size: 10.5px;
-  line-height: 1.45;
-}
-#ascent-root .cadet-note span {
-  display: block;
-  margin-bottom: 3px;
-  color: #8d6bb0;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .12em;
-}
-</style>
-
-
-<style id="kaizen-countdown-design">
-#ascent-root .kaizen-hourglass {
-  width: 28px;
-  height: 28px;
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0;
-}
-#ascent-root .kaizen-hourglass span {
-  display:block;
-  width:0;
-  height:0;
-  border-left:8px solid transparent;
-  border-right:8px solid transparent;
-  filter: drop-shadow(0 0 4px rgba(139,140,255,.65));
-}
-#ascent-root .kaizen-hourglass span:first-child {
-  border-top:0;
-  border-bottom:10px solid #8d6bb0;
-}
-#ascent-root .kaizen-hourglass span:last-child {
-  border-top:10px solid #8d6bb0;
-  border-bottom:0;
-}
-#ascent-root .kaizen-countdown {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  margin:4px 0 2px;
-}
-#ascent-root .countdown-days {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  line-height:1;
-}
-#ascent-root .countdown-number {
-  font-family:'Rajdhani',sans-serif;
-  font-size:34px;
-  font-weight:700;
-  letter-spacing:.04em;
-  color:#d7d5ff;
-  text-shadow:0 0 8px rgba(139,140,255,.45);
-}
-#ascent-root .countdown-label,
-#ascent-root .countdown-time small {
-  font-family:'Rajdhani',sans-serif;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.16em;
-  color:#8d6bb0;
-}
-#ascent-root .countdown-time {
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-  gap:7px;
-  margin-top:5px;
-}
-#ascent-root .countdown-time span {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  line-height:1;
-}
-#ascent-root .countdown-time b {
-  font-family:'Rajdhani',sans-serif;
-  font-size:17px;
-  font-weight:700;
-  color:#cbb3df;
-  text-shadow:0 0 6px rgba(139,140,255,.35);
-}
-#ascent-root .countdown-time i {
-  font-style:normal;
-  font-family:'Rajdhani',sans-serif;
-  font-size:15px;
-  color:#6f70bd;
-  padding-bottom:2px;
-}
-</style>
-
-<style id="kaizen-login-input-fix">
-#ascent-root input#f-email,#ascent-root input#f-login-pass{
- pointer-events:auto!important;
- user-select:text!important;
- -webkit-user-select:text!important;
- -webkit-touch-callout:default;
- position:relative;
- z-index:20;
-}
-</style>
-
-<style id="kaizen-ios-login-fix">
-#ascent-root .panel {
-  position:relative;
-  z-index:1;
-}
-#ascent-root input,
-#ascent-root textarea,
-#ascent-root select {
-  pointer-events:auto !important;
-  user-select:text !important;
-  -webkit-user-select:text !important;
-  -webkit-touch-callout:default;
-  touch-action:auto !important;
-  position:relative;
-  z-index:30;
-}
-#ascent-root input:focus,
-#ascent-root textarea:focus,
-#ascent-root select:focus {
-  outline:2px solid rgba(139,140,255,.75) !important;
-  outline-offset:1px;
-}
-#ascent-root button {
-  pointer-events:auto !important;
-  touch-action:manipulation !important;
-  position:relative;
-  z-index:30;
-}
-</style>
-
-
-<style id="kaizen-remember-update">
-#ascent-root .remember p { margin: 7px 0 0; }
-#ascent-root .remember strong { color: #b99bd3; }
-</style>
-
-<style id="kaizen-remember-final">
-#ascent-root .remember p { margin: 7px 0 0; }
-</style>
-
-<style id="kaizen-journey-complete">
-#ascent-root .journey-complete-message{margin:0 0 16px;padding:14px 15px;border:1px solid rgba(95,145,255,.35);background:rgba(20,35,70,.28);border-radius:10px}
-#ascent-root .journey-complete-title{color:#79a9ff;font-size:.78rem;letter-spacing:.18em;font-weight:700;margin-bottom:7px}
-#ascent-root .journey-complete-message p{margin:5px 0 0;line-height:1.5}
-#ascent-root .journey-complete-flavor{color:#86a0bd;font-style:italic}
-</style>
-
-
-<style id="kaizen-genkai-toppa">
-#ascent-root .journey-complete-flavor strong{
-  display:block;
-  margin-top:8px;
-  color:#79a9ff;
-  letter-spacing:.08em;
-  font-style:normal;
-}
-</style>
-
-
-
-<style id="kaizen-photo-picker-fix">
-#ascent-root .file-input-wrap{position:relative;display:block}
-#ascent-root .photo-picker{display:block;text-align:center;cursor:pointer}
-#ascent-root .file-input-wrap input[type=file]{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-</style>
-
-
-
-
-
-
-
-
-<style id="kaizen-location-visible">
-#ascent-root .location-card{display:block;width:100%;box-sizing:border-box}
-#ascent-root .location-checkin-btn{display:block;width:100%;box-sizing:border-box}
-</style>
-
-
-
-
-
-
-
-
-
-
-
-<style id="kaizen-modal-theme">
-/* ---- Popup overlays: match Nomai stone/gold theme ---- */
-#proof-modal,
-#checkin-success-modal,
-#submission-success-modal{
-  position:fixed;inset:0;z-index:99999;
-  display:flex;align-items:center;justify-content:center;
-  padding:16px;box-sizing:border-box;
-  background:radial-gradient(ellipse at 50% 22%,rgba(90,68,50,.55),rgba(10,7,4,.92));
-  opacity:0;transition:opacity .18s ease;
-  font-family:'IBM Plex Mono',monospace;
-}
-#proof-modal.visible,
-#checkin-success-modal.visible,
-#submission-success-modal.visible{opacity:1}
-#proof-modal *,
-#checkin-success-modal *,
-#submission-success-modal *{box-sizing:border-box;font-family:inherit}
-
-/* ---- Card shell (mirrors .panel) ---- */
-#proof-modal .proof-modal-card,
-#checkin-success-modal .checkin-success-card,
-#submission-success-modal .checkin-success-card{
-  position:relative;width:100%;max-width:340px;
-  max-height:calc(100dvh - 32px);overflow-y:auto;
-  padding:22px 18px 18px;border-radius:12px;
-  background:linear-gradient(145deg,rgba(94,70,49,.98),rgba(48,36,26,.99));
-  border:2px solid rgba(201,138,56,.55);
-  box-shadow:0 16px 38px rgba(8,5,3,.7),
-             inset 2px 2px 0 rgba(240,215,177,.09),
-             inset -3px -3px 0 rgba(10,7,4,.34),
-             0 0 22px rgba(201,138,56,.14);
-}
-#proof-modal .proof-modal-card::before{
-  content:'';position:absolute;inset:6px;
-  border:1px solid rgba(226,192,139,.14);border-radius:8px;
-  pointer-events:none;
-}
-
-/* ---- Text ---- */
-#proof-modal .panel-label{
-  margin:0 0 8px;font-family:'Rajdhani',sans-serif;font-weight:700;
-  font-size:13px;letter-spacing:.16em;text-transform:uppercase;
-  color:#e8b45c;text-shadow:0 0 8px rgba(201,138,56,.4);
-}
-#proof-modal .proof-modal-sub{
-  margin:0 0 16px;color:#aa9274;font-size:11.5px;line-height:1.55;
-}
-
-/* ---- Close button ---- */
-#proof-modal .proof-modal-close{
-  position:absolute;top:8px;right:10px;width:28px;height:28px;
-  padding:0;border:0;background:transparent;color:#aa9274;
-  font-family:'Rajdhani',sans-serif;font-size:22px;line-height:1;
-  cursor:pointer;transition:color .15s ease;
-}
-#proof-modal .proof-modal-close:hover,
-#proof-modal .proof-modal-close:focus-visible{color:#e8b45c}
-
-/* ---- Fields (date/time) ---- */
-#proof-modal .modal-field{position:relative;margin:0 0 12px}
-#proof-modal .modal-field label{
-  display:block;margin:0 0 5px;font-family:'Rajdhani',sans-serif;
-  font-size:9.5px;font-weight:700;letter-spacing:.13em;
-  text-transform:uppercase;color:#aa9274;
-}
-#proof-modal .modal-field input[type="date"],
-#proof-modal .modal-field input[type="time"]{
-  display:block;width:100%;height:48px;
-  padding:0 12px;border-radius:6px;
-  background:#241a12;border:1px solid #72583d;color:#eadcc4;
-  font-family:'IBM Plex Mono',monospace;font-size:14px;
-  color-scheme:dark;-webkit-appearance:auto;appearance:auto;
-  box-shadow:inset 0 3px 9px rgba(0,0,0,.42);
-}
-#proof-modal .modal-field input:focus{
-  outline:2px solid rgba(201,138,56,.65);outline-offset:1px;
-  border-color:#c98a38;
-}
-
-/* ---- Buttons (mirrors .btn-solid) ---- */
-#proof-modal .modal-submit-btn,
-#proof-modal .photo-picker{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;min-height:48px;margin-top:6px;
-  border-radius:7px;cursor:pointer;text-align:center;
-  font-family:'Rajdhani',sans-serif;font-weight:700;
-  font-size:14px;letter-spacing:.08em;
-  background:linear-gradient(135deg,#4b3562,#79539a);
-  border:1px solid #cbb3df;color:#f1e4c8;
-  box-shadow:0 5px 18px rgba(121,205,230,.13);
-  transition:transform .14s ease,box-shadow .14s ease,
-             background .14s ease,border-color .14s ease,color .14s ease;
-}
-#proof-modal .modal-submit-btn:hover,
-#proof-modal .photo-picker:hover,
-#proof-modal .modal-submit-btn:focus-visible,
-#proof-modal .photo-picker:focus-visible{
-  background:linear-gradient(135deg,#87571f,#d09a48);
-  border-color:#efbd68;color:#24170b;
-  box-shadow:0 0 18px rgba(201,138,56,.32);
-}
-#proof-modal .modal-submit-btn:active,
-#proof-modal .photo-picker:active{transform:scale(.98)}
-#proof-modal .modal-file-input{
-  position:absolute;left:-9999px;width:1px;height:1px;opacity:0;
-}
-
-/* ---- Success confirmation popup ---- */
-#checkin-success-modal .checkin-success-card,
-#submission-success-modal .checkin-success-card{
-  text-align:center;padding:26px 22px;
-  border-color:rgba(97,230,138,.5);
-  box-shadow:0 16px 38px rgba(8,5,3,.7),
-             inset 2px 2px 0 rgba(240,215,177,.09),
-             0 0 26px rgba(97,230,138,.16);
-}
-#checkin-success-modal .checkin-success-symbol,
-#submission-success-modal .checkin-success-symbol{
-  font-size:32px;line-height:1;margin-bottom:10px;
-  color:#61e68a;text-shadow:0 0 10px rgba(97,230,138,.7);
-}
-#checkin-success-modal .checkin-success-title,
-#submission-success-modal .checkin-success-title{
-  font-family:'Rajdhani',sans-serif;font-weight:700;
-  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
-  color:#e8b45c;text-shadow:0 0 8px rgba(201,138,56,.35);
-  margin-bottom:10px;
-}
-#checkin-success-modal .checkin-success-text,
-#submission-success-modal .checkin-success-text{
-  font-size:13px;line-height:1.5;color:#61e68a;
-  text-shadow:0 0 8px rgba(97,230,138,.35);
-}
-</style>
-
-<style id="kaizen-admin-time-log">
-.queue-time-log{margin:9px 0 10px;padding:10px 12px;border:1px solid rgba(201,138,56,.28);border-radius:7px;background:rgba(36,26,18,.55);color:#eadcc4;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.65}
-.queue-time-log b{color:#e8b45c;font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
-</style>
-<style id="Member-gym-log">#ascent-root .gym-field{margin:12px 0}#ascent-root .gym-field input,#ascent-root .gym-field select,#ascent-root .gym-field textarea{width:100%;background:#241a12;border:1px solid #72583d;border-radius:3px;color:#eadcc4;padding:11px;font:13px 'IBM Plex Mono',monospace}#ascent-root .gym-field textarea{min-height:70px}#ascent-root .gym-entry{padding:12px 0;border-bottom:1px solid rgba(201,138,56,.25);font-size:12px;line-height:1.7}#ascent-root .gym-muted{font-size:11px;color:#b59c7d;line-height:1.6}@media(max-width:560px){#ascent-root .gym-field .row{display:block}}</style></head>
+</head>
 <body>
-<div id="ascent-root"><div class="bg-field"></div><div class="shell" id="app"></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>function closeProofModalIfOpen(){const m=document.getElementById('proof-modal');if(m)m.remove()}</script><script>
-const SUPABASE_URL='https://wgqtwbiopcukqfgztepl.supabase.co';const SUPABASE_KEY='sb_publishable_M3Bp9mLwK3Zg-cZs3ZCRvg_ufAItLH_';const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const DEFAULT_NAME='自律',CADET_LABEL='My Progress';
-const view={screen:'loading',authError:'',setupErr:'',busy:false,uploadMode:null,draftDay:'',draftStart:'',draftEnd:'',showAllHistory:false,actionStatus:{text:'',type:'info'}};const state={user:null,profile:null,mission:null,missionName:'',startDate:null,submissions:[],setupComplete:false};
-const esc=s=>{const d=document.createElement('div');d.textContent=s||'';return d.innerHTML};const fmtDate=v=>v?new Date(v).toLocaleDateString():'—';const fmtDay=v=>v?new Date(v+'T12:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'}):'—';function fmtTime12(v){if(!v)return'—';const [h,m]=v.split(':').map(Number),d=new Date();d.setHours(h,m,0,0);return d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}function currentPeriodSubmissions(userId){if(!state.startDate)return[];const startMs=new Date(state.startDate).getTime();return state.submissions.filter(s=>s.userId===userId&&Number.isFinite(new Date(s.ts).getTime())&&new Date(s.ts).getTime()>=startMs)}function approvedCount(){return currentPeriodSubmissions(state.user?.id).filter(s=>s.status==='approved').length}function timeRemaining(){const start=state.startDate;if(!start)return null;const l=30*86400000-(Date.now()-new Date(start).getTime());if(l<=0)return{days:0,hours:0,minutes:0,seconds:0,expired:true};return{days:Math.floor(l/86400000),hours:Math.floor(l%86400000/3600000),minutes:Math.floor(l%3600000/60000),seconds:Math.floor(l%60000/1000),expired:false}}
-function compressImageBlob(file){return new Promise((resolve,reject)=>{const fallback=()=>resolve(file);if(!file||!file.type?.startsWith('image/'))return reject(Error('Please choose an image file.'));const r=new FileReader();r.onerror=fallback;r.onload=()=>{const i=new Image();i.onerror=fallback;i.onload=()=>{try{let w=i.width,h=i.height,m=1200;if(w>h&&w>m){h=Math.round(h*m/w);w=m}else if(h>m){w=Math.round(w*m/h);h=m}const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d');if(!ctx)return fallback();ctx.drawImage(i,0,0,w,h);c.toBlob(b=>b?resolve(b):fallback(),'image/jpeg',.72)}catch(_){fallback()}};i.src=r.result};r.readAsDataURL(file)})}
-function render(){const a=document.getElementById('app');if(view.screen==='loading'){a.innerHTML='<div class="empty-state">Loading…</div>';return}if(view.screen==='home')return renderHome(a);if(view.screen==='setup')return renderSetup(a);if(view.screen==='cadet')return renderCadet(a);if(view.screen==='gym')return renderGym(a);if(view.screen==='gym-history')return renderGymHistory(a);if(view.screen==='commander')return renderCommander(a)}function missionName(){return(state.missionName||DEFAULT_NAME).toUpperCase()}function titleHtml(){return esc(missionName())}
-function renderHome(a){if(!state.user){a.innerHTML=`<div class="home-mark">✦ 自律 ✦</div><h1 class="title">自律</h1><p class="subtitle">${view.authError?esc(view.authError):'Starting your journey…'}</p>${view.authError?'<button class="btn btn-solid" onclick="Ascent.load()">Retry</button>':''}`;return}const admin=state.profile?.role==='admin';a.innerHTML=`<div class="home-mark">✦ A Journey In 20 Missions ✦</div><p class="eyebrow">YOUR JOURNEY</p><h1 class="title">${titleHtml()}</h1><p class="subtitle">Welcome to 自律.</p><div class="home-buttons"><button class="btn btn-solid" onclick="${admin?'Ascent.goCommanderGate()':'Ascent.goCadet()'}">${admin?'Admin Access':CADET_LABEL}</button>${admin&&!state.mission?'<button class="btn" onclick="Ascent.goSetup()">Set Up Journey</button>':''}${admin?'<button class="btn" onclick="Ascent.goCadet()">Cadet History</button>':''}${!admin?'<button class="btn" onclick="Ascent.goGym()">Log Workout</button><button class="btn" onclick="Ascent.goGymHistory()">Workout Progress &amp; Report</button>':''}</div>${admin?'':`<div class="mission-instructions"><h3>Mission &amp; Code Instructions</h3><div class="instruction-block"><p class="instruction-title">Complete Your Mission</p><ul><li>Check in at a <strong>gym location</strong> using Location Check-In.</li><li>Complete <strong>at least a 30-minute workout</strong>.</li><li>Photo Proof or Log Time are optional if you forget to check in at the gym location.</li></ul></div><div class="instruction-block"><p class="instruction-title">Progress &amp; Unlocks</p><ul class="unlock-list"><li>Every <strong>approved submission = 1 successful mission</strong>.</li><li><strong>16 successful missions</strong> → Medium Box Code unlocked.</li><li><strong>20 successful missions</strong> → Large Box unlocked.</li></ul></div><div class="remember">
-<strong>REMEMBER!</strong>
-<p><strong>Your journey will reset every 30 days!</strong></p>
-<p>Your goal is to reach enough checkpoints to unlock a container before the 30 days resets.</p>
-<p><strong>For reference:</strong></p>
-<p>8 workouts in 30 days = <strong>2 missions per week</strong><br>
-16 workouts in 30 days = <strong>4 missions per week</strong><br>
-20 workouts in 30 days = <strong>5 missions per week</strong></p>
-</div></div>`}`}
-
-function renderSetup(a){a.innerHTML=`<p class="eyebrow">Setup</p><h1 class="title">Set Up 自律</h1><div class="panel"><label>Journey Name</label><input type="text" id="f-name" placeholder="${DEFAULT_NAME}" maxlength="40"><label>Medium Box Code</label><input type="tel" id="f-code16" maxlength="6"><label>Large Box Code</label><input type="tel" id="f-code20" maxlength="8">${view.setupErr?`<div class="error-text">${esc(view.setupErr)}</div>`:''}<div style="margin-top:18px"><button class="btn btn-solid" onclick="Ascent.submitSetup()">Save &amp; Start</button></div></div><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back</button>`}
-function renderCadet(a){
- if(!state.setupComplete){a.innerHTML=`<p class="eyebrow">Your Progress</p><h1 class="title">${titleHtml()}</h1><div class="submission-controls">
-  <button class="btn btn-solid checkin-main-btn" onclick="Ascent.locationCheckIn()">CHECK IN AT LOCATION</button>
-  <div class="secondary-options">
-    <button class="btn btn-tab" onclick="Ascent.openProofModal('photo')">PHOTO PROOF</button>
-    <button class="btn btn-tab" onclick="Ascent.openProofModal('text')">LOG TIME</button>
-  </div>
-</div>`;return}
- const ap=approvedCount(),journeyComplete=ap>=20,rem=timeRemaining(),journeyExpired=!!rem?.expired,mine=currentPeriodSubmissions(state.user?.id),allMine=state.submissions.filter(s=>s.userId===state.user?.id),pct=Math.min(100,Math.round(ap/20*100));const codes=[{mission:16,code:'2681',label:'Medium Box Code'},{mission:20,code:'7491',label:'Large Box Code'}];
- let trail='';for(let i=1;i<=20;i++){const done=i<=ap,pending=!done&&i===ap+1&&state.submissions.some(s=>s.status==='pending'&&s.userId===state.user?.id);const c=codes.find(x=>x.mission===i);const codeHtml=c?(i<=ap?`<div class="mission-code-box unlocked"><div class="mission-code-label">🔓 ${esc(c.label)}</div><div class="mission-code-value">${esc(c.code)}</div></div>`:`<div class="mission-code-box locked"><div class="mission-code-label">🔒 ${esc(c.label)}</div><div class="mission-code-locked">Locked — complete Mission ${c.mission}</div></div>`):'';trail+=`<div class="trail-node ${done?'done':''}"><div class="node-dot ${done?'filled':pending?'pending':''}">${done?'✓':i}</div><div class="node-label"><b>Mission ${i}</b>${done?'<span class="node-tag">Approved</span>':pending?'<span class="node-tag">Pending</span>':''}</div>${codeHtml}</div>`}
- const all=[...allMine].reverse(),recent=view.showAllHistory?all:all.slice(0,6);let history=recent.length?recent.map(s=>{const thumb=s.type==='photo'?`<div class="log-thumb-wrap"><img class="log-thumb" src="${s.images[0]||''}" onclick="Ascent.openModal('${s.id}',0)" alt="Proof photo">${s.images.length>1?`<div class="log-thumb-badge">+${s.images.length-1}</div>`:''}</div>`:`<div class="log-thumb-text">${s.type==='location'?'GPS':esc(fmtDay(s.day))}</div>`;const detail=s.type==='location'?'Location Check-In':s.type==='text'?`${fmtTime12(s.startTime)} – ${fmtTime12(s.endTime)}`:fmtDate(s.ts);const note=s.adminNotes?`<div class="cadet-note"><span>ADMIN NOTE</span>${esc(s.adminNotes)}</div>`:'';return`<div class="log-entry">${thumb}<div class="log-meta"><div class="log-date">${detail}</div>${note}</div><div class="stamp ${s.status}">${s.status==='pending'?'Pending':s.status==='approved'?'Approved':'Not approved'}</div></div>`}).join(''):'<p class="empty-state">No submissions yet.</p>';
- const journeyStart=state.startDate||null;
-  let clock=!journeyStart
-    ?'<div class="clock-value">Not started yet</div><div class="clock-sub">Submit your first entry to start the 30-day countdown.</div>'
-    :journeyExpired
-      ?'<div class="clock-value">Journey period complete.</div><div class="clock-sub">The 30-day window has closed. Progress is ready for its next journey.</div>'
-      :`<div class="kaizen-countdown" data-start="${journeyStart||''}"><div class="countdown-days"><span class="countdown-number">${rem.days}</span><span class="countdown-label">DAYS</span></div><div class="countdown-time"><span><b>${String(rem.hours).padStart(2,'0')}</b><small>HOURS</small></span><i>:</i><span><b>${String(rem.minutes).padStart(2,'0')}</b><small>MINUTES</small></span><i>:</i><span><b>${String(rem.seconds).padStart(2,'0')}</b><small>SECONDS</small></span></div></div><div class="clock-sub">Started ${fmtDate(journeyStart)}. The journey resets when the 30-day window ends.</div>`;
-  let upload=`<div class="location-card">
-<div class="location-title">LOCATION CHECK-IN</div>
-<div class="location-sub">Check in at a gym location to complete your mission.</div>
-<button type="button" class="btn btn-solid location-checkin-btn" onclick="Ascent.locationCheckIn()">CHECK IN AT LOCATION</button>
+<main class="app">
+<header class="top"><div class="brand">自律 <span>JIRITSU</span></div><div class="tag">Workout log</div></header>
+<div class="hero-row"><section class="hero"><div class="eyebrow">Consistency over intensity</div><h1>Workout Log</h1><p>Record your sessions, exercises, sets, reps, and weight.</p></section><button class="primary" id="add-workout">＋ &nbsp; ADD WORKOUT</button></div>
+<div class="section-head"><h2>Workout history</h2><span class="count" id="session-count">0 sessions</span></div>
+<section id="history" aria-live="polite"></section>
+<div class="footnote">Your workout history is saved in this browser on this device.</div>
+</main>
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title"><section class="modal">
+<div class="modal-head"><h2 id="modal-title">Add workout</h2><button class="x" id="close-modal" aria-label="Close">×</button></div>
+<form id="workout-form">
+<div class="grid">
+<div class="field"><label for="workout-date">Date</label><input id="workout-date" type="date" required></div>
+<div class="field"><label for="workout-name">Workout name</label><input id="workout-name" placeholder="e.g. Upper body" maxlength="70"></div>
 </div>
-<div class="secondary-options">
-<button class="btn btn-tab" onclick="Ascent.openProofModal('photo')">Photo Proof</button>
-<button class="btn btn-tab" onclick="Ascent.openProofModal('text')">Log Time</button>
-</div>
-<div class="hint">Photo proof and time logs are optional alternatives if you forget to check in at a gym location.</div>`;
- const completionNotice=journeyComplete?`<div class="journey-complete-message"><div class="journey-complete-title">JOURNEY COMPLETE</div><p>You have successfully completed your journey. Carry on, and continue farther if you choose to be an over-achiever. You may submit even more missions before the 30-day journey resets.</p><p class="journey-complete-flavor">The trail does not end where the map says it does. There is still time left to see how far you can go. <strong>限界突破 — GENKAI TOPPA!</strong></p></div>`:'';
- const uploadPanel=`<div class="panel"><p class="panel-label">Submit Evidence</p>${journeyExpired?'<div class="clock-value">30-day journey complete</div><div class="clock-sub">Submissions are closed until the next journey begins.</div>':completionNotice+upload}${view.actionStatus?.text?`<div class="action-status ${view.actionStatus.type}">${esc(view.actionStatus.text)}</div>`:''}${view.busy?'<div class="hint">Syncing…</div>':''}${view.authError?`<div class="error-text">${esc(view.authError)}</div>`:''}</div>`;
- a.innerHTML=`<div class="home-mark">✦ A Journey In 20 Missions ✦</div><p class="eyebrow">Authenticated</p><h1 class="title">${titleHtml()}</h1><p class="subtitle">Mission Console</p><p class="subtitle">Signed in as <b>Member</b>.</p>${uploadPanel}<div class="panel"><p class="panel-label">Time Left</p>${clock}</div><div class="progress-panel"><div class="progress-head"><div><p class="eyebrow progress-eyebrow">Your Progress</p><h2 class="progress-title">THIS MONTH'S PROGRESS</h2></div></div><div class="progress-stats"><div class="progress-stat"><div class="progress-stat-label">TOTAL SUBMISSIONS</div><div class="progress-stat-value">${mine.length}</div><div class="progress-stat-mark">◈</div></div><div class="progress-stat"><div class="progress-stat-label">MISSIONS COMPLETE</div><div class="progress-stat-value">${ap}</div><div class="progress-stat-mark">◇</div></div><div class="progress-stat"><div class="progress-stat-label">REMAINING</div><div class="progress-stat-value">${20-ap}</div><div class="progress-stat-mark">△</div></div></div><div class="completion-wrap"><div class="completion-meta"><span>COMPLETION</span><strong>${pct}%</strong></div><div class="completion-track"><div class="completion-fill" style="width:${pct}%"></div></div><div class="completion-caption">${ap}/20 missions approved</div></div><div style="margin-top:18px"><p class="panel-label">Your Path</p><div class="trail">${trail}</div></div></div><div class="panel"><p class="panel-label">Submission History</p>${history}${all.length>6?`<div class="history-actions"><button class="btn btn-ghost" onclick="Ascent.toggleHistory()">${view.showAllHistory?'Show less':'View all submissions'}</button></div>`:''}</div><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back</button>`;
- if(view.uploadMode==='text'){document.getElementById('f-day')?.setAttribute('value',view.draftDay);document.getElementById('f-start')?.setAttribute('value',view.draftStart);document.getElementById('f-end')?.setAttribute('value',view.draftEnd)}
-}
-
-function gymAllowed(){return !!state.user&&state.profile?.role!=='admin'}
-function gymExerciseRow(i){return `<div class="gym-entry" data-w-ex="${i}"><b>EXERCISE ${i+1}</b><div class="gym-field"><label>Name</label><input data-f="name" maxlength="120" placeholder="e.g. Leg Press"></div><div class="row"><div class="gym-field"><label>Equipment</label><input data-f="equipment" maxlength="100"></div><div class="gym-field"><label>Variation</label><input data-f="variation" maxlength="120"></div></div><div class="row"><div class="gym-field"><label>Weight</label><input data-f="weight" type="number" min="0" step=".5"></div><div class="gym-field"><label>Weight applies to</label><select data-f="sides"><option value="1">Total / one side</option><option value="2">Each side (×2)</option></select></div></div><div class="row"><div class="gym-field"><label>Reps</label><input data-f="reps" type="number" min="0"></div><div class="gym-field"><label>Timed set (seconds)</label><input data-f="seconds" type="number" min="0"></div></div></div>`}
-function renderGym(a){if(!gymAllowed()){view.screen='home';render();return}const d=new Date(),today=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');a.innerHTML=`<p class="eyebrow">Member's Training Log</p><h1 class="title">LOG WORKOUT</h1><p class="subtitle">Saved to your existing 自律 account.</p><div class="panel"><div class="row"><div class="gym-field"><label>Date</label><input id="w-date" type="date" value="${today}"></div><div class="gym-field"><label>Workout Type</label><select id="w-type" onchange="Ascent.gymTypeChanged()"><option value="strength">Strength Training</option><option value="cardio">Cardio</option><option value="mixed">Strength + Cardio</option></select></div></div><div class="row"><div class="gym-field"><label>Start</label><input id="w-start" type="time"></div><div class="gym-field"><label>End</label><input id="w-end" type="time"></div></div><div id="w-strength"><p class="panel-label">Exercises</p><div id="w-exercises">${gymExerciseRow(0)}</div><button class="btn btn-tab" onclick="Ascent.addGymExercise()">+ ADD EXERCISE</button></div><div id="w-cardio" style="display:none"><p class="panel-label">Cardio</p><div class="row"><div class="gym-field"><label>Duration (minutes)</label><input id="w-cardio-min" type="number" min="0"></div><div class="gym-field"><label>Speed</label><input id="w-speed" type="number" min="0" step=".1"></div></div><div class="row"><div class="gym-field"><label>Level</label><input id="w-level" type="number" min="0" step=".1"></div><div class="gym-field"><label>Incline (%)</label><input id="w-incline" type="number" min="0" step=".1"></div></div></div><p class="panel-label">Post-Workout Feedback</p><div class="gym-field"><label>Knee Pain</label><select id="w-knee"><option>Not at all</option><option>Mild</option><option>Moderate</option><option>Severe</option></select></div><div class="gym-field"><label>Other Pain</label><input id="w-pain" maxlength="500"></div><div class="gym-field"><label>Comments</label><textarea id="w-comments" maxlength="3000"></textarea></div><div id="w-error" class="error-text"></div><button class="btn btn-solid" id="w-save" onclick="Ascent.saveGymWorkout()">SAVE WORKOUT</button><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back to 自律</button></div>`}
-function renderGymHistory(a){if(!gymAllowed()){view.screen='home';render();return}a.innerHTML='<p class="eyebrow">Training Analytics</p><h1 class="title">WORKOUT PROGRESS</h1><div class="panel" id="w-history"><p class="panel-label">Workout History</p>Loading saved workouts…</div><button class="btn btn-solid" onclick="Ascent.goGym()">+ LOG WORKOUT</button><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back to 自律</button>';Ascent.loadGymHistory()}
-
-function renderCommander(a){if(state.profile?.role!=='admin'){view.screen='home';render();return}const current=currentPeriodSubmissions(state.submissions.find(s=>s.userId!==state.user?.id)?.userId||state.user?.id);const currentApproved=current.filter(s=>s.status==='approved').length;const currentPending=current.filter(s=>s.status==='pending').length;const currentRejected=current.filter(s=>s.status==='rejected').length;const pending=state.submissions.filter(s=>s.status==='pending');const reviewed=state.submissions.filter(s=>s.status==='approved'||s.status==='rejected').slice().reverse().slice(0,50);function adminTimeInfo(s){
-  if(!s||s.type!=='text')return '';
-  const day=s.day?fmtDay(s.day):'—',start=s.startTime?fmtTime12(s.startTime):'—',end=s.endTime?fmtTime12(s.endTime):'—';
-  return `<div class="queue-time-log"><div><b>Workout Day:</b> ${esc(day)}</div><div><b>Start:</b> ${esc(start)}</div><div><b>End:</b> ${esc(end)}</div></div>`;
-}
-const typeLabel=s=>s.type==='location'?'Location Check-In':s.type==='text'?'Time Log':'Photo Proof';const locInfo=s=>s.type==='location'?`<div class="queue-location"><div><b>${esc(s.locationName||'Location submitted — manual verification')}</b></div><div>Distance: ${s.checkinDistanceMeters!=null?`${Math.round(s.checkinDistanceMeters)} m`:'Not available'}</div><div>GPS accuracy: ${s.checkinAccuracyMeters!=null?`${Math.round(s.checkinAccuracyMeters)} m`:'Not available'}</div><div>Coordinates: ${s.checkinLatitude!=null&&s.checkinLongitude!=null?`${Number(s.checkinLatitude).toFixed(6)}, ${Number(s.checkinLongitude).toFixed(6)}`:'Not available'}</div>${s.checkinWarning?`<div class="queue-warning">${esc(s.checkinWarning)}</div>`:'<div class="queue-ok">Crunch location verified automatically.</div>'}</div>`:'';const q=pending.length?pending.slice().reverse().map(s=>`<div class="queue-item"><div class="queue-text-card"><div class="queue-text-day">${typeLabel(s)}</div><div class="queue-text-time">Submitted ${fmtDate(s.ts)}</div>${adminTimeInfo(s)}${locInfo(s)}<div class="admin-note-label">Admin note</div><textarea id="note-${s.id}" class="admin-note" placeholder="Optional note for this submission…">${esc(s.adminNotes||'')}</textarea></div><div class="row"><button class="btn btn-signal" onclick="Ascent.decide('${s.id}','approved')">Approve</button><button class="btn btn-rust" onclick="Ascent.decide('${s.id}','rejected')">Reject</button></div></div>`).join(''):'<p class="empty-state">Nothing to review right now.</p>';const r=reviewed.length?reviewed.map(s=>`<div class="reviewed-item"><div class="queue-text-card"><div class="queue-text-day">${typeLabel(s)} — ${s.status==='approved'?'Approved':'Denied'}</div><div class="queue-text-time">${fmtDate(s.ts)}</div>${adminTimeInfo(s)}${locInfo(s)}<div class="admin-note-label">Admin note</div><textarea id="note-${s.id}" class="admin-note" placeholder="Add or update an admin note…">${esc(s.adminNotes||'')}</textarea><button class="btn btn-ghost" onclick="Ascent.saveNote('${s.id}')">Save Note</button></div></div>`).join(''):'<p class="empty-state">No approved or denied submissions yet.</p>';a.innerHTML=`<p class="eyebrow">Admin Panel</p><h1 class="title">${titleHtml()}</h1><div class="panel"><p class="panel-label">Submissions To Review</p>${q}</div><div class="progress-panel"><div class="progress-head"><div><p class="eyebrow progress-eyebrow">Member's Current Journey</p><h2 class="progress-title">CURRENT PROGRESS</h2></div></div><div class="progress-stats"><div class="progress-stat"><div class="progress-stat-label">MISSIONS COMPLETE</div><div class="progress-stat-value">${currentApproved}</div><div class="progress-stat-mark">◇</div></div><div class="progress-stat"><div class="progress-stat-label">PENDING</div><div class="progress-stat-value">${currentPending}</div><div class="progress-stat-mark">△</div></div><div class="progress-stat"><div class="progress-stat-label">REJECTED</div><div class="progress-stat-value">${currentRejected}</div><div class="progress-stat-mark">×</div></div><div class="progress-stat"><div class="progress-stat-label">REMAINING</div><div class="progress-stat-value">${Math.max(0,20-currentApproved)}</div><div class="progress-stat-mark">◇</div></div></div><div class="completion-wrap"><div class="completion-meta"><span>COMPLETION</span><strong>${Math.min(100,Math.round(currentApproved/20*100))}%</strong></div><div class="completion-track"><div class="completion-fill" style="width:${Math.min(100,Math.round(currentApproved/20*100))}%"></div></div><div class="completion-caption">${currentApproved}/20 missions approved this journey</div></div><div class="hint" style="margin-top:10px">Historical submissions remain saved across 30-day journey resets.</div></div><div class="panel"><p class="panel-label">Cadet History</p><p class="panel-label" style="margin-top:6px;margin-bottom:10px;color:#d4b78b;font-size:11px;letter-spacing:.1em">Submission History</p>${r}</div><div class="panel"><p class="panel-label">Progress Controls</p><p class="queue-text-time">Resetting the 30-day journey starts a new progress period while preserving all submission and location check-in history.</p><button class="btn btn-rust" onclick="Ascent.resetMission()">Reset Member's Progress</button></div><button class="btn btn-ghost" onclick="Ascent.goHome()">← Back</button>`}
-
-async function findNearestCrunch(lat, lng) {
-  try {
-    const query = `[out:json][timeout:8];nwr["name"~"Crunch Fitness",i](around:50000,${lat},${lng});out center tags;`;
-    const url = 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
-    const response = await fetch(url, { headers: { Accept: 'application/json' } });
-    if (!response.ok) throw Error('Crunch lookup unavailable');
-    const data = await response.json();
-    const items = (data.elements || []).map(el => {
-      const clat = el.lat ?? el.center?.lat;
-      const clng = el.lon ?? el.center?.lon;
-      if (clat == null || clng == null) return null;
-      const rad = x => x * Math.PI / 180, R = 6371000;
-      const dLat = rad(clat - lat), dLon = rad(clng - lng);
-      const a = Math.sin(dLat/2)**2 + Math.cos(rad(lat))*Math.cos(rad(clat))*Math.sin(dLon/2)**2;
-      const distance = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
-      return { name: el.tags?.name || 'Crunch Fitness', distance };
-    }).filter(Boolean).sort((a,b) => a.distance - b.distance);
-    return items[0] || null;
-  } catch (_) { return null; }
-}
-
-const Ascent={
-
- goGym(){if(!gymAllowed()){view.screen='home';render();return}view.screen='gym';render()},goGymHistory(){if(!gymAllowed()){view.screen='home';render();return}view.screen='gym-history';render()},
- gymTypeChanged(){const t=document.getElementById('w-type').value;document.getElementById('w-strength').style.display=t==='cardio'?'none':'block';document.getElementById('w-cardio').style.display=t==='strength'?'none':'block'},
- addGymExercise(){const b=document.getElementById('w-exercises');if(!b)return;const i=b.querySelectorAll('[data-w-ex]').length;if(i<30)b.insertAdjacentHTML('beforeend',gymExerciseRow(i))},
- async saveGymWorkout(){if(!gymAllowed())return;const err=document.getElementById('w-error'),btn=document.getElementById('w-save');err.textContent='';const date=document.getElementById('w-date').value,type=document.getElementById('w-type').value,start=document.getElementById('w-start').value||null,end=document.getElementById('w-end').value||null;if(!date){err.textContent='Choose a workout date.';return}if(start&&end&&end<start){err.textContent='End time cannot be earlier than start time.';return}const ex=[...document.querySelectorAll('[data-w-ex]')].map((el,i)=>{const v=k=>el.querySelector('[data-f="'+k+'"]')?.value?.trim()||'';return{i,name:v('name'),equipment:v('equipment'),variation:v('variation'),weight:v('weight'),sides:v('sides')||'1',reps:v('reps'),seconds:v('seconds')}}).filter(x=>x.name);if(type!=='cardio'&&!ex.length){err.textContent='Add an exercise or choose Cardio.';return}const cm=Number(document.getElementById('w-cardio-min')?.value||0);let duration=null;if(start&&end){const [sh,sm]=start.split(':').map(Number),[eh,em]=end.split(':').map(Number);duration=eh*60+em-sh*60-sm;if(duration<0)duration+=1440}if(type!=='strength'&&cm>0)duration=cm;btn.disabled=true;btn.textContent='SAVING…';try{const row={user_id:state.user.id,workout_date:date,workout_type:type,start_time:start,end_time:end,duration_minutes:duration,exercises:ex.map(x=>({name:x.name,equipment:x.equipment,variation:x.variation,weight:x.weight===''?null:Number(x.weight),weight_sides:Number(x.sides),reps:x.reps===''?null:Number(x.reps),duration_seconds:x.seconds===''?null:Number(x.seconds)})),knee_pain:document.getElementById('w-knee').value,other_pain:document.getElementById('w-pain').value.trim(),comments:document.getElementById('w-comments').value.trim(),cardio_duration_seconds:type==='strength'||cm<=0?null:Math.round(cm*60),cardio_speed:document.getElementById('w-speed')?.value?Number(document.getElementById('w-speed').value):null,cardio_level:document.getElementById('w-level')?.value?Number(document.getElementById('w-level').value):null,cardio_incline:document.getElementById('w-incline')?.value?Number(document.getElementById('w-incline').value):null};const {data:session,error}=await sb.from('workout_sessions').insert(row).select('id').single();if(error)throw error;if(ex.length){const rows=ex.map(x=>({workout_session_id:session.id,user_id:state.user.id,exercise_order:x.i,exercise_name:x.name,equipment:x.equipment||null,variation:x.variation||null,weight:x.weight===''?null:Number(x.weight),weight_sides:Number(x.sides),reps:x.reps===''?null:Number(x.reps),duration_seconds:x.seconds===''?null:Number(x.seconds)}));const {error:e}=await sb.from('workout_exercises').insert(rows);if(e){await sb.from('workout_sessions').delete().eq('id',session.id).eq('user_id',state.user.id);throw e}}view.screen='gym-history';render()}catch(e){err.textContent='Workout was not saved: '+(e.message||'Unknown error');btn.disabled=false;btn.textContent='SAVE WORKOUT'}},
- async loadGymHistory(){if(!gymAllowed())return;const box=document.getElementById('w-history');if(!box)return;try{const {data:ws,error}=await sb.from('workout_sessions').select('*').eq('user_id',state.user.id).order('workout_date',{ascending:false}).order('created_at',{ascending:false}).limit(200);if(error)throw error;const sessions=ws||[],ids=sessions.map(x=>x.id);let ex=[];if(ids.length){const {data,error:e}=await sb.from('workout_exercises').select('*').in('workout_session_id',ids).eq('user_id',state.user.id).order('exercise_order');if(e)throw e;ex=data||[]}const names=[...new Set(ex.map(x=>x.exercise_name))].sort((a,b)=>a.localeCompare(b));const history=sessions.map(w=>{const day=new Date(w.workout_date+'T12:00:00').toLocaleDateString(),list=ex.filter(x=>x.workout_session_id===w.id);return '<div class="gym-entry"><b>'+esc(day)+' · '+esc((w.workout_type||'workout').toUpperCase())+'</b><div class="gym-muted">'+(w.duration_minutes==null?'':esc(w.duration_minutes)+' minutes')+'</div>'+list.map(x=>'<div>• '+esc(x.exercise_name)+' — '+(x.weight==null?'unweighted':esc(x.weight)+' lb'+(x.weight_sides===2?' each side':''))+' · '+(x.reps==null?'—':esc(x.reps)+' reps')+(x.duration_seconds==null?'':' · '+esc(x.duration_seconds)+' sec')+'</div>').join('')+(w.cardio_duration_seconds?'<div>Cardio: '+Math.round(w.cardio_duration_seconds/60)+' min</div>':'')+(w.knee_pain&&w.knee_pain!=='Not at all'?'<div>Knee pain: '+esc(w.knee_pain)+'</div>':'')+(w.other_pain?'<div>Other pain: '+esc(w.other_pain)+'</div>':'')+(w.comments?'<div>Notes: '+esc(w.comments)+'</div>':'')+'</div>'}).join('')||'<p class="gym-muted">No workouts saved yet.</p>';const progress=names.map(n=>{const rows=ex.filter(x=>x.exercise_name.toLowerCase()===n.toLowerCase()).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at)),f=rows[0],l=rows[rows.length-1];return '<div class="gym-entry"><b>'+esc(n)+'</b><div class="gym-muted">'+rows.length+' entries · Latest weight: '+(l.weight==null?'—':esc(l.weight)+' lb')+(l.reps==null?'':' × '+l.reps+' reps')+(f.weight!=null&&l.weight!=null?' · Change: '+(Number(l.weight)-Number(f.weight)>0?'+':'')+(Number(l.weight)-Number(f.weight)).toFixed(1)+' lb':'')+'</div></div>'}).join('')||'<p class="gym-muted">Progress comparisons appear after exercises are logged.</p>';box.innerHTML='<p class="panel-label">Workout Summary</p><div class="gym-muted">'+sessions.length+' workouts · '+ex.length+' exercise entries · '+names.length+' exercises tracked</div><p class="panel-label" style="margin-top:18px">Exercise Progress</p>'+progress+'<p class="panel-label" style="margin-top:18px">Workout History</p>'+history}catch(e){box.innerHTML='<p class="panel-label">Workout History</p><div class="error-text">Could not load workouts: '+esc(e.message||'Unknown error')+'</div>'}},
- goSetup(){view.setupErr='';view.screen='setup';render()},async submitSetup(){view.setupErr='';const name=(document.getElementById('f-name')?.value||DEFAULT_NAME).trim()||DEFAULT_NAME;const code16=(document.getElementById('f-code16')?.value||'').trim();const code20=(document.getElementById('f-code20')?.value||'').trim();if(!state.user||state.profile?.role!=='admin'){view.setupErr='Admin access is required.';render();return}if(!code16||!code20){view.setupErr='Enter both unlock codes.';render();return}view.busy=true;render();const{data,error}=await sb.from('missions').insert({mission_name:name,admin_user_id:state.user.id,start_date:new Date().toISOString(),code_16:code16,code_20:code20,setup_complete:true}).select('*').single();view.busy=false;if(error){view.setupErr=error.message;view.screen='setup';render();return}state.mission=data;await loadData();view.screen='commander';render()},goHome(){view.screen='home';render()},goCadet(){view.screen='cadet';render()},goCommanderGate(){if(state.profile?.role==='admin'){view.screen='commander';render()}else{view.screen='home';render()}},toggleHistory(){view.showAllHistory=!view.showAllHistory;render()},setUploadMode(m){view.uploadMode=m;view.authError='';view.actionStatus={text:'',type:'info'};render()},
- async load(){view.authError='';view.screen='loading';render();try{const{data,error}=await sb.auth.getSession();if(error)throw error;if(data.session){state.user=data.session.user}else{const{data:anonData,error:anonError}=await sb.auth.signInAnonymously();if(anonError)throw anonError;state.user=anonData.user}await loadProfile();if(!view.authError)view.screen='home'}catch(e){state.user=null;view.authError='Could not start a guest session. Enable Anonymous Sign-Ins in Supabase Authentication settings, then retry.';view.screen='home'}render()},
- openProofModal(type){
-   closeProofModalIfOpen();
-   const modal=document.createElement('div');
-   modal.id='proof-modal';
-   modal.className='proof-modal';
-   const card=document.createElement('div');
-   card.className='proof-modal-card';
-   card.innerHTML=type==='photo'
-     ? `<button type="button" class="proof-modal-close" aria-label="Close">×</button>
-        <p class="panel-label">PHOTO PROOF</p>
-        <p class="proof-modal-sub">Select a workout photo from your gallery or take a new photo.</p>
-        <label class="btn btn-solid modal-submit-btn photo-picker" for="f-photo-modal">CHOOSE PHOTO</label>
-        <input id="f-photo-modal" class="modal-file-input" type="file" accept="image/*">`
-     : `<button type="button" class="proof-modal-close" aria-label="Close">×</button>
-        <p class="panel-label">LOG TIME</p>
-        <p class="proof-modal-sub">Enter the date and your workout start and end times.</p>
-        <div class="modal-field"><label for="f-day">DATE</label><input id="f-day" type="date"></div>
-        <div class="modal-field"><label for="f-start">START TIME</label><input id="f-start" type="time"></div>
-        <div class="modal-field"><label for="f-end">END TIME</label><input id="f-end" type="time"></div>
-        <button type="button" class="btn btn-solid modal-submit-btn" id="submit-log-modal">SUBMIT LOG</button>`;
-   modal.appendChild(card);
-   document.body.appendChild(modal);
-   requestAnimationFrame(()=>modal.classList.add('visible'));
-   card.querySelector('.proof-modal-close').onclick=()=>modal.remove();
-   modal.onclick=e=>{if(e.target===modal)modal.remove()};
-   if(type==='photo'){
-     const input=card.querySelector('#f-photo-modal');
-     input.onchange=e=>this.handleUpload(e);
-   }else{
-     card.querySelector('#submit-log-modal').onclick=()=>this.submitTextLog();
-     if(view.draftDay)card.querySelector('#f-day').value=view.draftDay;
-     if(view.draftStart)card.querySelector('#f-start').value=view.draftStart;
-     if(view.draftEnd)card.querySelector('#f-end').value=view.draftEnd;
-   }
- },
- showSubmissionSuccess(label){
-   const old=document.getElementById('submission-success-modal');
-   if(old)old.remove();
-   const modal=document.createElement('div');
-   modal.id='submission-success-modal';
-   modal.className='checkin-success-modal';
-   modal.innerHTML=`<div class="checkin-success-card">
-     <div class="checkin-success-symbol">△</div>
-     <div class="checkin-success-title">SUBMISSION RECEIVED</div>
-     <div class="checkin-success-text">${esc(label)} successfully submitted for review.</div>
-   </div>`;
-   document.body.appendChild(modal);
-   requestAnimationFrame(()=>modal.classList.add('visible'));
-   setTimeout(()=>modal.remove(),1800);
- },
-
-async locationCheckIn(){view.locationStatus='Requesting location…';view.authError='';view.busy=true;render();try{
-  if(!navigator.geolocation)throw Error('Location is not available on this device.');
-  const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{enableHighAccuracy:true,timeout:20000,maximumAge:0}));
-  const{latitude,longitude,accuracy}=pos.coords;
-  const nearest=await findNearestCrunch(latitude,longitude);
-  let warning='';
-  if(nearest){ warning=nearest.distance>1000?`Location is approximately ${nearest.distance} meters from the nearest mapped Crunch Fitness location.`:''; }
-  else warning='Nearest Crunch Fitness location could not be automatically verified. Manual review required.';
-  const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'location',status:'pending',checkin_latitude:latitude,checkin_longitude:longitude,checkin_accuracy_meters:accuracy,checkin_location_name:nearest?.name||'Crunch Fitness — manual verification',checkin_distance_meters:nearest?.distance??null,checkin_warning:warning||null});
-  if(error)throw error;
-  view.locationStatus=warning?'Location submitted for manual review.':'Location submitted for approval.';
-  Ascent.showSubmissionSuccess('LOCATION CHECK-IN');
-  await loadData();
-}catch(e){view.authError=e?.code===1?'Location permission was denied.':(e.message||'Location check-in failed.');view.locationStatus=''}view.busy=false;render()},
-async handleUpload(e){
-  const files = Array.from((e.target && e.target.files) || []);
-  if (!files.length) return;
-  view.actionStatus = {text:'Preparing photo submission…',type:'info'};
-  view.authError = '';
-  view.busy = true;
-  render();
-  try {
-    if (!state || !state.user || !state.user.id) throw new Error('Please sign in again before submitting a photo.');
-    if (!state.mission || !state.mission.id) throw new Error('The mission is not available. Please reload the page.');
-
-    const result = await sb.from('submissions').insert({
-      mission_id:state.mission.id,user_id:state.user.id,type:'photo',status:'pending'
-    }).select().single();
-    if (result.error) throw new Error('Could not create the submission: ' + result.error.message);
-
-    const sub = result.data;
-    try {
-      for (const file of files) {
-        const blob = await compressImageBlob(file);
-        const original = blob === file;
-        const ext = original
-          ? (((file.name || 'photo').split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g,'') || 'jpg')
-          : 'jpg';
-        const contentType = blob.type || file.type || 'image/jpeg';
-        const path = state.user.id + '/' + sub.id + '/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
-
-        const upload = await sb.storage.from('jiritsu-photos').upload(path,blob,{contentType:contentType,upsert:false});
-        if (upload.error) throw new Error('Photo upload failed: ' + upload.error.message);
-
-        const photoRow = await sb.from('submission_photos').insert({submission_id:sub.id,storage_path:path});
-        if (photoRow.error) throw new Error('Could not save the photo record: ' + photoRow.error.message);
-      }
-    } catch (uploadError) {
-      await sb.from('submission_photos').delete().eq('submission_id',sub.id);
-      await sb.from('submissions').delete().eq('id',sub.id);
-      throw uploadError;
-    }
-
-    view.actionStatus = {text:'Photo submitted!',type:'success'};
-    closeProofModalIfOpen();
-    Ascent.showSubmissionSuccess('PHOTO PROOF');
-    await loadData();
-  } catch (err) {
-    view.authError = err && err.message ? err.message : 'Photo submission failed.';
-    view.actionStatus = {text:'',type:'info'};
-  }
-  view.busy = false;
-  render();
-},
-async submitTextLog(){const day=document.getElementById('f-day')?.value||'',start=document.getElementById('f-start')?.value||'',end=document.getElementById('f-end')?.value||'';if(!day||!start||!end){view.authError='Enter the day, start time, and end time.';render();return}view.actionStatus={text:'',type:'info'};view.busy=true;render();const{error}=await sb.from('submissions').insert({mission_id:state.mission.id,user_id:state.user.id,type:'text',day,start_time:start,end_time:end,status:'pending'});view.busy=false;if(error)view.authError=error.message;else{view.authError='';view.actionStatus={text:'Log submitted!',type:'success'};closeProofModalIfOpen();Ascent.showSubmissionSuccess('TIME LOG');await loadData()}render()},async decide(id,status){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({status,admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},async saveNote(id){const note=document.getElementById(`note-${id}`)?.value?.trim()||null;view.busy=true;render();const{error}=await sb.from('submissions').update({admin_notes:note}).eq('id',id);if(error)view.authError=error.message;else await loadData();view.busy=false;render()},openModal(id,idx){const s=state.submissions.find(x=>x.id===id);if(!s||!s.images?.[idx])return;const o=document.createElement('div');o.className='modal-overlay';o.onclick=()=>o.remove();o.innerHTML=`<img src="${s.images[idx]}" alt="Proof photo">`;document.body.appendChild(o)},async resetMission(){if(!confirm('Reset Member\'s 30-day journey? Submission and check-in history will be preserved.'))return;view.busy=true;render();const{error}=await sb.from('missions').update({start_date:null}).eq('id',state.mission.id);if(!error){await loadData()}else view.authError=error.message;view.busy=false;render()}}
-async function loadProfile(){const{data,error}=await sb.from('profiles').select('*').eq('id',state.user.id).maybeSingle();if(error){view.authError=error.message;return}state.profile=data;await loadData()}
-async function loadData(){const{data:m}=await sb.from('missions').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();state.mission=m;state.missionName=m?.mission_name||DEFAULT_NAME;state.startDate=m?.start_date||null;state.setupComplete=!!m?.setup_complete;const{data:s,error}=await sb.from('submissions').select('*').order('created_at',{ascending:true});if(error){state.submissions=[];return}const subs=s||[],ids=subs.map(x=>x.id);let map={};if(ids.length){const{data:ph}=await sb.from('submission_photos').select('*').in('submission_id',ids),paths=(ph||[]).map(p=>p.storage_path);let signed={};if(paths.length){const{data:u}=await sb.storage.from('jiritsu-photos').createSignedUrls(paths,3600);(u||[]).forEach(r=>{if(r.signedUrl)signed[r.path]=r.signedUrl})}(ph||[]).forEach(p=>{if(!map[p.submission_id])map[p.submission_id]=[];if(signed[p.storage_path])map[p.submission_id].push(signed[p.storage_path])})}state.submissions=subs.map(x=>({id:x.id,userId:x.user_id,status:x.status,type:x.type,images:map[x.id]||[],day:x.day,startTime:x.start_time,endTime:x.end_time,ts:x.created_at,checkinLatitude:x.checkin_latitude,checkinLongitude:x.checkin_longitude,checkinAccuracyMeters:x.checkin_accuracy_meters,locationName:x.checkin_location_name,checkinDistanceMeters:x.checkin_distance_meters,checkinWarning:x.checkin_warning,adminNotes:x.admin_notes}))}
-sb.auth.onAuthStateChange((_e,s)=>{if(s&&!state.user){state.user=s.user;loadProfile().then(()=>{view.screen='home';render()})}});window.Ascent=Ascent;Ascent.load();
-
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));}
-</script>
-
-
-<script id="kaizen-ios-zoom-guard">
+<div class="field"><label for="workout-notes">Notes (optional)</label><textarea id="workout-notes" rows="2" placeholder="How did the session go?"></textarea></div>
+<div class="section-head"><h2>Exercises</h2><button class="secondary" type="button" id="add-exercise">＋ Add exercise</button></div>
+<div id="exercise-list"></div>
+<div class="form-error" id="form-error" role="alert"></div>
+<div class="modal-actions"><button type="button" class="secondary" id="cancel-workout">Cancel</button><button type="submit" class="primary">SAVE WORKOUT</button></div>
+</form></section></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
 (function(){
-  document.addEventListener('gesturestart', function(e){ e.preventDefault(); }, {passive:false});
-  document.addEventListener('gesturechange', function(e){ e.preventDefault(); }, {passive:false});
-  document.addEventListener('gestureend', function(e){ e.preventDefault(); }, {passive:false});
-  let lastTouchEnd=0;
-  document.addEventListener('touchend', function(e){
-    const now=Date.now();
-    if(now-lastTouchEnd<=300 && !e.target.closest('input,textarea,select,button,[contenteditable="true"]')){
-      e.preventDefault();
-    }
-    lastTouchEnd=now;
-  }, {passive:false});
+const STORAGE_KEY='jiritsu.workouts.v1';
+const catalog={
+'Bench Press':['Flat','Incline','Decline','Close-Grip','Smith Machine','Dumbbell'],
+'Squat':['Back','Front','Goblet','Smith Machine','Hack Squat'],
+'Deadlift':['Conventional','Romanian','Sumo','Trap Bar','Stiff-Leg'],
+'Overhead Press':['Standing','Seated','Dumbbell','Smith Machine','Arnold Press'],
+'Row':['Barbell','Dumbbell','Chest-Supported','Cable','Machine','T-Bar'],
+'Lat Pulldown':['Wide-Grip','Close-Grip','Neutral-Grip','Single-Arm'],
+'Chest Fly':['Dumbbell','Cable','Machine','Incline Cable'],
+'Lateral Raise':['Dumbbell','Cable','Machine'],
+'Biceps Curl':['Dumbbell','Barbell','EZ-Bar','Hammer','Cable','Preacher'],
+'Triceps Extension':['Cable Pushdown','Overhead Cable','Dumbbell Overhead','Skull Crusher'],
+'Leg Press':['45-Degree','Horizontal','Single-Leg'],
+'Leg Curl':['Seated','Lying','Standing'],
+'Leg Extension':['Machine','Single-Leg'],
+'Calf Raise':['Standing','Seated','Leg Press'],
+'Pull-Up':['Overhand','Underhand','Neutral-Grip','Assisted'],
+'Push-Up':['Standard','Incline','Decline','Close-Grip'],
+'Plank':['Forearm','High Plank','Side Plank'],
+'Crunch':['Standard','Cable','Reverse'],
+'Hip Thrust':['Barbell','Machine','Single-Leg'],
+'Other':['']
+};
+let workouts=readWorkouts(),editingId=null;
+const $=id=>document.getElementById(id);
+function readWorkouts(){try{const x=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');return Array.isArray(x)?x:[]}catch{return[]}}
+function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(workouts))}
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function prettyDate(v){if(!v)return'Undated';const d=new Date(v+'T12:00:00');return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'})}
+function render(){workouts.sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0));$('session-count').textContent=workouts.length+' '+(workouts.length===1?'session':'sessions');const root=$('history');if(!workouts.length){root.innerHTML='<div class="empty">No workouts logged yet.<br>Use <b>Add Workout</b> to record your first session.</div>';return}root.innerHTML=workouts.map(w=>'<article class="card"><div class="session-head"><div><div class="session-title">'+safe(w.name||'Workout')+'</div><div class="session-meta">'+safe(prettyDate(w.date))+' · '+(w.exercises||[]).length+' exercises</div></div><span class="badge">'+(w.exercises||[]).reduce((n,e)=>n+(e.sets||[]).length,0)+' sets</span></div>'+(w.notes?'<p class="session-meta">'+safe(w.notes)+'</p>':'')+(w.exercises||[]).map(e=>'<div class="exercise-row"><div class="exercise-name">'+safe(e.exercise)+'</div>'+(e.variation?'<div class="exercise-variation">'+safe(e.variation)+'</div>':'')+'<div class="exercise-stats">'+(e.sets||[]).map((s,i)=>'Set '+(i+1)+': '+safe(s.weight||'0')+' lb × '+safe(s.reps||'0')+' reps').join(' &nbsp; · &nbsp;')+'</div></div>').join('')+'<div class="card-actions"><button class="secondary" data-edit="'+safe(w.id)+'">Edit</button><button class="secondary danger" data-delete="'+safe(w.id)+'">Delete</button></div></article>').join('');}
+function exerciseEditor(ex={exercise:'Bench Press',variation:'Flat',sets:[{weight:'',reps:''}]}){const wrap=document.createElement('div');wrap.className='exercise-editor';const index=$('exercise-list').children.length+1;wrap.innerHTML='<div class="editor-top"><strong>Exercise '+index+'</strong><button type="button" class="small-link remove-exercise">Remove</button></div><div class="field"><label>Exercise</label><select class="exercise-select">'+Object.keys(catalog).map(n=>'<option'+(n===ex.exercise?' selected':'')+'>'+safe(n)+'</option>').join('')+'</select></div><div class="field"><label>Variation</label><select class="variation-select"></select></div><div class="sets"></div><button type="button" class="small-link add-set">＋ Add set</button>';const exerciseSel=wrap.querySelector('.exercise-select'),variationSel=wrap.querySelector('.variation-select'),sets=wrap.querySelector('.sets');function updateVariations(selected){const opts=catalog[exerciseSel.value]||[''];variationSel.innerHTML=opts.map(v=>'<option value="'+safe(v)+'"'+(v===selected?' selected':'')+'>'+safe(v||'Standard')+'</option>').join('');if(!selected&&!opts.includes(''))variationSel.value=opts[0]||''}function addSet(s={weight:'',reps:''}){const row=document.createElement('div');row.className='grid set-row';row.innerHTML='<div class="field"><label>Weight (lb)</label><input class="set-weight" type="number" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 95" value="'+safe(s.weight)+'"></div><div class="field"><label>Reps</label><input class="set-reps" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 10" value="'+safe(s.reps)+'"></div>';sets.appendChild(row)}updateVariations(ex.variation);(ex.sets&&ex.sets.length?ex.sets:[{weight:'',reps:''}]).forEach(addSet);exerciseSel.addEventListener('change',()=>updateVariations(''));wrap.querySelector('.add-set').addEventListener('click',()=>addSet());wrap.querySelector('.remove-exercise').addEventListener('click',()=>{wrap.remove();renumber()});wrap.getData=()=>({exercise:exerciseSel.value,variation:variationSel.value,sets:[...sets.querySelectorAll('.set-row')].map(r=>({weight:r.querySelector('.set-weight').value.trim(),reps:r.querySelector('.set-reps').value.trim()}))});return wrap}
+function renumber(){[...$('exercise-list').children].forEach((e,i)=>e.querySelector('strong').textContent='Exercise '+(i+1))}
+function openModal(w){editingId=w?.id||null;$('modal-title').textContent=w?'Edit workout':'Add workout';$('workout-date').value=w?.date||new Date().toLocaleDateString('en-CA');$('workout-name').value=w?.name||'';$('workout-notes').value=w?.notes||'';$('exercise-list').innerHTML='';(w?.exercises?.length?w.exercises:[{exercise:'Bench Press',variation:'Flat',sets:[{weight:'',reps:''}]}]).forEach(e=>$('exercise-list').appendChild(exerciseEditor(e)));$('form-error').textContent='';$('overlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(){$('overlay').classList.remove('open');document.body.style.overflow='';editingId=null}
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2200)}
+$('add-workout').addEventListener('click',()=>openModal());$('close-modal').addEventListener('click',closeModal);$('cancel-workout').addEventListener('click',closeModal);$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});$('add-exercise').addEventListener('click',()=>{$('exercise-list').appendChild(exerciseEditor());renumber()});
+$('workout-form').addEventListener('submit',e=>{e.preventDefault();const exercises=[...$('exercise-list').children].map(el=>el.getData());if(!exercises.length){$('form-error').textContent='Add at least one exercise.';return}for(let i=0;i<exercises.length;i++){if(!exercises[i].sets.length||exercises[i].sets.some(s=>!s.reps||Number(s.reps)<1||s.weight===''||Number(s.weight)<0)){$('form-error').textContent='Enter a valid weight and rep count for every set (use 0 lb for bodyweight exercises).';return}}const data={id:editingId||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date:$('workout-date').value,name:$('workout-name').value.trim()||'Workout',notes:$('workout-notes').value.trim(),exercises,createdAt:Date.now()};if(editingId){const i=workouts.findIndex(w=>w.id===editingId);if(i>=0){data.createdAt=workouts[i].createdAt||Date.now();workouts[i]=data}}else workouts.push(data);try{persist()}catch(err){$('form-error').textContent='Could not save workout in this browser. Check available storage.';return}closeModal();render();toast('Workout saved')});
+$('history').addEventListener('click',e=>{const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-delete]');if(edit){const w=workouts.find(w=>w.id===edit.dataset.edit);if(w)openModal(w)}if(del){const w=workouts.find(w=>w.id===del.dataset.delete);if(w&&confirm('Delete this workout and its exercise details?')){workouts=workouts.filter(x=>x.id!==w.id);persist();render();toast('Workout deleted')}}});
+render();
 })();
 </script>
-
-
-
-
-
-<script id="kaizen-timer-refresh">
-(function(){
-  var intervalId = null;
-
-  function updateCountdown(){
-    try{
-      var root=document.getElementById('ascent-root');
-      if(!root) return;
-
-      var countdown=root.querySelector('.kaizen-countdown');
-      var daysEl=root.querySelector('.countdown-number');
-      var parts=root.querySelectorAll('.countdown-time b');
-
-      if(!countdown || !daysEl || parts.length<3) return;
-
-      var startValue=countdown.getAttribute('data-start');
-      if(!startValue) return;
-
-      var startMs=Date.parse(startValue);
-      if(!Number.isFinite(startMs)) return;
-
-      var remaining=(30*24*60*60*1000)-(Date.now()-startMs);
-      if(remaining<0) remaining=0;
-
-      var days=Math.floor(remaining/86400000);
-      var hours=Math.floor((remaining%86400000)/3600000);
-      var minutes=Math.floor((remaining%3600000)/60000);
-      var seconds=Math.floor((remaining%60000)/1000);
-
-      daysEl.textContent=String(days);
-      parts[0].textContent=String(hours).padStart(2,'0');
-      parts[1].textContent=String(minutes).padStart(2,'0');
-      parts[2].textContent=String(seconds).padStart(2,'0');
-    }catch(e){}
-  }
-
-  function start(){
-    if(intervalId!==null) clearInterval(intervalId);
-    updateCountdown();
-    intervalId=setInterval(updateCountdown,1000);
-  }
-
-  // Start after the page has rendered, then keep the interval independent of
-  // the app's render cycle.
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',start,{once:true});
-  }else{
-    start();
-  }
-})();
-</script>
-
 </body>
 </html>
