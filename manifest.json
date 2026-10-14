@@ -1,7 +1,7 @@
 {
-  "name": "KAIZEN",
-  "short_name": "KAIZEN",
-  "description": "KAIZEN Mission Progress",
+  "name": "自律",
+  "short_name": "自律",
+  "description": "自律 Mission Progress",
   "id": "./",
   "start_url": "./",
   "scope": "./",
