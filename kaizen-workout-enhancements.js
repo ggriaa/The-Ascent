@@ -78,7 +78,7 @@
       const input = document.createElement('input');
       input.id = 'w-type'; input.type = 'text'; input.maxLength = 80;
       input.setAttribute('list','kaizen-splits'); input.placeholder = 'e.g. Push Day'; input.autocomplete = 'off';
-      input.value = window.view?.gymType === 'cardio' ? 'Cardio Day' : 'Push Day';
+      input.value = view?.gymType === 'cardio' ? 'Cardio Day' : 'Push Day';
       split.replaceWith(input);
       const label = input.closest('.gym-field')?.querySelector('label');
       if (label) label.textContent = 'Workout Split / Type';
@@ -105,18 +105,18 @@
     new MutationObserver(() => applySuggestions()).observe(root,{childList:true,subtree:true});
   }
   function install() {
-    if (!window.Ascent || !window.view || !window.state) { setTimeout(install,50); return; }
+    if (!window.Ascent || !view || !state) { setTimeout(install,50); return; }
     const originalAdd = window.Ascent.addGymExercise.bind(window.Ascent);
     window.Ascent.chooseGymType = function(type) {
       if (type !== 'strength' && type !== 'cardio') return;
-      window.view.gymType = type;
-      window.view.screen = 'gym';
-      window.render();
+      view.gymType = type;
+      view.screen = 'gym';
+      render();
       this.gymTypeChanged();
       applySuggestions();
     };
     window.Ascent.gymTypeChanged = function() {
-      const mode = window.view.gymType === 'cardio' ? 'cardio' : 'strength';
+      const mode = view.gymType === 'cardio' ? 'cardio' : 'strength';
       const strength = document.getElementById('w-strength'), cardio = document.getElementById('w-cardio');
       if (strength) strength.style.display = mode === 'cardio' ? 'none' : 'block';
       if (cardio) cardio.style.display = mode === 'strength' ? 'none' : 'block';
@@ -124,12 +124,12 @@
     };
     window.Ascent.addGymExercise = function() { originalAdd(); applySuggestions(); };
     window.Ascent.saveGymWorkout = async function() {
-      if (!window.state.user || !window.Ascent) return;
+      if (!state.user || !window.Ascent) return;
       const err = document.getElementById('w-error'), btn = document.getElementById('w-save');
       if (!err || !btn) return;
       err.textContent = '';
       const date = document.getElementById('w-date')?.value;
-      const mode = window.view.gymType === 'cardio' ? 'cardio' : 'strength';
+      const mode = view.gymType === 'cardio' ? 'cardio' : 'strength';
       const split = document.getElementById('w-type')?.value.trim() || (mode === 'cardio' ? 'Cardio Day' : 'Strength Day');
       const start = document.getElementById('w-start')?.value || null, end = document.getElementById('w-end')?.value || null;
       if (!date) { err.textContent = 'Choose a workout date.'; return; }
@@ -147,7 +147,7 @@
       try {
         const comments = (document.getElementById('w-cardio-activity')?.value.trim() ? 'Cardio activity: '+document.getElementById('w-cardio-activity').value.trim()+'\n' : '') + (document.getElementById('w-comments')?.value.trim() || '');
         const row = {
-          user_id:window.state.user.id, workout_date:date, workout_type:split, start_time:start, end_time:end, duration_minutes:duration,
+          user_id:state.user.id, workout_date:date, workout_type:split, start_time:start, end_time:end, duration_minutes:duration,
           exercises:ex.map(x=>({name:x.name,equipment:x.equipment,variation:x.variation,weight:x.weight===''?null:Number(x.weight),weight_sides:Number(x.sides),reps:x.reps===''?null:Number(x.reps),duration_seconds:x.seconds===''?null:Number(x.seconds)})),
           knee_pain:document.getElementById('w-knee')?.value || 'Not at all', other_pain:document.getElementById('w-pain')?.value.trim() || '', comments,
           cardio_duration_seconds:mode!=='cardio'||cm<=0?null:Math.round(cm*60),
@@ -155,14 +155,14 @@
           cardio_level:document.getElementById('w-level')?.value?Number(document.getElementById('w-level').value):null,
           cardio_incline:document.getElementById('w-incline')?.value?Number(document.getElementById('w-incline').value):null
         };
-        const {data:session,error} = await window.sb.from('workout_sessions').insert(row).select('id').single();
+        const {data:session,error} = await sb.from('workout_sessions').insert(row).select('id').single();
         if (error) throw error;
         if (ex.length) {
-          const rows = ex.map(x=>({workout_session_id:session.id,user_id:window.state.user.id,exercise_order:x.i,exercise_name:x.name,equipment:x.equipment||null,variation:x.variation||null,weight:x.weight===''?null:Number(x.weight),weight_sides:Number(x.sides),reps:x.reps===''?null:Number(x.reps),duration_seconds:x.seconds===''?null:Number(x.seconds)}));
-          const {error:e} = await window.sb.from('workout_exercises').insert(rows);
-          if (e) { await window.sb.from('workout_sessions').delete().eq('id',session.id).eq('user_id',window.state.user.id); throw e; }
+          const rows = ex.map(x=>({workout_session_id:session.id,user_id:state.user.id,exercise_order:x.i,exercise_name:x.name,equipment:x.equipment||null,variation:x.variation||null,weight:x.weight===''?null:Number(x.weight),weight_sides:Number(x.sides),reps:x.reps===''?null:Number(x.reps),duration_seconds:x.seconds===''?null:Number(x.seconds)}));
+          const {error:e} = await sb.from('workout_exercises').insert(rows);
+          if (e) { await sb.from('workout_sessions').delete().eq('id',session.id).eq('user_id',state.user.id); throw e; }
         }
-        window.view.screen = 'gym-history'; window.render();
+        view.screen = 'gym-history'; render();
       } catch (e) {
         err.textContent = 'Workout was not saved: ' + (e.message || 'Unknown error');
         btn.disabled = false; btn.textContent = 'SAVE WORKOUT';
